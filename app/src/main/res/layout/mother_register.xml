@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MotherRegister">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        >
+
+        <EditText
+            android:id="@+id/motherName_text"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/prompt_name"
+            />
+
+        <EditText
+            android:id="@+id/childName_text"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/motherName_text"
+            android:hint="@string/prompt_childName"
+
+            />
+
+        <EditText
+            android:id="@+id/email_text"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/childName_text"
+            android:hint="@string/Email"
+
+            />
+
+        <EditText
+            android:id="@+id/password_text"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:layout_below="@id/email_text"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/prompt_password"
+            />
+
+        <EditText
+            android:id="@+id/confirm_password_text"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:layout_below="@id/password_text"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/prompt_confirm_password"
+            />
+
+        <Button
+            android:id="@+id/register_btn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/signUp_text"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/confirm_password_text"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/signIn_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/NoAccount"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/register_btn"
+            />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">UDS</string>
+    <string name="signIn_text">Sign in</string>
+    <string name="signUp_text">Sign up</string>
+    <string name="babysitter_text">babysitter?</string>
+    <string name="mother_text">mother?</string>
+    <string name="category">who are you?</string>
+    <string name="Email">email</string>
+    <string name="prompt_password">password</string>
+    <string name="prompt_confirm_password">confirm password</string>
+    <string name="register">register</string>
+    <string name="prompt_username">username</string>
+    <string name="have_account">already have an account? sign in</string>
+    <string name="NoAccount">don\'t have an account? join us</string>
+    <string name="prompt_name">your name</string>
+    <string name="prompt_childName">child name</string>
+    <string name="title_activity_babysitter_home_page1">BabysitterHomePage1</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_reports">Report</string>
+    <string name="title_me">Me</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="title_Settings">settings</string>
+    <string name="title_logOut">log Out</string>
+    <string name="title_history">history</string>
+
+</resources>

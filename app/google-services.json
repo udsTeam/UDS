@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "299296213523",
+    "firebase_url": "https://udsapp-30f51.firebaseio.com",
+    "project_id": "udsapp-30f51",
+    "storage_bucket": "udsapp-30f51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299296213523:android:acdd18b465b22d2d4a0de6",
+        "android_client_info": {
+          "package_name": "com.maha.uds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299296213523-o9a2k5clf74a6b1iai6p6uc7valvq08t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maha.uds",
+            "certificate_hash": "258c6674a82d34853815d4bb08b29ae0d4314e1d"
+          }
+        },
+        {
+          "client_id": "299296213523-489ulbt31u9ij4rk3tc8936hua27dg27.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maha.uds",
+            "certificate_hash": "e22fac29817274020579f4c114bade51d03de282"
+          }
+        },
+        {
+          "client_id": "299296213523-fui393gb16v2o2ms7nq4o8er5dk1o9uq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDROQ-pIDZlEfPkTcyie1GA3ATxgMTtQ-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299296213523-fui393gb16v2o2ms7nq4o8er5dk1o9uq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
