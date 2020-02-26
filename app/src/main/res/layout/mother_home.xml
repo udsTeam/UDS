@@ -22,41 +22,63 @@
 
             />
 
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="122dp"
+            android:layout_marginEnd="139dp"
+            app:srcCompat="@drawable/baby_girl"
+            />
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="300dp"
+            android:layout_marginEnd="139dp"
+            android:textSize="20sp"
+            />
+
+
+    </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menu="@menu/mother_menu"
-        app:headerLayout="@layout/mother_header"
-        app:itemTextColor="@color/colorPrimary"
-        app:itemIconSize="30sp"
         android:layout_gravity="start"
+        app:itemIconSize="30sp"
+        app:itemTextColor="@color/colorPrimary"
+        app:menu="@menu/mother_menu"
 
         >
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/nameView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
                 android:layout_gravity="center"
-                />
+                android:layout_marginTop="40dp"
+                android:textAlignment="center"
+                android:textColor="#006064"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
             <ImageView
                 android:id="@+id/profile_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher"
                 android:layout_gravity="center|top"
-                />
+                app:srcCompat="@mipmap/ic_launcher"
+                 />
         </LinearLayout>
-
-
-
 
 
     </com.google.android.material.navigation.NavigationView>

@@ -83,7 +83,7 @@ public class BabysitterHome extends AppCompatActivity implements NavigationView.
                 if(user !=null){
                     user.getUid();
                 }else {
-                    Intent intent = new Intent(BabysitterHome.this,MainActivity.class);
+                    Intent intent = new Intent(BabysitterHome.this,SignIn.class);
                     //user cannot go th the previous activity unless he sign out
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

@@ -24,8 +24,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MotherRegister extends AppCompatActivity {
 
-    private static final String CHAT_PREFS ="chatPrefs" ;
-    private static final String DISPLAY_NAME_KEY ="childName" ;
+     static final String CHAT_PREFS ="chatPrefs" ;
+    static final String CHAT_PREFS1 ="chatPrefs" ;
+     static final String DISPLAY_CHILD_NAME ="childName" ;
+    static final String DISPLAY_MOTHER_NAME ="motherName" ;
+
+
     private EditText motherName_text;
     private EditText chilName_text;
     private EditText email_text;
@@ -64,14 +68,6 @@ public class MotherRegister extends AppCompatActivity {
                     final String userEmail = email_text.getText().toString().trim();
                     final String userPassword = password_text.getText().toString().trim();
                     final String childName = chilName_text.getText().toString().trim();
-                    final String n="logged in";
-                    final String y="logged out";
-                    final String status;
-                    if(mFirebaseAuth.getCurrentUser()!= null){
-                        status = n;
-                    }else{
-                        status = y;
-                    }
                     mProgressDialog.setMessage("Singing Up");
                     mProgressDialog.show();
                     mFirebaseAuth.createUserWithEmailAndPassword(userEmail, userPassword)
@@ -153,8 +149,10 @@ public class MotherRegister extends AppCompatActivity {
     }
 
     private void saveDisplayName(){
-        String displayName = chilName_text.getText().toString();
+        String childName = chilName_text.getText().toString();
         SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, 0);
-        prefs.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
+        prefs.edit().putString(DISPLAY_CHILD_NAME, childName).apply();
+
+
     }
 }

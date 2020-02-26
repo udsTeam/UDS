@@ -6,13 +6,32 @@ public class Mother {
     private String userId;
     private String email;
 
+
     public Mother() {
     }
 
-    public Mother(String motherName, String childName, String userId, String email) {
+    public Mother(String motherName, String childName, String email, String userId) {
         this.motherName = motherName;
         this.childName = childName;
+        this.email = email;
         this.userId = userId;
+
+
+    }
+
+    public void setMotherName(String motherName) {
+        this.motherName = motherName;
+    }
+
+    public void setChildName(String childName) {
+        this.childName = childName;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 

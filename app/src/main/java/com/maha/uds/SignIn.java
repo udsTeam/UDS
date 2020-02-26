@@ -18,7 +18,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class SignIn extends AppCompatActivity {
@@ -38,6 +43,10 @@ public class SignIn extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mProgressDialog = new ProgressDialog(this);
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        if(user != null){
+            Usertype();
+        }
 
         setUIview();
         //setup listener to join us button
@@ -111,7 +120,7 @@ public class SignIn extends AppCompatActivity {
     }
     //direct the user to his homePage
     public void Usertype(){
-        final String email = email_text.getText().toString();
+      /*  final String email = email_text.getText().toString();
         // in case the user is a mother
         if(email.contains("@aou.edu.sa")){
             Toast.makeText(SignIn.this,"Welcome again",Toast.LENGTH_SHORT).show();
@@ -119,10 +128,35 @@ public class SignIn extends AppCompatActivity {
         }else{
             Toast.makeText(SignIn.this,"Welcome again",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(SignIn.this,BabysitterHome.class));
+        }*/
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mReference = FirebaseDatabase.getInstance().getReference();
+        String userId = mFirebaseAuth.getCurrentUser().getUid();
+        FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+        Query mQuery2 = FirebaseDatabase.getInstance().getReference("mother")
+                .orderByChild("userId").equalTo(userId);
+
+            mQuery2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        //go to mother page
+                        startActivity(new Intent(SignIn.this, MotherHome.class));
+                    } else {
+                        // go baby setter page
+                        startActivity(new Intent(SignIn.this, BabysitterHome.class));
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
 
 
 
-}

@@ -25,5 +25,17 @@
     <string name="title_Settings">settings</string>
     <string name="title_logOut">log Out</string>
     <string name="title_history">history</string>
+    <string name="prompt_motherName">Mother name</string>
+    <string name="prompt_phoneNum">contact number</string>
+    <string name="notes">Add notes</string>
+    <string name="save">save changes</string>
+    <string name="cancel">cancel</string>
+    <string name="add_schedule">Add schedule</string>
+    <string name="Time">Time</string>
+    <string name="Date">Date</string>
+    <string name="Day">day</string>
+    <string name="add">Add</string>
+    <string name="deleteDate">Delete date?</string>
+    <string name="prompt_date">Enter the date you want to delete</string>
 
 </resources>

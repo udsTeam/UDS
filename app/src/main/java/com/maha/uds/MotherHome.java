@@ -94,8 +94,8 @@ public class MotherHome extends AppCompatActivity implements NavigationView.OnNa
     }
 
     private void setupDisplayName() {
-        SharedPreferences prefs = getSharedPreferences(BabysitterRegister.CHAT_PREFS, MODE_PRIVATE);
-        displayName = prefs.getString(BabysitterRegister.DISPLAY_NAME_KEY, null);
+        SharedPreferences prefs = getSharedPreferences(MotherRegister.CHAT_PREFS, MODE_PRIVATE);
+        displayName = prefs.getString(MotherRegister.DISPLAY_CHILD_NAME, null);
         if (displayName == null) {
             displayName = "Anonymous";
         }
@@ -112,7 +112,7 @@ public class MotherHome extends AppCompatActivity implements NavigationView.OnNa
                 Toast.makeText(MotherHome.this, "home selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.profile:
-                Toast.makeText(MotherHome.this, "profile selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MotherHome.this,MotherProfile.class));
                 break;
             case R.id.settings:
                 Toast.makeText(MotherHome.this, "settings selected", Toast.LENGTH_SHORT).show();
