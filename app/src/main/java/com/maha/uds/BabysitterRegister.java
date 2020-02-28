@@ -20,6 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.maha.uds.Model.AccountModel;
 
 public class BabysitterRegister extends AppCompatActivity {
 
@@ -31,6 +32,9 @@ public class BabysitterRegister extends AppCompatActivity {
     private EditText email_text;
     private EditText password_text;
     private EditText confirmPassword_text;
+    private EditText bio_text;
+    private EditText phoneNum_text;
+    private EditText age_text;
     private TextView signIn;
     private Button register;
     private FirebaseAuth mFirebaseAuth;
@@ -64,6 +68,12 @@ public class BabysitterRegister extends AppCompatActivity {
                         final String userName = username_text.getText().toString().trim();
                         final String userEmail = email_text.getText().toString().trim();
                         final String userPassword = password_text.getText().toString().trim();
+                        final String userBio = bio_text.getText().toString().trim();
+                        final String phoneNum = phoneNum_text.getText().toString().trim();
+                        final String age = age_text.getText().toString().trim();
+                        final int ratting = 0;
+                        final String status = "available";
+                        final String accountType = "babysitter";
 
                         mProgressDialog.setMessage("Singing Up");
                         mProgressDialog.show();
@@ -74,8 +84,8 @@ public class BabysitterRegister extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     //adding the user information to the realtiem database
                                     UID = mFirebaseAuth.getCurrentUser().getUid();
-                                    Babysitter babysitter = new Babysitter(userEmail, userName,UID);
-                                    FirebaseDatabase.getInstance().getReference("babysitter").child(UID).setValue(babysitter);
+                                    AccountModel account = new AccountModel(userEmail,accountType,userName,userBio,phoneNum,ratting,age,status);
+                                    FirebaseDatabase.getInstance().getReference("accounts").child(UID).setValue(account);
                                     saveDisplayName();
                                     sendEmailVer();
                                 } else {
@@ -92,12 +102,15 @@ public class BabysitterRegister extends AppCompatActivity {
 
     private void setUIview() {
 
-        username_text = (EditText) findViewById(R.id.username_text);
-        email_text = (EditText) findViewById(R.id.email_text);
-        password_text = (EditText) findViewById(R.id.password_text);
-        confirmPassword_text = (EditText) findViewById(R.id.confirm_password_text);
-        signIn = (TextView) findViewById(R.id.signIn_btn);
-        register = (Button) findViewById(R.id.register_btn);
+        username_text = findViewById(R.id.username_text);
+        email_text = findViewById(R.id.email_text);
+        password_text = findViewById(R.id.password_text);
+        confirmPassword_text = findViewById(R.id.confirm_password_text);
+        bio_text = findViewById(R.id.bio_text);
+        phoneNum_text = findViewById(R.id.phone_text);
+        age_text = findViewById(R.id.age_text);
+        signIn = findViewById(R.id.signIn_btn);
+        register = findViewById(R.id.register_btn);
     }
 
     private boolean isValidate() {
@@ -107,13 +120,17 @@ public class BabysitterRegister extends AppCompatActivity {
         final String email = email_text.getText().toString();
         final String password = password_text.getText().toString();
         final String passCong = confirmPassword_text.getText().toString();
+        final String phoneNum = phoneNum_text.getText().toString();
+        final String age = age_text.getText().toString();
+        final String bio = bio_text.getText().toString();
 
-        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(passCong)) {
-            Toast.makeText(BabysitterRegister.this, "plz fill out all fields ", Toast.LENGTH_SHORT).show();
-        } else if (password.length() < 6) {
-            Toast.makeText(BabysitterRegister.this, "the password should be at least 6 char !!! ", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(passCong)
+                ||TextUtils.isEmpty(phoneNum)||TextUtils.isEmpty(age)||TextUtils.isEmpty(bio)) {
+            Toast.makeText(BabysitterRegister.this, "All fields required ", Toast.LENGTH_LONG).show();
+        } else if (password.length() < 8) {
+            Toast.makeText(BabysitterRegister.this, "the password should be at least 8 digits !!! ", Toast.LENGTH_LONG).show();
         } else if (!password.equals(passCong)) {
-            Toast.makeText(BabysitterRegister.this, "the two password dose not match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BabysitterRegister.this, "the two password dose not match", Toast.LENGTH_LONG).show();
         } else {
             cheack = true;
         }
@@ -127,12 +144,12 @@ public class BabysitterRegister extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(BabysitterRegister.this, "تم تسجيلك بنجاح الرجاء تفعيل الايميل", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BabysitterRegister.this, "Successfully registered, please confirm your email", Toast.LENGTH_LONG).show();
                         mFirebaseAuth.signOut();
                         finish();
                         startActivity(new Intent(BabysitterRegister.this, SignIn.class));
                     } else {
-                        Toast.makeText(BabysitterRegister.this, "فشل التسجيل ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BabysitterRegister.this, "Registration failed ", Toast.LENGTH_LONG).show();
                     }
                 }
             });

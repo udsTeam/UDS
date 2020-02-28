@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="150dp"
         >
 
         <EditText
@@ -20,21 +20,20 @@
             android:layout_height="50dp"
             android:ems="10"
             android:inputType="textPersonName"
-
             android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true"
             android:hint="@string/prompt_name"
             />
 
         <EditText
-            android:id="@+id/childName_text"
+            android:id="@+id/phone_text"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="phone"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/motherName_text"
-            android:hint="@string/prompt_childName"
+            android:hint="@string/prompt_phoneNum"
 
             />
 
@@ -45,7 +44,7 @@
             android:ems="10"
             android:inputType="textEmailAddress"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/childName_text"
+            android:layout_below="@id/phone_text"
             android:hint="@string/Email"
 
             />

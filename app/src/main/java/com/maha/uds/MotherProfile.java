@@ -83,7 +83,7 @@ public class MotherProfile extends AppCompatActivity {
 
     private void setupDisplayName() {
         SharedPreferences prefs = getSharedPreferences(MotherRegister.CHAT_PREFS, MODE_PRIVATE);
-        displayName = prefs.getString(MotherRegister.DISPLAY_CHILD_NAME, null);
+        displayName = prefs.getString(MotherRegister.DISPLAY_USER_NAME, null);
         if (displayName == null) {
             displayName = "Anonymous";
         }

@@ -19,28 +19,27 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.maha.uds.Model.AccountModel;
 
 public class MotherRegister extends AppCompatActivity {
 
      static final String CHAT_PREFS ="chatPrefs" ;
-    static final String CHAT_PREFS1 ="chatPrefs" ;
-     static final String DISPLAY_CHILD_NAME ="childName" ;
-    static final String DISPLAY_MOTHER_NAME ="motherName" ;
+     static final String DISPLAY_USER_NAME ="userName" ;
+
 
 
     private EditText motherName_text;
-    private EditText chilName_text;
+    private EditText phoneNum_text;
     private EditText email_text;
     private EditText password_text;
     private EditText confirmPassword_text;
     private TextView signIn;
     private Button register;
-    private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
     private ProgressDialog mProgressDialog;
     private String UID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +63,16 @@ public class MotherRegister extends AppCompatActivity {
             public void onClick(View v) {
                 if (isValidate()) {
                     // get the data form the fields
-                    final String motherName = motherName_text.getText().toString().trim();
+                    final String userName = motherName_text.getText().toString().trim();
                     final String userEmail = email_text.getText().toString().trim();
                     final String userPassword = password_text.getText().toString().trim();
-                    final String childName = chilName_text.getText().toString().trim();
+                    final String phoneNum = phoneNum_text.getText().toString().trim();
+                    final String userBio = null;
+                    final String age = null;
+                    final int ratting =0;
+                    final String status = "available";
+                    final String accountType = "mother";
+
                     mProgressDialog.setMessage("Singing Up");
                     mProgressDialog.show();
                     mFirebaseAuth.createUserWithEmailAndPassword(userEmail, userPassword)
@@ -78,8 +83,8 @@ public class MotherRegister extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 //adding the user information to the realtiem database
                                 UID = mFirebaseAuth.getCurrentUser().getUid();
-                                Mother mother = new Mother(motherName,childName,userEmail,UID);
-                                FirebaseDatabase.getInstance().getReference("mother").child(UID).setValue(mother);
+                                AccountModel account = new AccountModel(userEmail,accountType,userName,userBio,phoneNum,ratting,age,status);
+                                FirebaseDatabase.getInstance().getReference("accounts").child(UID).setValue(account);
                                 saveDisplayName();
                                 sendEmailVer();
                             } else {
@@ -95,26 +100,26 @@ public class MotherRegister extends AppCompatActivity {
 
     private void setUIview() {
 
-        motherName_text = (EditText) findViewById(R.id.motherName_text);
-        chilName_text = (EditText) findViewById(R.id.childName_text);
-        email_text = (EditText) findViewById(R.id.email_text);
-        password_text = (EditText) findViewById(R.id.password_text);
-        confirmPassword_text = (EditText) findViewById(R.id.confirm_password_text);
-        signIn = (TextView) findViewById(R.id.signIn_btn);
-        register = (Button) findViewById(R.id.register_btn);
+        motherName_text = findViewById(R.id.motherName_text);
+        phoneNum_text = findViewById(R.id.phone_text);
+        email_text = findViewById(R.id.email_text);
+        password_text = findViewById(R.id.password_text);
+        confirmPassword_text = findViewById(R.id.confirm_password_text);
+        signIn = findViewById(R.id.signIn_btn);
+        register = findViewById(R.id.register_btn);
     }
 
     private boolean isValidate() {
         boolean cheack = false;
         // reading data from text field
         final String motherName = motherName_text.getText().toString();
-        final String childName = chilName_text.getText().toString();
+        final String phoneNum = phoneNum_text.getText().toString();
         final String email = email_text.getText().toString();
         final String password = password_text.getText().toString();
         final String passCong = confirmPassword_text.getText().toString();
 
         if (TextUtils.isEmpty(motherName) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(passCong)
-                ||TextUtils.isEmpty(childName)) {
+                ||TextUtils.isEmpty(phoneNum)) {
             Toast.makeText(MotherRegister.this, "plz fill out all fields ", Toast.LENGTH_SHORT).show();
         } else if (password.length() < 8) {
             Toast.makeText(MotherRegister.this, "the password should be at least 8 char !!! ", Toast.LENGTH_SHORT).show();
@@ -136,12 +141,12 @@ public class MotherRegister extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(MotherRegister.this, "please verify your email", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MotherRegister.this, "Successfully registered, please confirm your email", Toast.LENGTH_LONG).show();
                         mFirebaseAuth.signOut();
                         finish();
                         startActivity(new Intent(MotherRegister.this, SignIn.class));
                     } else {
-                        Toast.makeText(MotherRegister.this, "registration failed ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MotherRegister.this, "Registration failed ", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -149,9 +154,9 @@ public class MotherRegister extends AppCompatActivity {
     }
 
     private void saveDisplayName(){
-        String childName = chilName_text.getText().toString();
+        String displayName = motherName_text.getText().toString();
         SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, 0);
-        prefs.edit().putString(DISPLAY_CHILD_NAME, childName).apply();
+        prefs.edit().putString(DISPLAY_USER_NAME, displayName).apply();
 
 
     }
