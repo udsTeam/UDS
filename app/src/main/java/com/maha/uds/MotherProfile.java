@@ -3,87 +3,112 @@ package com.maha.uds;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.maha.uds.Model.AccountModel;
 
 public class MotherProfile extends AppCompatActivity {
 
 
-    ImageButton add_btn;
-    ListView scheduleList;
-    DatabaseReference mReference;
-    FirebaseAuth mAuth;
-    List<Schedule> mSchedules;
+
+    EditText motherName;
+    EditText motherEmail;
+    EditText phoneNumber;
+    Button cancelBtn;
+    Button updateBtn;
     String displayName;
-    TextView name;
-    TextView deleteDate;
+    String displayEmail;
+    String displayPhone;
+    DatabaseReference mDatabase;
+    FirebaseAuth mAuth;
+    SharedPreferences prefs;
+    SharedPreferences.Editor mEditor;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mother_profile);
-
-        add_btn = findViewById(R.id.add_btn);
-        scheduleList = findViewById(R.id.scheduleList);
-        mReference = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
-        mSchedules = new ArrayList<>();
-        deleteDate = findViewById(R.id.delete_btn);
-
-        name = findViewById(R.id.childName_text);
         setupDisplayName();
+        setUpUI();
+        mDatabase = FirebaseDatabase.getInstance().getReference("accounts");
+        mAuth = FirebaseAuth.getInstance();
 
-        scheduleList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                deleteAlertDialog();
-                return false;
-            }
-        });
 
-        name.setOnClickListener(new View.OnClickListener() {
+
+        updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MotherProfile.this,ChildForm.class));
-            }
-        });
-        add_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openAlertDialog();
+                String userID = mAuth.getCurrentUser().getUid();
+                String updatedName = motherName.getText().toString();
+                String updatedEmail = motherEmail.getText().toString();
+                String updatedPhoneNum = phoneNumber.getText().toString();
+                String accountType = "mother";
+                String bio = null;
+                String age = null;
+                String status = null;
+                int ratting = 0;
+                AccountModel model = new AccountModel(updatedEmail,accountType,updatedName,bio,updatedPhoneNum,ratting,age,status);
+                mDatabase.child(userID).setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(MotherProfile.this, "Profile updated", Toast.LENGTH_LONG).show();
+                        updateInfo();
+                    }
+                });
+
             }
         });
 
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MotherProfile.this,MotherHome.class));
+            }
+        });
 
     }
 
+    public void updateInfo(){
+        mEditor = prefs.edit();
+        String updatedName = motherName.getText().toString();
+        String updatedEmail = motherEmail.getText().toString();
+        String updatedPhoneNum = phoneNumber.getText().toString();
 
-    private void setupDisplayName() {
-        SharedPreferences prefs = getSharedPreferences(MotherRegister.CHAT_PREFS, MODE_PRIVATE);
+        mEditor.putString(MotherRegister.DISPLAY_USER_NAME,updatedName).apply();
+        mEditor.putString(MotherRegister.DISPLAY_EMAIL,updatedEmail).apply();
+        mEditor.putString(MotherRegister.DISPLAY_PHONE,updatedPhoneNum).apply();
+        mEditor.commit();
+
+    }
+
+    public void setUpUI(){
+        motherName = findViewById(R.id.motherNameText);
+        motherEmail = findViewById(R.id.emailText);
+        phoneNumber = findViewById(R.id.phoneNumberText);
+        cancelBtn = findViewById(R.id.cancel_btn);
+        updateBtn= findViewById(R.id.Save_btn);
+    }
+
+
+    public void setupDisplayName() {
+        prefs = getSharedPreferences(MotherRegister.CHAT_PREFS, MODE_PRIVATE);
         displayName = prefs.getString(MotherRegister.DISPLAY_USER_NAME, null);
+        displayEmail = prefs.getString(MotherRegister.DISPLAY_EMAIL,null);
+        displayPhone = prefs.getString(MotherRegister.DISPLAY_PHONE,null);
         if (displayName == null) {
             displayName = "Anonymous";
         }
@@ -92,107 +117,17 @@ public class MotherProfile extends AppCompatActivity {
         @Override
         protected void onStart () {
             super.onStart();
-            name.setText(displayName);
-            String userId = mAuth.getCurrentUser().getUid();
-            FirebaseDatabase.getInstance().getReference("schedule").child(userId)
-                    .addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            mSchedules.clear();
-                            for (DataSnapshot scheduleSnapshot : dataSnapshot.getChildren()) {
-                                Schedule schedule = scheduleSnapshot.getValue(Schedule.class);
-
-                                mSchedules.add(schedule);
-
-                            }
-                            ScheduleAdapter adapter = new ScheduleAdapter(MotherProfile.this, mSchedules);
-                            scheduleList.setAdapter(adapter);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+            motherName.setText(displayName);
+            motherEmail.setText(displayEmail);
+            phoneNumber.setText(displayPhone);
 
         }
 
-        public void deleteAlertDialog (){
 
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(MotherProfile.this);
-            LayoutInflater inflater = getLayoutInflater();
-            View AlertView = inflater.inflate(R.layout.delete_dialog_layout, null);
-            final String userId = mAuth.getCurrentUser().getUid();
-            final EditText date = AlertView.findViewById(R.id.dateEditText);
-            Button delete = AlertView.findViewById(R.id.delete_btn);
-
-            final DatabaseReference mRef = FirebaseDatabase
-                    .getInstance().getReference("schedule").child(userId);
-
-            builder.setView(AlertView).setTitle("Delete!!");
-            final AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    String id = mRef.push().getKey();
-                    mRef.child(id).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            dataSnapshot.getRef().removeValue();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    alertDialog.dismiss();
-
-                }
-            });
-        }
 
 
-        public void openAlertDialog () {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(MotherProfile.this);
-            LayoutInflater inflater = getLayoutInflater();
-            View view = inflater.inflate(R.layout.mother_add_schedule, null);
 
-            Button add = view.findViewById(R.id.add_btn);
-            final EditText dayText = view.findViewById(R.id.dayEditText);
-            final EditText timeText = view.findViewById(R.id.timeEditText);
-            final EditText dateText = view.findViewById(R.id.dateEditText);
-            builder.setView(view).setTitle("New Schedule");
-            final AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-
-
-            add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String day = dayText.getText().toString();
-                    String time = timeText.getText().toString();
-                    String date = dateText.getText().toString();
-                    String userId = mAuth.getCurrentUser().getUid();
-                    if (day.isEmpty() || time.isEmpty() || date.isEmpty()) {
-                        Toast.makeText(MotherProfile.this, "All fields are required!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Schedule schedule = new Schedule(day, date, time, userId);
-                        mReference.child("schedule").child(userId).push().setValue(schedule);
-                        dayText.setText(null);
-                        timeText.setText(null);
-                        dateText.setText(null);
-
-                        alertDialog.dismiss();
-                    }
-                }
-            });
-        }
     }
 
 

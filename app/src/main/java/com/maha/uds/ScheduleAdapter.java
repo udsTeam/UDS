@@ -10,36 +10,37 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.maha.uds.Model.ScheduleModel;
+
 import java.util.List;
 
-public class ScheduleAdapter extends ArrayAdapter<Schedule> {
+public class ScheduleAdapter extends ArrayAdapter<ScheduleModel> {
 
      private Activity context;
-     private List<Schedule> mScheduleList;
+     private List<ScheduleModel> mScheduleList;
 
 
-    public ScheduleAdapter(Activity context,List<Schedule> mScheduleList){
-        super(context,R.layout.mother_schedule,mScheduleList);
+    public ScheduleAdapter(Activity context,List<ScheduleModel> schedulelList){
+        super(context,R.layout.child_schedule,schedulelList);
         this.context = context;
-        this.mScheduleList= mScheduleList;
+        this.mScheduleList= schedulelList;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
-        View listViewItem= inflater.inflate(R.layout.mother_schedule,null,true);
+        View listViewItem= inflater.inflate(R.layout.schedule_list_view,null,false);
 
-        TextView dateTextView = listViewItem.findViewById(R.id.dateView);
-        TextView dayTextView =listViewItem.findViewById(R.id.dayView);
-        TextView timeTextView=listViewItem.findViewById(R.id.timeView);
-        Schedule schedule = mScheduleList.get(position);
-
-        dateTextView.setText(schedule.getDate());
-        dayTextView.setText(schedule.getDay());
-        timeTextView.setText(schedule.getTime());
+        TextView dayView = listViewItem.findViewById(R.id.dayView);
+        TextView dateView = listViewItem.findViewById(R.id.dateView);
+        TextView timeView = listViewItem.findViewById(R.id.timeView);
 
 
+        ScheduleModel scheduleModel = mScheduleList.get(position);
+        dayView.setText(scheduleModel.getDay());
+        dateView.setText(scheduleModel.getDate());
+        timeView.setText(scheduleModel.getTime());
 
         return listViewItem;
     }

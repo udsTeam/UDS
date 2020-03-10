@@ -26,7 +26,8 @@ public class MotherRegister extends AppCompatActivity {
 
      static final String CHAT_PREFS ="chatPrefs" ;
      static final String DISPLAY_USER_NAME ="userName" ;
-
+     static final String DISPLAY_EMAIL ="display Email" ;
+     static final String DISPLAY_PHONE ="display phoneNumber" ;
 
 
     private EditText motherName_text;
@@ -70,7 +71,7 @@ public class MotherRegister extends AppCompatActivity {
                     final String userBio = null;
                     final String age = null;
                     final int ratting =0;
-                    final String status = "available";
+                    final String status = null;
                     final String accountType = "mother";
 
                     mProgressDialog.setMessage("Singing Up");
@@ -153,10 +154,15 @@ public class MotherRegister extends AppCompatActivity {
         }
     }
 
-    private void saveDisplayName(){
+
+        public void saveDisplayName(){
+        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
         String displayName = motherName_text.getText().toString();
-        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, 0);
         prefs.edit().putString(DISPLAY_USER_NAME, displayName).apply();
+        String displayEmail= email_text.getText().toString();
+        prefs.edit().putString(DISPLAY_EMAIL,displayEmail).apply();
+        String displayPhoneNum = phoneNum_text.getText().toString();
+        prefs.edit().putString(DISPLAY_PHONE,displayPhoneNum).apply();
 
 
     }

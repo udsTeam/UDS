@@ -4,34 +4,28 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 
-public class MotherHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MotherHome extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     TextView nameView;
     private String displayName;
-    DatabaseReference mDatabase;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    DrawerLayout mDrawerLayout;
-    Toolbar mToolbar;
-    NavigationView mNavigationView;
-    ActionBarDrawerToggle mToggle;
-    ImageView mImageView;
-    FirebaseAuth mFirebaseAuth;
+    BottomNavigationView mNavigationView;
+    private Button orderBtn;
+    private Button trackBtn;
+    private Button paymentBtn;
+    private Button reportBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,25 +33,51 @@ public class MotherHome extends AppCompatActivity implements NavigationView.OnNa
         setContentView(R.layout.mother_home);
 
         setUIview();
-        mDatabase = FirebaseDatabase.getInstance().getReference("mother");
         setupFirebaseListener();
         setupDisplayName();
+
+        orderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MotherHome.this,CreateOrder.class));
+            }
+        });
+
+        trackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MotherHome.this,ListOfBabysitter.class));            }
+        });
+
+        paymentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MotherHome.this, "3", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        reportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MotherHome.this, "4", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
 
 
     }
     public void setUIview(){
-        nameView = (TextView) findViewById(R.id.nameView);
-        mDrawerLayout = findViewById(R.id.drawerLayout);
-        mToolbar = findViewById(R.id.toolbar);
-        mNavigationView = findViewById(R.id.navigationView);
-        mImageView = (ImageView)findViewById(R.id.profile_image);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.syncState();
-        mNavigationView.setNavigationItemSelectedListener(this);
+        nameView = findViewById(R.id.name_view);
+        mNavigationView = findViewById(R.id.navigation_view);
+        mNavigationView.setOnNavigationItemSelectedListener(this);
+        orderBtn = findViewById(R.id.createOrder_btn);
+        trackBtn = findViewById(R.id.trackOrder_btn);
+        paymentBtn = findViewById(R.id.payments_btn);
+        reportBtn = findViewById(R.id.dailyReports_btn);
+
+
 
     }
 
@@ -108,14 +128,8 @@ public class MotherHome extends AppCompatActivity implements NavigationView.OnNa
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.reports:
-                Toast.makeText(MotherHome.this, "home selected", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.profile:
                 startActivity(new Intent(MotherHome.this,MotherProfile.class));
-                break;
-            case R.id.settings:
-                Toast.makeText(MotherHome.this, "settings selected", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.logOut:
                 FirebaseAuth.getInstance().signOut();

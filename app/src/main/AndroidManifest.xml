@@ -15,7 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChildForm"></activity>
+        <activity android:name=".Gallery"></activity>
+        <activity android:name=".ListOfBabysitter" />
+        <activity android:name=".ChildSchedule" />
+        <activity android:name=".CreateOrder" />
+        <activity android:name=".BabysitterProfile" />
+        <activity android:name=".ChildForm" />
         <activity android:name=".MotherProfile" />
         <activity android:name=".MotherHome" />
         <activity android:name=".BabysitterHome" />

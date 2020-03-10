@@ -39,5 +39,31 @@
     <string name="prompt_date">Enter the date you want to delete</string>
     <string name="Bio">bio</string>
     <string name="age">age</string>
+    <string name="welcome_View">Hello</string>
+    <string name="title_order">Create Order</string>
+    <string name="title_payments">payments</string>
+    <string name="title_trackOrder">Track Order</string>
+    <string name="title_profile">profile</string>
+    <string name="prompt_Name">Name</string>
+    <string name="prompt_age">Age</string>
+    <string name="prompt_bio">Bio</string>
+    <string name="add_child">Add child</string>
+    <string name="prompt_boy">Boy</string>
+    <string name="prompt_girl">Girl</string>
+    <string name="choose_gender">Gender</string>
+    <string name="next">Next</string>
+    <string name="create_order">Create New Order</string>
+    <string name="timeFrom">From:</string>
+    <string name="timeTo">To:</string>
+    <string name="timeAt">a.m/p.m</string>
+    <string name="requestText">Request this Nany?</string>
+    <string name="request">Request</string>
+    <string-array name="hours">
+        <item> 1 </item>
+        <item> 2 </item>
+        <item> 3 </item>
+        <item> 4 </item>
+        <item> 5 </item>
+    </string-array>
 
 </resources>

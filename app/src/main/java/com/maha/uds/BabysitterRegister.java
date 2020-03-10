@@ -22,10 +22,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.maha.uds.Model.AccountModel;
 
+
 public class BabysitterRegister extends AppCompatActivity {
 
      static final String CHAT_PREFS = "chatPrefs";
-     static final String DISPLAY_NAME_KEY = "name";
+     static final String DISPLAY_NAME = "name";
+    static final String DISPLAY_EMAIL = "email";
+    static final String DISPLAY_PHONE = "phoneNumber";
+    static final String DISPLAY_AGE = "age";
+    static final String DISPLAY_BIO = "bio";
+
 
 
     private EditText username_text;
@@ -72,7 +78,7 @@ public class BabysitterRegister extends AppCompatActivity {
                         final String phoneNum = phoneNum_text.getText().toString().trim();
                         final String age = age_text.getText().toString().trim();
                         final int ratting = 0;
-                        final String status = "available";
+                        final String status = "Available";
                         final String accountType = "babysitter";
 
                         mProgressDialog.setMessage("Singing Up");
@@ -157,8 +163,18 @@ public class BabysitterRegister extends AppCompatActivity {
     }
      public void saveDisplayName(){
         String displayName = username_text.getText().toString();
+        String displayEmail = email_text.getText().toString();
+        String displayPhone = phoneNum_text.getText().toString();
+        String displayBio = bio_text.getText().toString();
+        String displayAge = age_text.getText().toString();
+
         SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
-        prefs.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
+        prefs.edit().putString(DISPLAY_NAME, displayName).apply();
+         prefs.edit().putString(DISPLAY_EMAIL, displayEmail).apply();
+         prefs.edit().putString(DISPLAY_PHONE, displayPhone).apply();
+         prefs.edit().putString(DISPLAY_BIO, displayBio).apply();
+         prefs.edit().putString(DISPLAY_AGE, displayAge).apply();
+
 
     }
 
