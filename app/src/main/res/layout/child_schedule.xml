@@ -34,6 +34,14 @@
         android:inputType="date"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hours_text"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        />
+
     <Spinner
         android:id="@+id/timeSpinner"
         android:layout_width="300dp"
@@ -60,11 +68,10 @@
         />
 
     <Button
-        android:id="@+id/next_btn"
+        android:id="@+id/finish_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next"
-        android:layout_marginTop="300dp"
+        android:text="@string/finish"
         android:layout_gravity="bottom|center"
         />
 </LinearLayout>

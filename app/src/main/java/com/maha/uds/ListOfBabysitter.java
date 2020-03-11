@@ -42,10 +42,6 @@ public class ListOfBabysitter extends AppCompatActivity  {
         keys = new ArrayList<>();
         babysitterList = new ArrayList<>();
         bulidRecyclerView();
-
-
-
-
     }
 
     public void bulidRecyclerView(){

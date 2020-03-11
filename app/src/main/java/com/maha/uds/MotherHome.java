@@ -15,6 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MotherHome extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -36,18 +41,31 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
         setupFirebaseListener();
         setupDisplayName();
 
+
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MotherHome.this,CreateOrder.class));
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                Query mQuery = FirebaseDatabase.getInstance().getReference("babies").orderByChild("motherID").equalTo(userId);
+                mQuery.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            Toast.makeText(MotherHome.this, "You already have an order", Toast.LENGTH_LONG).show();
+                        } else {
+                            startActivity(new Intent(MotherHome.this, CreateOrder.class));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
 
-        trackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MotherHome.this,ListOfBabysitter.class));            }
-        });
 
         paymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override

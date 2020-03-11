@@ -58,6 +58,8 @@
     <string name="timeAt">a.m/p.m</string>
     <string name="requestText">Request this Nany?</string>
     <string name="request">Request</string>
+    <string name="finish">finish</string>
+    <string name="hours_text">How many hours?</string>
     <string-array name="hours">
         <item> 1 </item>
         <item> 2 </item>

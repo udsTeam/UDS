@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Gallery extends AppCompatActivity {
 
-    static String key;
+     String key;
     FirebaseAuth mAuth;
     DatabaseReference mReference;
     @Override
@@ -54,6 +54,7 @@ public class Gallery extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(Gallery.this,ChildSchedule.class);
+                intent.putExtra("babysitterKey", key);
                 startActivity(intent);
 
                 /*String motherId = mAuth.getCurrentUser().getUid();

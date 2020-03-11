@@ -1,5 +1,6 @@
 package com.maha.uds;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,11 +24,12 @@ import java.util.List;
 public class ChildSchedule extends AppCompatActivity {
 
     Button addSchedule;
-    Button next;
+    Button finishOrder;
     EditText dayText;
     Spinner timeText;
     EditText dateText;
     ListView scheduleListView;
+    String babysitterKey;
     List<ScheduleModel> ScheduleList;
     ScheduleModel schedule;
     ScheduleAdapter mAdapter;
@@ -42,6 +44,7 @@ public class ChildSchedule extends AppCompatActivity {
 
 
 
+        setIntent();
         setUI();
         addSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,29 +60,27 @@ public class ChildSchedule extends AppCompatActivity {
                     ScheduleList.add(schedule);
                     mAdapter = new ScheduleAdapter(ChildSchedule.this, ScheduleList);
                     scheduleListView.setAdapter(mAdapter);
+                }
 
-                }
-                int hours = Integer.parseInt(time);
-                for(int i = 0; i<= ScheduleList.size(); i++){
-                    hours += hours;
-                    totalHours = hours;
-                }
+                int hours = 0;
+                for(ScheduleModel scheduleTime: ScheduleList){
+                    hours = hours + Integer.parseInt(scheduleTime.getTime());
+                    totalHours= hours;
+            }
 
 
             }
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
+        finishOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OrderModel orderModel = new OrderModel();
                 String motherID = mAuth.getCurrentUser().getUid();
                 String babyID = CreateOrder.babyKey;
-                String babysitterID = Gallery.key;
-
                 orderModel.setMotherID(motherID);
                 orderModel.setBabyID(babyID);
-                orderModel.setBabysitterID(babysitterID);
+                orderModel.setBabysitterID(babysitterKey);
                 orderModel.setScheduleList(ScheduleList);
                 orderModel.setChatID("");
                 orderModel.setDailyReportID("");
@@ -89,8 +90,16 @@ public class ChildSchedule extends AppCompatActivity {
                 orderModel.setTotalHours(totalHours);
                 String orderKey = mReference.child("orders").push().getKey();
                 mReference.child("orders").child(orderKey).setValue(orderModel);
+                Toast.makeText(ChildSchedule.this, "Order Created", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ChildSchedule.this,MotherHome.class);
+                startActivity(intent);
+
             }
         });
+    }
+    public void setIntent(){
+        if(getIntent().hasExtra("babysitterKey")){
+        babysitterKey = getIntent().getStringExtra("babysitterKey");}
     }
 
     public void setUI(){
@@ -98,7 +107,7 @@ public class ChildSchedule extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         addSchedule = findViewById(R.id.add_btn);
-        next = findViewById(R.id.next_btn);
+        finishOrder = findViewById(R.id.finish_btn);
         scheduleListView = findViewById(R.id.Schedule_list);
         ScheduleList = new ArrayList<>();
         dayText = findViewById(R.id.dayEditText);
