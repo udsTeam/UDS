@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ChildSchedule"
+    android:scrollbars="vertical"
+    >
+
+
+    <EditText
+        android:id="@+id/dayEditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/Day"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:inputType="textPersonName"
+        />
+
+
+
+
+    <EditText
+        android:id="@+id/dateEditText"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:hint="@string/Date"
+        android:inputType="date"
+        />
+
+    <Spinner
+        android:id="@+id/timeSpinner"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:entries="@array/hours"
+        android:spinnerMode="dropdown" />
+
+
+    <Button
+        android:id="@+id/add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_schedule"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Schedule_list"
+        />
+
+    <Button
+        android:id="@+id/next_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:layout_marginTop="300dp"
+        android:layout_gravity="bottom|center"
+        />
+</LinearLayout>
