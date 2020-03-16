@@ -9,7 +9,7 @@ public class OrderModel {
     private String babyID;
     private String paymentID;
     private String chatID;
-    private String dailyReportID;
+    private DailyReportModel dailyReport;
     private String orderStatus;
     private int totalHours;
     private double price;
@@ -19,13 +19,13 @@ public class OrderModel {
     }
 
 
-    public OrderModel(String motherID, String babysitterID, String babyID, String paymentID, String chatID, String dailyReportID, String orderStatus, int totalHours, double price, List<ScheduleModel> scheduleList) {
+    public OrderModel(String motherID, String babysitterID, String babyID, String paymentID, String chatID, DailyReportModel dailyReportID, String orderStatus, int totalHours, double price, List<ScheduleModel> scheduleList) {
         this.motherID = motherID;
         this.babysitterID = babysitterID;
         this.babyID = babyID;
         this.paymentID = paymentID;
         this.chatID = chatID;
-        this.dailyReportID = dailyReportID;
+        this.dailyReport = dailyReportID;
         this.orderStatus = orderStatus;
         this.totalHours = totalHours;
         this.price = price;
@@ -72,12 +72,12 @@ public class OrderModel {
         this.chatID = chatID;
     }
 
-    public String getDailyReportID() {
-        return dailyReportID;
+    public DailyReportModel getDailyReport() {
+        return dailyReport;
     }
 
-    public void setDailyReportID(String dailyReportID) {
-        this.dailyReportID = dailyReportID;
+    public void setDailyReport(DailyReportModel dailyReport) {
+        this.dailyReport = dailyReport;
     }
 
     public String getOrderStatus() {

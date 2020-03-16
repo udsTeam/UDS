@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DailyReport"
+    android:padding="16dp"
+
+    >
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Daily Report"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:textColor="#000"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arrived at :"
+            android:textSize="15sp"
+            android:layout_marginTop="20dp"
+
+            />
+
+        <EditText
+            android:id="@+id/arriveTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_marginStart="100dp"
+
+             />
+
+        <TextView
+            android:id="@+id/arriveTimeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:ems="10"
+            android:layout_marginTop="20dp"
+
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Left at :"
+            android:layout_marginTop="20dp"
+            />
+
+        <EditText
+            android:id="@+id/LeaveTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_marginStart="100dp"
+             />
+
+        <TextView
+            android:id="@+id/LeaveTimeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:ems="10"
+            android:layout_marginTop="20dp"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+    >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Took a nap for :"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+
+            />
+
+        <EditText
+            android:id="@+id/napTimeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_marginStart="105dp"
+             />
+
+        <TextView
+            android:id="@+id/napTimeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="105dp"
+            android:ems="10"
+            android:layout_marginTop="20dp"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        >
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="did she/he eat?"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+
+            />
+
+        <EditText
+            android:id="@+id/mealText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_marginStart="105dp"
+            />
+
+        <TextView
+            android:id="@+id/mealView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="105dp"
+            android:ems="10"
+            android:layout_marginTop="20dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        >
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anything unusual?"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+
+            />
+
+        <EditText
+            android:id="@+id/notesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_marginStart="120dp"
+            />
+
+        <TextView
+            android:id="@+id/notesView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:ems="10"
+            android:layout_marginTop="20dp"
+
+            />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/updateBtn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Update Report"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        />
+
+    <Button
+        android:id="@+id/backBtn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_gravity="center"
+        />
+</LinearLayout>

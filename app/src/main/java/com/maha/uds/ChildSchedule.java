@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.maha.uds.Model.DailyReportModel;
 import com.maha.uds.Model.OrderModel;
 import com.maha.uds.Model.ScheduleModel;
 
@@ -32,6 +33,7 @@ public class ChildSchedule extends AppCompatActivity {
     String babysitterKey;
     List<ScheduleModel> ScheduleList;
     ScheduleModel schedule;
+    static String orderKey = "";
     ScheduleAdapter mAdapter;
     DatabaseReference mReference;
     FirebaseAuth mAuth;
@@ -83,15 +85,22 @@ public class ChildSchedule extends AppCompatActivity {
                 orderModel.setBabysitterID(babysitterKey);
                 orderModel.setScheduleList(ScheduleList);
                 orderModel.setChatID("");
-                orderModel.setDailyReportID("");
-                orderModel.setOrderStatus("pending");
+                String arriveTime = "";
+                String leaveTime = "";
+                String napTime = "";
+                String mealReport = "";
+                String notes = "";
+                DailyReportModel report = new DailyReportModel(arriveTime,leaveTime,napTime,mealReport,notes);
+                orderModel.setDailyReport(report);
+                orderModel.setOrderStatus("accepted");
                 orderModel.setPaymentID("");
                 orderModel.setPrice(0);
                 orderModel.setTotalHours(totalHours);
-                String orderKey = mReference.child("orders").push().getKey();
+                orderKey = mReference.child("orders").push().getKey();
                 mReference.child("orders").child(orderKey).setValue(orderModel);
                 Toast.makeText(ChildSchedule.this, "Order Created", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ChildSchedule.this,MotherHome.class);
+                intent.putExtra("orderKey",orderKey);
                 startActivity(intent);
 
             }

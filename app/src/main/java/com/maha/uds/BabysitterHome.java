@@ -59,7 +59,7 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
         reportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BabysitterHome.this, "4", Toast.LENGTH_SHORT).show();
+              startActivity(new Intent(BabysitterHome.this,DailyReport.class));
             }
         });
 

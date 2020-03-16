@@ -18,8 +18,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.maha.uds.Model.OrderModel;
 
 
 public class MotherHome extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -28,9 +28,12 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     BottomNavigationView mNavigationView;
     private Button orderBtn;
-    private Button trackBtn;
+    String status = "no orders";
+    private OrderModel mOrderModel;
+    static String mOrderKey;
     private Button paymentBtn;
     private Button reportBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +43,19 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
         setUIview();
         setupFirebaseListener();
         setupDisplayName();
+        getMyOrder();
+
+
 
 
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                Query mQuery = FirebaseDatabase.getInstance().getReference("babies").orderByChild("motherID").equalTo(userId);
-                mQuery.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            Toast.makeText(MotherHome.this, "You already have an order", Toast.LENGTH_LONG).show();
-                        } else {
-                            startActivity(new Intent(MotherHome.this, CreateOrder.class));
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                if(status.equals("no order")||status.equals("finish")){
+                    startActivity(new Intent(MotherHome.this, CreateOrder.class));
+                }else{
+                    Toast.makeText(MotherHome.this, "You already have an order", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -70,14 +64,22 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
         paymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MotherHome.this, "3", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(MotherHome.this,DailyReport.class));
             }
         });
 
         reportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MotherHome.this, "4", Toast.LENGTH_SHORT).show();
+                if(!status.equals("no orders")){
+                    if(!status.equals("pending")){
+                        startActivity(new Intent(MotherHome.this,DailyReport.class));
+                    }else{
+                        Toast.makeText(MotherHome.this, "You don't have an active order", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(MotherHome.this, "You don't have an order", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -91,7 +93,6 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
         mNavigationView = findViewById(R.id.navigation_view);
         mNavigationView.setOnNavigationItemSelectedListener(this);
         orderBtn = findViewById(R.id.createOrder_btn);
-        trackBtn = findViewById(R.id.trackOrder_btn);
         paymentBtn = findViewById(R.id.payments_btn);
         reportBtn = findViewById(R.id.dailyReports_btn);
 
@@ -156,4 +157,41 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
 
         return false;
     }
+
+    private void getMyOrder(){
+        //show progress dialog
+        mOrderModel = new OrderModel();
+        mOrderKey = "";
+        FirebaseDatabase.getInstance().getReference("orders")
+                .orderByChild("motherID").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //progress dialog dissmis
+                        if(dataSnapshot.exists()){
+                            for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
+                                if(!mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("finish")){
+                                    mOrderModel = mSnapshot.getValue(OrderModel.class);
+                                    mOrderKey = mSnapshot.getKey();
+                                    status = mOrderModel.getOrderStatus();
+                                    //filling the dashboard with a text shows that there is an active
+                                }
+
+                            }
+                        }else{
+                            Toast.makeText(MotherHome.this, "You don't have an active order", Toast.LENGTH_SHORT).show();
+                            //we will fill the dashboard with a text shows that you don't have any order
+                            status = "no order";
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+                    }
+                });
+    }
+
+
 }
