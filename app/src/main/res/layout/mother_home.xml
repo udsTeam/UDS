@@ -28,6 +28,14 @@
 
         />
 
+    <Button
+        android:id="@+id/chat_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hello_View"
+        android:layout_margin="30dp"
+        android:text="@string/chat" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_view"

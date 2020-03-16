@@ -60,6 +60,7 @@
     <string name="request">Request</string>
     <string name="finish">finish</string>
     <string name="hours_text">How many hours?</string>
+    <string name="chat">Chat</string>
     <string-array name="hours">
         <item> 1 </item>
         <item> 2 </item>

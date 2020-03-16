@@ -19,6 +19,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.maha.uds.Chat.ChatActivity;
+import com.maha.uds.Chat.ChatKeys;
+import com.maha.uds.Chat.FirebaseManager;
+import com.maha.uds.Chat.MessageModel;
+import com.maha.uds.Chat.MyNotificationManager;
+import com.maha.uds.Chat.SharedPrefsKeys;
+import com.maha.uds.Chat.SharedPrefsManager;
+
+import java.util.List;
 import com.maha.uds.Model.OrderModel;
 
 
@@ -33,6 +42,7 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
     static String mOrderKey;
     private Button paymentBtn;
     private Button reportBtn;
+    private Button chatBtn;
 
 
     @Override
@@ -43,6 +53,7 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
         setUIview();
         setupFirebaseListener();
         setupDisplayName();
+        readChatNotification();
         getMyOrder();
 
 
@@ -83,6 +94,13 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
             }
         });
 
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MotherHome.this, ChatActivity.class));
+            }
+        });
+
 
 
 
@@ -95,10 +113,35 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
         orderBtn = findViewById(R.id.createOrder_btn);
         paymentBtn = findViewById(R.id.payments_btn);
         reportBtn = findViewById(R.id.dailyReports_btn);
+        chatBtn = findViewById(R.id.chat_btn);
 
 
 
     }
+
+    private void readChatNotification() {
+        String orderId="Test233";
+        FirebaseManager.readChat(orderId, new FirebaseManager.OnMessagesRetrieved() {
+            @Override
+            public void DataIsLoaded(List<MessageModel> messageModels, List<String> keys) {
+                String FirebaeChatID = keys.get(keys.size()-1);
+                MessageModel mMessageModel = messageModels.get(messageModels.size()-1);
+                String LocalChatID = SharedPrefsManager.getInstance().getString(SharedPrefsKeys.CHAT_ID,"Empty");
+                if (!mMessageModel.getSenderID().equals(ChatKeys.USER_ID)){
+                    if (!LocalChatID.equals(FirebaeChatID)){
+                        if (mMessageModel.getMessageType().equals(ChatKeys.TEXT)){
+                            MyNotificationManager.sendNotification("Person send you a message",mMessageModel.getMessage(),MotherHome.this);
+                        }else {
+                            MyNotificationManager.sendNotification("Person send you a Image","Image",MotherHome.this);
+                        }
+                        SharedPrefsManager.getInstance().setString(SharedPrefsKeys.CHAT_ID,FirebaeChatID);
+                    }
+                }
+
+            }
+        });
+    }
+
 
     @Override
     public void onStart() {

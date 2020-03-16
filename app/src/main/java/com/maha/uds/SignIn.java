@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.maha.uds.Chat.ChatActivity;
 
 
 public class SignIn extends AppCompatActivity {
@@ -45,6 +46,9 @@ public class SignIn extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mProgressDialog = new ProgressDialog(this);
 
+
+        if (mFirebaseAuth.getCurrentUser()!=null)
+            Usertype();
 
         setUIview();
         //setup listener to join us button

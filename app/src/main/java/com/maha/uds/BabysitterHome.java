@@ -15,6 +15,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.maha.uds.Chat.ChatActivity;
+import com.maha.uds.Chat.ChatKeys;
+import com.maha.uds.Chat.FirebaseManager;
+import com.maha.uds.Chat.MessageModel;
+import com.maha.uds.Chat.MyNotificationManager;
+import com.maha.uds.Chat.SharedPrefsKeys;
+import com.maha.uds.Chat.SharedPrefsManager;
+
+import java.util.List;
 
 public class BabysitterHome extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -26,6 +35,7 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
     private Button trackBtn;
     private Button paymentBtn;
     private Button reportBtn;
+    private Button chatBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +44,7 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
         setUIview();
         setupFirebaseListener();
         setupDisplayName();
+        readChatNotification();
 
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +74,12 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
             }
         });
 
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BabysitterHome.this, ChatActivity.class));
+            }
+        });
 
 
 
@@ -76,6 +93,7 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
         trackBtn = findViewById(R.id.trackOrder_btn);
         paymentBtn = findViewById(R.id.payments_btn);
         reportBtn = findViewById(R.id.dailyReports_btn);
+        chatBtn = findViewById(R.id.chat_btn);
 
 
 
@@ -119,6 +137,30 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
             displayName = "Anonymous";
         }
     }
+
+    private void readChatNotification() {
+        String orderId="Test233";
+        FirebaseManager.readChat(orderId, new FirebaseManager.OnMessagesRetrieved() {
+            @Override
+            public void DataIsLoaded(List<MessageModel> messageModels, List<String> keys) {
+                String FirebaeChatID = keys.get(keys.size()-1);
+                MessageModel mMessageModel = messageModels.get(messageModels.size()-1);
+                String LocalChatID = SharedPrefsManager.getInstance().getString(SharedPrefsKeys.CHAT_ID,"Empty");
+                if (!mMessageModel.getSenderID().equals(ChatKeys.USER_ID)){
+                    if (!LocalChatID.equals(FirebaeChatID)){
+                        if (mMessageModel.getMessageType().equals(ChatKeys.TEXT)){
+                            MyNotificationManager.sendNotification("Person send you a message",mMessageModel.getMessage(),BabysitterHome.this);
+                        }else {
+                            MyNotificationManager.sendNotification("Person send you a Image","Image",BabysitterHome.this);
+                        }
+                        SharedPrefsManager.getInstance().setString(SharedPrefsKeys.CHAT_ID,FirebaeChatID);
+                    }
+                }
+
+            }
+        });
+    }
+
 
 
     @Override
