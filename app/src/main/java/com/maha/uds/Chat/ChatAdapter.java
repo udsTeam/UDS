@@ -1,6 +1,5 @@
 package com.maha.uds.Chat;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -8,7 +7,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.maha.uds.MainActivity;
 import com.maha.uds.R;
 
 import java.text.SimpleDateFormat;
@@ -32,9 +29,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     private Context mContext;
     private List<MessageModel> mMessageList;
     private List<String> mKeys;
-
-    private boolean isImageFitToScreen;
-
 
 
 
@@ -60,11 +54,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
         final MessageModel mMessageModel = mMessageList.get(position);
 
+        //Preparing time with desired format
         Calendar mCalendar = Calendar.getInstance();
         mCalendar.setTimeInMillis(mMessageModel.getCreationDate());
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM hh:mm aaa");
         String dateString = formatter.format(mCalendar.getTime());
 
+
+        //Setting my messages to write and other messages in the right
         if (mMessageModel.getSenderID().equals(ChatKeys.USER_ID)){
             holder.boxRL.setGravity(Gravity.END);
             holder.dateTxtV.setGravity(Gravity.END);
@@ -78,13 +75,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }
 
 
-
+        //Setting the right layout for the messages and images
         if (mMessageModel.getMessageType().equals(ChatKeys.TEXT)){
             holder.messageLL.setVisibility(View.VISIBLE);
             holder.imageRL.setVisibility(View.GONE);
-
-
-
             holder.messageTxtV.setText(mMessageModel.getMessage());
             holder.dateTxtV.setText(dateString);
 
@@ -107,11 +101,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
 
 
+        //View image in Image Activity
         holder.imageRL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
-
                     Intent mIntent = new Intent(mContext,ImageActivity.class);
                     mIntent.putExtra("ImageURL",mMessageModel.getMessage());
                     mContext.startActivity(mIntent);
@@ -119,12 +113,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                 }catch (Exception ex) {
                     Log.e(TAG, "Error: " + ex.getMessage());
                 }
-
             }
         });
-
-
-
 
     }
 
@@ -139,8 +129,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         private RelativeLayout imageRL;
         private LinearLayout messageLL;
         private ImageView imageView;
-
-
 
 
         public MyViewHolder(@NonNull View itemView) {

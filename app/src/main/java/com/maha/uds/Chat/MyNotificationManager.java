@@ -21,9 +21,9 @@ import com.maha.uds.R;
 public class MyNotificationManager {
 
     /** MyNotificationManager Channel Variables **/
-    public static final String NOTIFICATION_CHANNEL_ID = "MyCarTracksID";
-    public static final String NOTIFICATION_CHANNEL_NAME = "MyCarTracksName";
-    public static final String NOTIFICATION_CHANNEL_DESCRIPTION = "MyCarTracksDescription";
+    private static final String NOTIFICATION_CHANNEL_ID = "UDSAppID";
+    private static final String NOTIFICATION_CHANNEL_NAME = "UDSAppName";
+    private static final String NOTIFICATION_CHANNEL_DESCRIPTION = "UDSAppDescription";
 
 
     /** Creating Channel for Notifications **/
