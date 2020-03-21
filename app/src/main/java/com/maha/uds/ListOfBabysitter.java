@@ -63,9 +63,10 @@ public class ListOfBabysitter extends AppCompatActivity  {
                babysitterList.clear();
                for (DataSnapshot babysitterSnapshot : dataSnapshot.getChildren()) {
                    AccountModel babysitter = babysitterSnapshot.getValue(AccountModel.class);
+                   if(babysitter.getStatus().equals("available")){
                        babysitterList.add(babysitter);
                        keys.add(babysitterSnapshot.getKey());
-
+                       }
                    }
 
                adapter = new BabysitterListAdapter(babysitterList,keys , ListOfBabysitter.this);

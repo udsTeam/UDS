@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.maha.uds.Chat.ChatActivity;
 import com.maha.uds.Chat.ChatKeys;
 import com.maha.uds.Chat.FirebaseManager;
@@ -30,10 +33,10 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
     TextView nameView;
     private String displayName;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    FirebaseAuth mAuth;
     BottomNavigationView mNavigationView;
-    private Button orderBtn;
-    private Button trackBtn;
-    private Button paymentBtn;
+    private Button viewOrdersBtn;
+    private Button scheduleBtn;
     private Button reportBtn;
     private Button chatBtn;
 
@@ -46,54 +49,64 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
         setupDisplayName();
         readChatNotification();
 
-        orderBtn.setOnClickListener(new View.OnClickListener() {
+
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseDatabase.getInstance().getReference("accounts").child(mAuth.getCurrentUser().getUid())
+                .orderByChild("status").equalTo("busy")
+        .addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(BabysitterHome.this, "1", Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    scheduleBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(BabysitterHome.this,WorkSchedule.class));
+                        }
+                    });
+                    reportBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(BabysitterHome.this,DailyReport.class));
+                        }
+                    });
+                    chatBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(BabysitterHome.this, ChatActivity.class));
+                        }
+                    });
+
+                }else{
+                    reportBtn.setVisibility(View.GONE);
+                    chatBtn.setVisibility(View.GONE);
+                    scheduleBtn.setVisibility(View.GONE);
+                    viewOrdersBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(BabysitterHome.this,OrdersList.class));
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
-
-        trackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(BabysitterHome.this, "2", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        paymentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(BabysitterHome.this, "3", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        reportBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              startActivity(new Intent(BabysitterHome.this,DailyReport.class));
-            }
-        });
-
-        chatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(BabysitterHome.this, ChatActivity.class));
-            }
-        });
-
-
-
 
     }
     public void setUIview(){
         nameView = findViewById(R.id.name_view);
         mNavigationView = findViewById(R.id.navigation_view);
         mNavigationView.setOnNavigationItemSelectedListener(this);
-        orderBtn = findViewById(R.id.createOrder_btn);
-        trackBtn = findViewById(R.id.trackOrder_btn);
-        paymentBtn = findViewById(R.id.payments_btn);
+        viewOrdersBtn = findViewById(R.id.viewOrder_btn);
+        scheduleBtn = findViewById(R.id.work_schedule_btn);
         reportBtn = findViewById(R.id.dailyReports_btn);
         chatBtn = findViewById(R.id.chat_btn);
+
+
 
 
 

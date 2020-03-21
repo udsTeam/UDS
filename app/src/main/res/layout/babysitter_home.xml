@@ -61,13 +61,13 @@
         >
 
         <Button
-            android:id="@+id/createOrder_btn"
+            android:id="@+id/viewOrder_btn"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="50dp"
             android:layout_marginTop="300dp"
-            android:text="@string/title_order" />
+            android:text="view Orders" />
 
         <Button
             android:id="@+id/dailyReports_btn"
@@ -79,22 +79,15 @@
             android:text="@string/title_reports" />
 
         <Button
-            android:id="@+id/payments_btn"
+            android:id="@+id/work_schedule_btn"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="50dp"
             android:layout_marginTop="450dp"
-            android:text="@string/title_payments" />
+            android:text="work schedule" />
 
-        <Button
-            android:id="@+id/trackOrder_btn"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="450dp"
-            android:text="@string/title_trackOrder" />
+
 
     </RelativeLayout>
 

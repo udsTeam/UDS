@@ -34,13 +34,13 @@ public class Gallery extends AppCompatActivity {
             String age = getIntent().getStringExtra("age");
             String bio = getIntent().getStringExtra("bio");
             key = getIntent().getStringExtra("babysitterKey");
-            setUI(name,age,bio);
+            setUI(name,age,bio,key);
 
         }
 
     }
 
-    private void setUI(final String name, String age, String bio){
+    private void setUI(final String name, String age, String bio, final String key){
         TextView nameV = findViewById(R.id.nameView);
         nameV.setText(name);
         TextView ageV = findViewById(R.id.ageView);

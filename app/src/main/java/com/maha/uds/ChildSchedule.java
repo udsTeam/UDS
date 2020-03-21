@@ -98,6 +98,7 @@ public class ChildSchedule extends AppCompatActivity {
                 orderModel.setTotalHours(totalHours);
                 orderKey = mReference.child("orders").push().getKey();
                 mReference.child("orders").child(orderKey).setValue(orderModel);
+                mReference.child("accounts").child(babysitterKey).child("status").setValue("pending");
                 Toast.makeText(ChildSchedule.this, "Order Created", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ChildSchedule.this,MotherHome.class);
                 intent.putExtra("orderKey",orderKey);

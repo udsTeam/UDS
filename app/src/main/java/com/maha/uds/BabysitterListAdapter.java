@@ -41,7 +41,7 @@ public class BabysitterListAdapter extends RecyclerView.Adapter<BabysitterListAd
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final AccountModel babysitter = babysitterList.get(position);
         String kay = keyList.get(position);
-        holder.Type = babysitter.getAccountType();
+        holder.status = babysitter.getStatus();
         holder.name.setText(babysitter.getName());
         holder.age.setText(babysitter.getAge());
         holder.bio.setText(babysitter.getBio());
@@ -70,7 +70,7 @@ public class BabysitterListAdapter extends RecyclerView.Adapter<BabysitterListAd
          TextView bio;
          TextView ratting;
          CardView mCardView;
-         String Type;
+         String status;
 
         public ViewHolder(@NonNull View itemView ) {
             super(itemView);
@@ -80,17 +80,7 @@ public class BabysitterListAdapter extends RecyclerView.Adapter<BabysitterListAd
             ratting = itemView.findViewById(R.id.rattingView);
             mCardView = itemView.findViewById(R.id.cardView);
 
-            mCardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext,Gallery.class);
-                    intent.putExtra("name",name.toString());
-                    intent.putExtra("age",age.toString());
-                    intent.putExtra("bio",bio.toString());
-                    mContext.startActivity(intent);
 
-                }
-            });
 
 
         }

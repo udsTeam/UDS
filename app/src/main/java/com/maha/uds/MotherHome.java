@@ -26,9 +26,9 @@ import com.maha.uds.Chat.MessageModel;
 import com.maha.uds.Chat.MyNotificationManager;
 import com.maha.uds.Chat.SharedPrefsKeys;
 import com.maha.uds.Chat.SharedPrefsManager;
+import com.maha.uds.Model.OrderModel;
 
 import java.util.List;
-import com.maha.uds.Model.OrderModel;
 
 
 public class MotherHome extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -58,66 +58,50 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
 
 
 
+            reportBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MotherHome.this, DailyReport.class));
+                }
+            });
+            paymentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MotherHome.this,PaymentPage.class));
+                }
+            });
 
-        orderBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(status.equals("no order")||status.equals("finish")){
+            chatBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MotherHome.this, ChatActivity.class));
+                }
+            });
+
+            orderBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     startActivity(new Intent(MotherHome.this, CreateOrder.class));
-                }else{
-                    Toast.makeText(MotherHome.this, "You already have an order", Toast.LENGTH_LONG).show();
                 }
+            });
 
-            }
-        });
-
-
-        paymentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //startActivity(new Intent(MotherHome.this,DailyReport.class));
-            }
-        });
-
-        reportBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!status.equals("no orders")){
-                    if(!status.equals("pending")){
-                        startActivity(new Intent(MotherHome.this,DailyReport.class));
-                    }else{
-                        Toast.makeText(MotherHome.this, "You don't have an active order", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(MotherHome.this, "You don't have an order", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        chatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MotherHome.this, ChatActivity.class));
-            }
-        });
+        }
 
 
-
-
-
-    }
     public void setUIview(){
         nameView = findViewById(R.id.name_view);
         mNavigationView = findViewById(R.id.navigation_view);
         mNavigationView.setOnNavigationItemSelectedListener(this);
-        orderBtn = findViewById(R.id.createOrder_btn);
-        paymentBtn = findViewById(R.id.payments_btn);
+        orderBtn = findViewById(R.id.viewOrder_btn);
+        paymentBtn = findViewById(R.id.work_schedule_btn);
         reportBtn = findViewById(R.id.dailyReports_btn);
         chatBtn = findViewById(R.id.chat_btn);
 
 
 
     }
+
+
 
     private void readChatNotification() {
         String orderId="Test233";
@@ -182,9 +166,7 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
             displayName = "Anonymous";
         }
     }
-    public void pickImageFromGallery(){
 
-    }
 
 
     @Override
@@ -213,10 +195,11 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
                         //progress dialog dissmis
                         if(dataSnapshot.exists()){
                             for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
-                                if(!mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("finish")){
+                                if(!mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("no order")){
                                     mOrderModel = mSnapshot.getValue(OrderModel.class);
                                     mOrderKey = mSnapshot.getKey();
                                     status = mOrderModel.getOrderStatus();
+                                    orderBtn.setVisibility(View.GONE);
                                     //filling the dashboard with a text shows that there is an active
                                 }
 
@@ -225,6 +208,10 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
                             Toast.makeText(MotherHome.this, "You don't have an active order", Toast.LENGTH_SHORT).show();
                             //we will fill the dashboard with a text shows that you don't have any order
                             status = "no order";
+                            reportBtn.setVisibility(View.GONE);
+                            paymentBtn.setVisibility(View.GONE);
+                            chatBtn.setVisibility(View.GONE);
+
                         }
                     }
 
