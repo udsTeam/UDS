@@ -23,6 +23,7 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
+        //Setting action bar title and Show back arrow in toolbar
         try {
             getSupportActionBar().setTitle("Image Viewer");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -35,11 +36,12 @@ public class ImageActivity extends AppCompatActivity {
 
         imageURL = getIntent().getStringExtra("ImageURL");
 
+        //Loading image URL to image view using Glide Library
         Glide.with(this).load(imageURL).into(imageView);
 
     }
 
-
+    //Activating onBackPressed method for back arrow in toolbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         try {

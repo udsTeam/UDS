@@ -35,10 +35,13 @@ public class FirebaseManager {
     public static List<String> mKeys = new ArrayList<>();
 
 
+    //Interface for onDataChange block
     public interface OnMessagesRetrieved {
         void DataIsLoaded(List<MessageModel> messageModels, List<String> keys);
     }
 
+
+    //Method to Add message to firebase
     public static void addMessage(String orderID, String message , String messageType) {
         try {
             FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -57,6 +60,8 @@ public class FirebaseManager {
         }
     }
 
+
+    //Method to retrieve messages from Firebase
     public static void readChat(String orderID, final OnMessagesRetrieved onMessagesRetrieved) {
         try {
             FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -87,6 +92,7 @@ public class FirebaseManager {
 
     }
 
+    //Method to upload images to Firebase Storage
     public static void uploadImage(Uri filePath, final String OrderID, final Context context, final String userID) {
         try {
             if (filePath != null) {

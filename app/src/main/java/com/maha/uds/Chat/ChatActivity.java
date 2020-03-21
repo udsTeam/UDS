@@ -86,7 +86,6 @@ public class ChatActivity extends AppCompatActivity {
                 } catch (Exception ex) {
                     Log.e(TAG, "Error: " + ex.getMessage());
                 }
-
             }
         });
 
@@ -153,7 +152,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        //
+        //Method Scroll to last position when layout changes
         recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -169,7 +168,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    //Method to scroll recycler view to last position
+    //Method Scroll to last position when data changed
     private void scrollMyListViewToBottom() {
         recyclerView.post(new Runnable() {
             @Override
@@ -212,6 +211,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    //Method to request Access To Camera Permission
     private void requestAccessToCameraPermission() {
 
         try {
@@ -228,6 +228,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    //Method to request Write External Storage Permission
     private void requestWriteExternalStoragePermission() {
 
         try {
@@ -246,6 +247,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
+    //The result after request dialog disappear
     @Override
     public void onRequestPermissionsResult(int RC, String per[], int[] PResult) {
         try {
@@ -253,13 +255,9 @@ public class ChatActivity extends AppCompatActivity {
 
                 case CAMERA_PERMISSION_CODE:
                     if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
-
-
                         requestWriteExternalStoragePermission();
 
                     } else {
-
-                        //Toast.makeText(ChatActivity.this,getResources().getString(R.string.permission_cancelled), Toast.LENGTH_LONG).show();
                         requestWriteExternalStoragePermission();
 
                     }
@@ -269,11 +267,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
 
-                        //Toast.makeText(ChatActivity.this,getResources().getString(R.string.permission_granted), Toast.LENGTH_LONG).show();
-
                     } else {
-
-                        //Toast.makeText(ChatActivity.this,getResources().getString(R.string.permission_cancelled), Toast.LENGTH_LONG).show();
 
                     }
             }
@@ -284,6 +278,7 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    //The result after getting back from camera or gallery
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
