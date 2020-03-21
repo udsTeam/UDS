@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.maha.uds.Chat.MessageModel;
 import com.maha.uds.Chat.MyNotificationManager;
 import com.maha.uds.Chat.SharedPrefsKeys;
 import com.maha.uds.Chat.SharedPrefsManager;
+import com.maha.uds.Model.OrderModel;
 
 import java.util.List;
 
@@ -40,6 +42,10 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
     private Button reportBtn;
     private Button chatBtn;
 
+    private OrderModel mOrderModel;
+    static String mOrderKey;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,41 +58,56 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
 
         mAuth = FirebaseAuth.getInstance();
 
+
+        getMyOrder();
+
+
+/*
         FirebaseDatabase.getInstance().getReference("accounts").child(mAuth.getCurrentUser().getUid())
-                .orderByChild("status").equalTo("busy")
+                .child("status")
         .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    scheduleBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(BabysitterHome.this,WorkSchedule.class));
-                        }
-                    });
-                    reportBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(BabysitterHome.this,DailyReport.class));
-                        }
-                    });
-                    chatBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(BabysitterHome.this, ChatActivity.class));
-                        }
-                    });
+                    String status = dataSnapshot.getValue(String.class);
 
-                }else{
-                    reportBtn.setVisibility(View.GONE);
-                    chatBtn.setVisibility(View.GONE);
-                    scheduleBtn.setVisibility(View.GONE);
-                    viewOrdersBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(BabysitterHome.this,OrdersList.class));
-                        }
-                    });
+                    if (status.equals("busy")){
+                        reportBtn.setVisibility(View.VISIBLE);
+                        chatBtn.setVisibility(View.VISIBLE);
+                        scheduleBtn.setVisibility(View.VISIBLE);
+                        viewOrdersBtn.setVisibility(View.GONE);
+
+                        scheduleBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(BabysitterHome.this,WorkSchedule.class));
+                            }
+                        });
+                        reportBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(BabysitterHome.this,DailyReport.class));
+                            }
+                        });
+                        chatBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(BabysitterHome.this, ChatActivity.class));
+                            }
+                        });
+                    }else {
+                        reportBtn.setVisibility(View.GONE);
+                        chatBtn.setVisibility(View.GONE);
+                        scheduleBtn.setVisibility(View.GONE);
+                        viewOrdersBtn.setVisibility(View.VISIBLE);
+
+                        viewOrdersBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(BabysitterHome.this,OrdersList.class));
+                            }
+                        });
+                    }
                 }
             }
 
@@ -95,6 +116,7 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
 
             }
         });
+*/
 
     }
     public void setUIview(){
@@ -189,4 +211,100 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
 
         return false;
     }
+
+    private void getMyOrder(){
+        //show progress dialog
+        mOrderModel = new OrderModel();
+        mOrderKey = "";
+        FirebaseDatabase.getInstance().getReference("orders")
+                .orderByChild("babysitterID").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //progress dialog dissmis
+
+                        //Case 1 no orders
+                        if(!dataSnapshot.exists()){
+                            updadeUIForCase1();
+
+
+                        }else{
+                            for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
+                                if(mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("Pending")){
+                                    mOrderModel = mSnapshot.getValue(OrderModel.class);
+                                    mOrderKey = mSnapshot.getKey();
+                                    //status = mOrderModel.getOrderStatus();
+
+                                    //Case 2 Pending
+                                    updadeUIForcase2();
+                                }else {
+                                    //Case 3 Active
+                                    updadeUIForcase3();
+                                }
+
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+                    }
+                });
+    }
+
+    private void updadeUIForCase1(){
+        reportBtn.setVisibility(View.GONE);
+        chatBtn.setVisibility(View.GONE);
+        scheduleBtn.setVisibility(View.GONE);
+        viewOrdersBtn.setVisibility(View.GONE);
+
+        Toast.makeText(BabysitterHome.this, "You don't have any order", Toast.LENGTH_SHORT).show();
+        //we will fill the dashboard with a text shows that you don't have any order
+        //status = "no order";
+
+    }
+    private void updadeUIForcase2(){
+        reportBtn.setVisibility(View.GONE);
+        chatBtn.setVisibility(View.GONE);
+        scheduleBtn.setVisibility(View.GONE);
+        viewOrdersBtn.setVisibility(View.VISIBLE);
+
+        viewOrdersBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BabysitterHome.this,OrdersList.class));
+            }
+        });
+
+    }
+    private void updadeUIForcase3(){
+        reportBtn.setVisibility(View.VISIBLE);
+        chatBtn.setVisibility(View.VISIBLE);
+        scheduleBtn.setVisibility(View.VISIBLE);
+        viewOrdersBtn.setVisibility(View.GONE);
+
+        scheduleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BabysitterHome.this,WorkSchedule.class));
+            }
+        });
+        reportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BabysitterHome.this,DailyReport.class));
+            }
+        });
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BabysitterHome.this, ChatActivity.class));
+            }
+        });
+
+    }
+
 }

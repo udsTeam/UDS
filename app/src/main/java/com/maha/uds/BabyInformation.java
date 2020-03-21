@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -118,7 +119,12 @@ public class BabyInformation extends AppCompatActivity {
                 DatabaseReference babysitterStatusRef = FirebaseDatabase.getInstance()
                         .getReference("accounts").child(mAuth.getCurrentUser().getUid());
 
-                orderStatusRef.child("orderStatus").setValue("active");
+                orderStatusRef.child("orderStatus").setValue("active").addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        rejectOtherOrders();
+                    }
+                });
                 babysitterStatusRef.child("status").setValue("busy");
                 startActivity(new Intent(BabyInformation.this,BabysitterHome.class));
 
@@ -133,4 +139,35 @@ public class BabyInformation extends AppCompatActivity {
         super.onStart();
 
     }
+
+
+    private void rejectOtherOrders(){
+        //show progress dialog
+        FirebaseDatabase.getInstance().getReference("orders")
+                .orderByChild("babysitterID").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //progress dialog dissmis
+
+                        if(dataSnapshot.exists()){
+                            for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
+                                OrderModel mOrderModel = mSnapshot.getValue(OrderModel.class);
+                                String key = mSnapshot.getKey();
+                                if(mOrderModel.getOrderStatus().equals("Pending")){
+                                    FirebaseDatabase.getInstance().getReference("orders")
+                                            .child(key).child("status").setValue("no order");
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+                    }
+                });
+    }
+
 }

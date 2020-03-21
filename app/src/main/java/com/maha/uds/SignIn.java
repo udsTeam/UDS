@@ -127,15 +127,19 @@ public class SignIn extends AppCompatActivity {
         String userId = mFirebaseAuth.getCurrentUser().getUid();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mReference = FirebaseDatabase.getInstance().getReference("accounts").child(userId).child("accountType");
-        final String accountType = "mother";
+        final String mother = "mother";
+        final String babysitter = "babysitter";
 
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue().equals(accountType)){
+                if (!dataSnapshot.exists())
+                    return;
+
+                if(dataSnapshot.getValue().equals(mother)){
                     startActivity(new Intent(SignIn.this,MotherHome.class));
 
-                }else {
+                }else if (dataSnapshot.getValue().equals(babysitter)){
                     startActivity(new Intent(SignIn.this,BabysitterHome.class));
 
                 }

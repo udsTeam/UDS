@@ -52,7 +52,7 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
 
         setUIview();
         setupFirebaseListener();
-        setupDisplayName();
+        //setupDisplayName();
         readChatNotification();
         getMyOrder();
 
