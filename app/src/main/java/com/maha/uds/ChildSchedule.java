@@ -38,6 +38,7 @@ public class ChildSchedule extends AppCompatActivity {
     DatabaseReference mReference;
     FirebaseAuth mAuth;
     int totalHours;
+    int totalPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class ChildSchedule extends AppCompatActivity {
                 for(ScheduleModel scheduleTime: ScheduleList){
                     hours = hours + Integer.parseInt(scheduleTime.getTime());
                     totalHours= hours;
+                    totalPrice = totalHours*20;
             }
 
 
@@ -92,9 +94,9 @@ public class ChildSchedule extends AppCompatActivity {
                 String notes = "";
                 DailyReportModel report = new DailyReportModel(arriveTime,leaveTime,napTime,mealReport,notes);
                 orderModel.setDailyReport(report);
-                orderModel.setOrderStatus("accepted");
-                orderModel.setPaymentID("");
-                orderModel.setPrice(0);
+                orderModel.setOrderStatus("pending");
+                orderModel.setPaymentStatus("not Paid");
+                orderModel.setPrice(totalPrice);
                 orderModel.setTotalHours(totalHours);
                 orderKey = mReference.child("orders").push().getKey();
                 mReference.child("orders").child(orderKey).setValue(orderModel);

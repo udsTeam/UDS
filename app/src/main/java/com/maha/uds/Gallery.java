@@ -29,7 +29,7 @@ public class Gallery extends AppCompatActivity {
 
     public void getIncomingIntents(){
         if(getIntent().hasExtra("name") && getIntent().hasExtra("age") && getIntent().hasExtra("bio")
-                ||getIntent().hasExtra("babysitterKey")){
+                && getIntent().hasExtra("babysitterKey")){
             String name = getIntent().getStringExtra("name");
             String age = getIntent().getStringExtra("age");
             String bio = getIntent().getStringExtra("bio");

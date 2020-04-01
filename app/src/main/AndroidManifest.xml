@@ -32,7 +32,6 @@
         <activity android:name=".ChildSchedule" />
         <activity android:name=".CreateOrder" />
         <activity android:name=".BabysitterProfile" />
-        <activity android:name=".ChildForm" />
         <activity android:name=".MotherProfile" />
         <activity android:name=".MotherHome" />
         <activity android:name=".BabysitterHome" />
@@ -47,6 +46,7 @@
         <activity android:name=".MotherRegister" />
         <activity android:name=".BabysitterRegister" />
         <activity android:name=".MainActivity" />
+
     </application>
 
 </manifest>

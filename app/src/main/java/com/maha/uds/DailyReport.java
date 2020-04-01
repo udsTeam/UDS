@@ -25,13 +25,32 @@ public class DailyReport extends AppCompatActivity {
     EditText arrive,leave,nap, mealReport,notes;
     TextView arriveView,leaveView,napView, foodReportView,notesView;
     DatabaseReference mReference;
+    private FirebaseAuth mAuth;
+    String orderID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_report);
 
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseDatabase.getInstance().getReference("orders")
+                .orderByChild("babysitterID").equalTo(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    orderID = snapshot.getKey();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         mReference = FirebaseDatabase.getInstance().getReference("orders")
-                .child(MotherHome.mOrderKey);
+                ;
         setUI();
         displayInfo();
 
@@ -113,7 +132,7 @@ public class DailyReport extends AppCompatActivity {
 
 
         DailyReportModel report = new DailyReportModel(arriveTime,leaveTime,napTime,foodReport,unusualNotes);
-        mReference.child("dailyReport").setValue(report);
+        mReference.child(orderID).child("dailyReport").setValue(report);
     }
 
 

@@ -2,7 +2,6 @@ package com.maha.uds;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,10 +23,7 @@ import com.maha.uds.Model.AccountModel;
 
 public class MotherRegister extends AppCompatActivity {
 
-     static final String CHAT_PREFS ="chatPrefs" ;
-     static final String DISPLAY_USER_NAME ="userName" ;
-     static final String DISPLAY_EMAIL ="display Email" ;
-     static final String DISPLAY_PHONE ="display phoneNumber" ;
+
 
 
     private EditText motherName_text;
@@ -86,7 +82,6 @@ public class MotherRegister extends AppCompatActivity {
                                 UID = mFirebaseAuth.getCurrentUser().getUid();
                                 AccountModel account = new AccountModel(userEmail,accountType,userName,userBio,phoneNum,ratting,age,status);
                                 FirebaseDatabase.getInstance().getReference("accounts").child(UID).setValue(account);
-                                saveDisplayName();
                                 sendEmailVer();
                             } else {
                                 Toast.makeText(MotherRegister.this, "Registration failed", Toast.LENGTH_SHORT).show();
@@ -101,7 +96,7 @@ public class MotherRegister extends AppCompatActivity {
 
     private void setUIview() {
 
-        motherName_text = findViewById(R.id.motherName_text);
+        motherName_text = findViewById(R.id.username_text);
         phoneNum_text = findViewById(R.id.phone_text);
         email_text = findViewById(R.id.email_text);
         password_text = findViewById(R.id.password_text);
@@ -155,15 +150,5 @@ public class MotherRegister extends AppCompatActivity {
     }
 
 
-        public void saveDisplayName(){
-        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
-        String displayName = motherName_text.getText().toString();
-        prefs.edit().putString(DISPLAY_USER_NAME, displayName).apply();
-        String displayEmail= email_text.getText().toString();
-        prefs.edit().putString(DISPLAY_EMAIL,displayEmail).apply();
-        String displayPhoneNum = phoneNum_text.getText().toString();
-        prefs.edit().putString(DISPLAY_PHONE,displayPhoneNum).apply();
 
-
-    }
 }

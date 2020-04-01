@@ -6,219 +6,195 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".DailyReport"
-    android:padding="16dp"
+    android:background="@drawable/bg"
 
     >
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Daily Report"
-        android:gravity="center"
-        android:layout_marginTop="30dp"
-        android:textSize="20dp"
-        android:textColor="#000"
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/daily_report"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
         />
 
+
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
         android:layout_marginTop="50dp"
-        android:layout_marginStart="20dp"
+        android:layout_gravity="center"
         >
 
-        <TextView
+        <ImageView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Arrived at :"
-            android:textSize="15sp"
-            android:layout_marginTop="20dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/arrive_at"
+            android:layout_centerHorizontal="true"
 
             />
 
         <EditText
             android:id="@+id/arriveTimeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bord_age"
             android:inputType="text"
-            android:layout_marginStart="100dp"
-
+            android:gravity="center"
+            android:layout_below="@id/textView"
              />
 
         <TextView
             android:id="@+id/arriveTimeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:ems="10"
-            android:layout_marginTop="20dp"
-
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:background="@drawable/bord_age"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/textView"
             />
 
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        >
-
-        <TextView
+        <ImageView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Left at :"
-            android:layout_marginTop="20dp"
+            android:layout_width="85dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/left_at"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/arriveTimeView"
+
             />
 
         <EditText
             android:id="@+id/LeaveTimeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/textView2"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bord_age"
             android:inputType="text"
-            android:layout_marginStart="100dp"
+
              />
 
         <TextView
             android:id="@+id/LeaveTimeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:ems="10"
-            android:layout_marginTop="20dp"
-
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bord_age"
+            android:layout_below="@id/textView2"
+            android:layout_centerHorizontal="true"
             />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-    >
-
-        <TextView
+        <ImageView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Took a nap for :"
-            android:layout_marginTop="20dp"
-            android:textSize="15sp"
-
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/took_nap"
+            android:layout_below="@+id/LeaveTimeView"
+            android:layout_centerHorizontal="true"
             />
 
         <EditText
             android:id="@+id/napTimeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bord_age"
             android:inputType="text"
-            android:layout_marginStart="105dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/textView3"
              />
 
         <TextView
             android:id="@+id/napTimeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="105dp"
-            android:ems="10"
-            android:layout_marginTop="20dp"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bord_age"
+            android:layout_below="@id/textView3"
 
             />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        >
-
-        <TextView
+        <ImageView
             android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="did she/he eat?"
-            android:layout_marginTop="20dp"
-            android:textSize="15sp"
-
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/meal_report"
+            android:layout_below="@id/napTimeView"
+            android:layout_centerHorizontal="true"
             />
 
         <EditText
             android:id="@+id/mealText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/textView5"
             android:inputType="text"
-            android:layout_marginStart="105dp"
+            android:background="@drawable/bord_age"
+            android:layout_centerHorizontal="true"
+
             />
 
         <TextView
             android:id="@+id/mealView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="105dp"
-            android:ems="10"
-            android:layout_marginTop="20dp"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/textView5"
+            android:background="@drawable/bord_age"
+            android:layout_centerHorizontal="true"
             />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        >
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Anything unusual?"
-            android:layout_marginTop="20dp"
-            android:textSize="15sp"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/unusual"
+            android:layout_below="@id/mealView"
+            android:layout_centerHorizontal="true"
 
             />
 
         <EditText
             android:id="@+id/notesText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:layout_marginStart="120dp"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/imageView"
+            android:background="@drawable/bord_age"
+            android:layout_centerHorizontal="true"
             />
 
         <TextView
             android:id="@+id/notesView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
-            android:ems="10"
-            android:layout_marginTop="20dp"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/imageView"
+            android:background="@drawable/bord_age"
+            android:layout_centerHorizontal="true"
 
             />
     </RelativeLayout>
 
+
     <Button
         android:id="@+id/updateBtn"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="Update Report"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@drawable/update_report"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         />
 
     <Button
         android:id="@+id/backBtn"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:background="@drawable/back"
+        android:layout_marginTop="70dp"
+        android:layout_gravity="end"
         />
 </LinearLayout>

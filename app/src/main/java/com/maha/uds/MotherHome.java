@@ -1,9 +1,7 @@
 package com.maha.uds;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,23 +23,32 @@ import com.maha.uds.Chat.MessageModel;
 import com.maha.uds.Chat.MyNotificationManager;
 import com.maha.uds.Chat.SharedPrefsKeys;
 import com.maha.uds.Chat.SharedPrefsManager;
+import com.maha.uds.Model.AccountModel;
 import com.maha.uds.Model.OrderModel;
 
 import java.util.List;
 
 
-public class MotherHome extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MotherHome extends AppCompatActivity  {
+
     TextView nameView;
-    private String displayName;
+    String displayName;
+    String displayAge;
+    String displayEmail;
+    String displayBio;
+    String displayPhoneNumber;
+    Intent mIntent;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    BottomNavigationView mNavigationView;
     private Button orderBtn;
+    private Button profile ;
+    private Button logout;
     String status = "no orders";
     private OrderModel mOrderModel;
     static String mOrderKey;
     private Button paymentBtn;
     private Button reportBtn;
     private Button chatBtn;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -52,10 +58,27 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
 
         setUIview();
         setupFirebaseListener();
-        //setupDisplayName();
+
         readChatNotification();
         getMyOrder();
+        mAuth = FirebaseAuth.getInstance();
 
+        mIntent = new Intent(MotherHome.this,MotherProfile.class);
+
+        FirebaseDatabase.getInstance().getReference("accounts").child(mAuth.getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        AccountModel accountModel = dataSnapshot.getValue(AccountModel.class);
+                        displayName = accountModel.getName();
+                        nameView.setText(displayName);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
 
             reportBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,19 +108,30 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
                 }
             });
 
+            profile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(mIntent);
+                }
+            });
+            logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseAuth.getInstance().signOut();
+                }
+            });
+
         }
 
 
     public void setUIview(){
         nameView = findViewById(R.id.name_view);
-        mNavigationView = findViewById(R.id.navigation_view);
-        mNavigationView.setOnNavigationItemSelectedListener(this);
-        orderBtn = findViewById(R.id.viewOrder_btn);
-        paymentBtn = findViewById(R.id.work_schedule_btn);
+        orderBtn = findViewById(R.id.createOrder_btn);
+        paymentBtn = findViewById(R.id.payment_btn);
         reportBtn = findViewById(R.id.dailyReports_btn);
         chatBtn = findViewById(R.id.chat_btn);
-
-
+        profile = findViewById(R.id.profile_btn);
+        logout = findViewById(R.id.logOut_btn);
 
     }
 
@@ -130,7 +164,6 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
     @Override
     public void onStart() {
         super.onStart();
-        nameView.setText(displayName);
         FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListener);
 
     }
@@ -159,29 +192,12 @@ public class MotherHome extends AppCompatActivity implements BottomNavigationVie
         };
     }
 
-    private void setupDisplayName() {
-        SharedPreferences prefs = getSharedPreferences(MotherRegister.CHAT_PREFS, MODE_PRIVATE);
-        displayName = prefs.getString(MotherRegister.DISPLAY_USER_NAME, null);
-        if (displayName == null) {
-            displayName = "Anonymous";
-        }
-    }
 
 
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.profile:
-                startActivity(new Intent(MotherHome.this,MotherProfile.class));
-                break;
-            case R.id.logOut:
-                FirebaseAuth.getInstance().signOut();
-                break;
-        }
 
-        return false;
-    }
+
+
 
     private void getMyOrder(){
         //show progress dialog

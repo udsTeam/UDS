@@ -7,7 +7,7 @@ public class OrderModel {
     private String motherID;
     private String babysitterID;
     private String babyID;
-    private String paymentID;
+    private String paymentStatus;
     private String chatID;
     private DailyReportModel dailyReport;
     private String orderStatus;
@@ -23,7 +23,7 @@ public class OrderModel {
         this.motherID = motherID;
         this.babysitterID = babysitterID;
         this.babyID = babyID;
-        this.paymentID = paymentID;
+        this.paymentStatus = paymentID;
         this.chatID = chatID;
         this.dailyReport = dailyReportID;
         this.orderStatus = orderStatus;
@@ -56,12 +56,12 @@ public class OrderModel {
         this.babyID = babyID;
     }
 
-    public String getPaymentID() {
-        return paymentID;
+    public String getPaymentStatus() {
+        return paymentStatus;
     }
 
-    public void setPaymentID(String paymentID) {
-        this.paymentID = paymentID;
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public String getChatID() {

@@ -2,7 +2,6 @@ package com.maha.uds;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,12 +24,7 @@ import com.maha.uds.Model.AccountModel;
 
 public class BabysitterRegister extends AppCompatActivity {
 
-     static final String CHAT_PREFS = "chatPrefs";
-     static final String DISPLAY_NAME = "name";
-    static final String DISPLAY_EMAIL = "email";
-    static final String DISPLAY_PHONE = "phoneNumber";
-    static final String DISPLAY_AGE = "age";
-    static final String DISPLAY_BIO = "bio";
+
 
 
 
@@ -78,7 +72,7 @@ public class BabysitterRegister extends AppCompatActivity {
                         final String phoneNum = phoneNum_text.getText().toString().trim();
                         final String age = age_text.getText().toString().trim();
                         final int ratting = 0;
-                        final String status = "Available";
+                        final String status = "available";
                         final String accountType = "babysitter";
 
                         mProgressDialog.setMessage("Singing Up");
@@ -92,7 +86,6 @@ public class BabysitterRegister extends AppCompatActivity {
                                     UID = mFirebaseAuth.getCurrentUser().getUid();
                                     AccountModel account = new AccountModel(userEmail,accountType,userName,userBio,phoneNum,ratting,age,status);
                                     FirebaseDatabase.getInstance().getReference("accounts").child(UID).setValue(account);
-                                    saveDisplayName();
                                     sendEmailVer();
                                 } else {
                                     Toast.makeText(BabysitterRegister.this, "Registration failed", Toast.LENGTH_SHORT).show();
@@ -161,22 +154,7 @@ public class BabysitterRegister extends AppCompatActivity {
             });
         }
     }
-     public void saveDisplayName(){
-        String displayName = username_text.getText().toString();
-        String displayEmail = email_text.getText().toString();
-        String displayPhone = phoneNum_text.getText().toString();
-        String displayBio = bio_text.getText().toString();
-        String displayAge = age_text.getText().toString();
 
-        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
-        prefs.edit().putString(DISPLAY_NAME, displayName).apply();
-         prefs.edit().putString(DISPLAY_EMAIL, displayEmail).apply();
-         prefs.edit().putString(DISPLAY_PHONE, displayPhone).apply();
-         prefs.edit().putString(DISPLAY_BIO, displayBio).apply();
-         prefs.edit().putString(DISPLAY_AGE, displayAge).apply();
-
-
-    }
 
 
 }

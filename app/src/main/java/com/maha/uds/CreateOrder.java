@@ -28,9 +28,10 @@ public class CreateOrder extends AppCompatActivity {
     RadioButton boy;
     RadioButton girl;
     Button next;
-    public static  String babyKey = "";
+    public static String babyKey = "";
     FirebaseAuth mAuth;
     DatabaseReference mReference;
+
     TextWatcher mWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

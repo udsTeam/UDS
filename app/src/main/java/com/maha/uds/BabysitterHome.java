@@ -1,9 +1,7 @@
 package com.maha.uds;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,23 +23,29 @@ import com.maha.uds.Chat.MessageModel;
 import com.maha.uds.Chat.MyNotificationManager;
 import com.maha.uds.Chat.SharedPrefsKeys;
 import com.maha.uds.Chat.SharedPrefsManager;
+import com.maha.uds.Model.AccountModel;
 import com.maha.uds.Model.OrderModel;
 
 import java.util.List;
 
-public class BabysitterHome extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class BabysitterHome extends AppCompatActivity{
 
     TextView nameView;
-    private String displayName;
+    String displayName;
+    String displayAge;
+    String displayEmail;
+    String displayBio;
+    String displayPhoneNumber;
+    Intent mIntent;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     FirebaseAuth mAuth;
-    BottomNavigationView mNavigationView;
     private Button viewOrdersBtn;
+    private Button profile;
+    private Button logout;
     private Button scheduleBtn;
     private Button reportBtn;
     private Button chatBtn;
-
-    private OrderModel mOrderModel;
+    static  OrderModel mOrderModel;
     static String mOrderKey;
 
 
@@ -52,17 +55,49 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
         setContentView(R.layout.babysitter_home);
         setUIview();
         setupFirebaseListener();
-        setupDisplayName();
+        //setupDisplayName();
         readChatNotification();
 
 
+        mIntent = new Intent(BabysitterHome.this,BabysitterProfile.class);
         mAuth = FirebaseAuth.getInstance();
 
 
         getMyOrder();
 
+        FirebaseDatabase.getInstance().getReference("accounts").child(mAuth.getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        AccountModel accountModel = dataSnapshot.getValue(AccountModel.class);
+                        displayName = accountModel.getName();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(mIntent);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+            }
+        });
+
+
+
 
 /*
+
         FirebaseDatabase.getInstance().getReference("accounts").child(mAuth.getCurrentUser().getUid())
                 .child("status")
         .addValueEventListener(new ValueEventListener() {
@@ -121,23 +156,17 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
     }
     public void setUIview(){
         nameView = findViewById(R.id.name_view);
-        mNavigationView = findViewById(R.id.navigation_view);
-        mNavigationView.setOnNavigationItemSelectedListener(this);
-        viewOrdersBtn = findViewById(R.id.viewOrder_btn);
-        scheduleBtn = findViewById(R.id.work_schedule_btn);
+        viewOrdersBtn = findViewById(R.id.createOrder_btn);
+        scheduleBtn = findViewById(R.id.payment_btn);
         reportBtn = findViewById(R.id.dailyReports_btn);
         chatBtn = findViewById(R.id.chat_btn);
-
-
-
-
-
+        profile = findViewById(R.id.profile_btn);
+        logout = findViewById(R.id.logOut_btn);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        nameView.setText(displayName);
         FirebaseAuth.getInstance().addAuthStateListener(mAuthStateListener);
     }
 
@@ -165,13 +194,13 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
         };
     }
 
-    private void setupDisplayName() {
-        SharedPreferences prefs = getSharedPreferences(BabysitterRegister.CHAT_PREFS, MODE_PRIVATE);
-        displayName = prefs.getString(BabysitterRegister.DISPLAY_NAME, null);
-        if (displayName == null) {
-            displayName = "Anonymous";
-        }
-    }
+//    private void setupDisplayName() {
+//        SharedPreferences prefs = getSharedPreferences(BabysitterRegister.CHAT_PREFS, MODE_PRIVATE);
+//        displayName = prefs.getString(BabysitterRegister.DISPLAY_NAME, null);
+//        if (displayName == null) {
+//            displayName = "Anonymous";
+//        }
+//    }
 
     private void readChatNotification() {
         String orderId="Test233";
@@ -198,19 +227,7 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
 
 
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.profile:
-                startActivity(new Intent(BabysitterHome.this,BabysitterProfile.class));
-                break;
-            case R.id.logOut:
-                FirebaseAuth.getInstance().signOut();
-                break;
-        }
 
-        return false;
-    }
 
     private void getMyOrder(){
         //show progress dialog
@@ -230,9 +247,9 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
 
                         }else{
                             for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
-                                if(mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("Pending")){
+                                if(mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("pending")){
                                     mOrderModel = mSnapshot.getValue(OrderModel.class);
-                                    mOrderKey = mSnapshot.getKey();
+
                                     //status = mOrderModel.getOrderStatus();
 
                                     //Case 2 Pending
@@ -240,6 +257,7 @@ public class BabysitterHome extends AppCompatActivity implements BottomNavigatio
                                 }else {
                                     //Case 3 Active
                                     updadeUIForcase3();
+                                    mOrderKey = mSnapshot.getKey();
                                 }
 
                             }

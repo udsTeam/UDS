@@ -35,7 +35,6 @@ public class BabyInformation extends AppCompatActivity {
     TextView bio;
     String orderID;
     Button acceptBtn;
-    Button declineBtn;
     FirebaseAuth mAuth;
     List<ScheduleModel> mList;
     ListView mListView;
@@ -85,7 +84,6 @@ public class BabyInformation extends AppCompatActivity {
         bio = findViewById(R.id.bioView);
         mListView = findViewById(R.id.listView);
         acceptBtn = findViewById(R.id.accept_btn);
-        declineBtn = findViewById(R.id.decline_btn);
         nameView.setText(name);
         ageView.setText(age);
         notesView.setText(notes);
@@ -154,7 +152,7 @@ public class BabyInformation extends AppCompatActivity {
                             for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
                                 OrderModel mOrderModel = mSnapshot.getValue(OrderModel.class);
                                 String key = mSnapshot.getKey();
-                                if(mOrderModel.getOrderStatus().equals("Pending")){
+                                if(mOrderModel.getOrderStatus().equals("pending")){
                                     FirebaseDatabase.getInstance().getReference("orders")
                                             .child(key).child("status").setValue("no order");
                                 }

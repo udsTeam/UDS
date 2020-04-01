@@ -41,10 +41,7 @@ public class BabysitterListAdapter extends RecyclerView.Adapter<BabysitterListAd
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final AccountModel babysitter = babysitterList.get(position);
         String kay = keyList.get(position);
-        holder.status = babysitter.getStatus();
         holder.name.setText(babysitter.getName());
-        holder.age.setText(babysitter.getAge());
-        holder.bio.setText(babysitter.getBio());
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,18 +63,11 @@ public class BabysitterListAdapter extends RecyclerView.Adapter<BabysitterListAd
     public class ViewHolder extends RecyclerView.ViewHolder {
 
          TextView name;
-         TextView age;
-         TextView bio;
-         TextView ratting;
          CardView mCardView;
-         String status;
 
         public ViewHolder(@NonNull View itemView ) {
             super(itemView);
             name=itemView.findViewById(R.id.nameView);
-            age = itemView.findViewById(R.id.ageView);
-            bio = itemView.findViewById(R.id.bioView);
-            ratting = itemView.findViewById(R.id.rattingView);
             mCardView = itemView.findViewById(R.id.cardView);
 
 

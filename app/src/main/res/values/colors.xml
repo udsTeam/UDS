@@ -15,7 +15,13 @@
     <color name="gray9">#424242</color>
     <color name="gray10">#212121</color>
 
+    <color name="gray">#e2e2e2</color>
+    <color name="yellow">#fedc55</color>
+    <color name="pink">#f54488</color>
+    <color name="cyan">#57cacd</color>
+    <color name="baby_blue">#84d8da</color>
     <color name="black">#000000</color>
+    <color name="light_blue">#4cb0c6</color>
     <color name="blue">#1976d2</color>
     <color name="darkBlue">#0A64BE</color>
 
