@@ -37,6 +37,11 @@
         android:id="@+id/nameView"
         android:layout_width="345dp"
         android:layout_height="50dp"
+        android:gravity="center"
+        android:fontFamily="@font/stc_regular"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:text="maha"
         android:background="@drawable/bord_age"
         />
 
@@ -52,6 +57,10 @@
         android:id="@+id/ageView"
         android:layout_width="345dp"
         android:layout_height="50dp"
+        android:gravity="center"
+        android:fontFamily="@font/stc_regular"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         android:background="@drawable/bord_age"
         />
 
@@ -67,6 +76,10 @@
         android:id="@+id/bioView"
         android:layout_width="360dp"
         android:layout_height="100dp"
+        android:gravity="center"
+        android:fontFamily="@font/stc_regular"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         android:background="@drawable/bord_not"
         />
 

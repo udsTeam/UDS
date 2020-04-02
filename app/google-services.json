@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "299296213523-uct6jcoh5imoskh0f28rk93qclrneo0p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maha.uds",
+            "certificate_hash": "4ae3322117df13703770f79f74b8fb5efe686a74"
+          }
+        },
+        {
           "client_id": "299296213523-o9a2k5clf74a6b1iai6p6uc7valvq08t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
