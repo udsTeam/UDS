@@ -32,10 +32,6 @@ public class BabysitterHome extends AppCompatActivity{
 
     TextView nameView;
     String displayName;
-    String displayAge;
-    String displayEmail;
-    String displayBio;
-    String displayPhoneNumber;
     Intent mIntent;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     FirebaseAuth mAuth;
@@ -71,6 +67,7 @@ public class BabysitterHome extends AppCompatActivity{
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         AccountModel accountModel = dataSnapshot.getValue(AccountModel.class);
                         displayName = accountModel.getName();
+                        nameView.setText(displayName);
                     }
 
                     @Override
@@ -156,7 +153,7 @@ public class BabysitterHome extends AppCompatActivity{
     }
     public void setUIview(){
         nameView = findViewById(R.id.name_view);
-        viewOrdersBtn = findViewById(R.id.createOrder_btn);
+        viewOrdersBtn = findViewById(R.id.viewOrder_btn);
         scheduleBtn = findViewById(R.id.payment_btn);
         reportBtn = findViewById(R.id.dailyReports_btn);
         chatBtn = findViewById(R.id.chat_btn);

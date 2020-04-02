@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +22,6 @@ public class DailyReport extends AppCompatActivity {
 
     Button update , back;
     EditText arrive,leave,nap, mealReport,notes;
-    TextView arriveView,leaveView,napView, foodReportView,notesView;
     DatabaseReference mReference;
     private FirebaseAuth mAuth;
     String orderID;
@@ -49,8 +47,7 @@ public class DailyReport extends AppCompatActivity {
 
             }
         });
-        mReference = FirebaseDatabase.getInstance().getReference("orders")
-                ;
+        mReference = FirebaseDatabase.getInstance().getReference("orders") ;
         setUI();
         displayInfo();
 
@@ -67,11 +64,7 @@ public class DailyReport extends AppCompatActivity {
         nap = findViewById(R.id.napTimeText);
         mealReport = findViewById(R.id.mealText);
         notes = findViewById(R.id.notesText);
-        arriveView = findViewById(R.id.arriveTimeView);
-        leaveView = findViewById(R.id.LeaveTimeView);
-        napView = findViewById(R.id.napTimeView);
-        foodReportView = findViewById(R.id.mealView);
-        notesView = findViewById(R.id.notesView);
+
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final String type = "babysitter";
@@ -81,11 +74,18 @@ public class DailyReport extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue().equals(type)){
-                    arriveView.setVisibility(View.GONE);
-                    leaveView.setVisibility(View.GONE);
-                    napView.setVisibility(View.GONE);
-                    foodReportView.setVisibility(View.GONE);
-                    notesView.setVisibility(View.GONE);
+//                    arriveView.setVisibility(View.GONE);
+//                    leaveView.setVisibility(View.GONE);
+//                    napView.setVisibility(View.GONE);
+//                    foodReportView.setVisibility(View.GONE);
+//                    notesView.setVisibility(View.GONE);
+
+                    arrive.setEnabled(true);
+                    leave.setEnabled(true);
+                    nap.setEnabled(true);
+                    mealReport.setEnabled(true);
+                    notes.setEnabled(true);
+
                     update.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -98,12 +98,14 @@ public class DailyReport extends AppCompatActivity {
                             startActivity(new Intent(DailyReport.this,BabysitterHome.class));
                         }
                     });
-                }else {
-                    arrive.setVisibility(View.GONE);
-                    leave.setVisibility(View.GONE);
-                    nap.setVisibility(View.GONE);
-                    mealReport.setVisibility(View.GONE);
-                    notes.setVisibility(View.GONE);
+               }else {
+
+                    arrive.setEnabled(false);
+                    leave.setEnabled(false);
+                    nap.setEnabled(false);
+                    mealReport.setEnabled(false);
+                    notes.setEnabled(false);
+
                     update.setVisibility(View.GONE);
 
                     back.setOnClickListener(new View.OnClickListener() {
@@ -146,11 +148,12 @@ public class DailyReport extends AppCompatActivity {
                     if(dataSnapshot.exists()) {
                         DailyReportModel model = dataSnapshot.getValue(DailyReportModel.class);
                         Log.d("DailyReportModel", model.toString());
-                        arriveView.setText(model.getArriveTime());
-                        leaveView.setText(model.getLeavingTime());
-                        napView.setText(model.getNapTime());
-                        foodReportView.setText(model.getMealReport());
-                        notesView.setText(model.getUnusualNotes());
+                        arrive.setText(model.getArriveTime());
+                        leave.setText(model.getLeavingTime());
+                        nap.setText(model.getNapTime());
+                        mealReport.setText(model.getMealReport());
+                        notes.setText(model.getUnusualNotes());
+
                     }
             }
 

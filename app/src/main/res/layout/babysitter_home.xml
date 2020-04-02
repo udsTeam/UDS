@@ -57,16 +57,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="70dp"
         >
 
         <Button
-            android:id="@+id/createOrder_btn"
+            android:id="@+id/viewOrder_btn"
             style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="440dp"
+            android:layout_marginTop="460dp"
             android:background="@drawable/view_order" />
 
         <Button
@@ -75,7 +75,7 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="480dp"
+            android:layout_below="@id/viewOrder_btn"
             android:background="@drawable/report" />
 
         <Button
@@ -83,8 +83,8 @@
             style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:layout_below="@id/dailyReports_btn"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="520dp"
             android:background="@drawable/work_schedule" />
 
 

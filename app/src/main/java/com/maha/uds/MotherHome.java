@@ -126,7 +126,7 @@ public class MotherHome extends AppCompatActivity  {
 
     public void setUIview(){
         nameView = findViewById(R.id.name_view);
-        orderBtn = findViewById(R.id.createOrder_btn);
+        orderBtn = findViewById(R.id.viewOrder_btn);
         paymentBtn = findViewById(R.id.payment_btn);
         reportBtn = findViewById(R.id.dailyReports_btn);
         chatBtn = findViewById(R.id.chat_btn);

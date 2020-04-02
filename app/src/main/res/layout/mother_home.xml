@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-
+        android:layout_marginTop="70dp"
         >
 
         <Button
@@ -69,27 +69,29 @@
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="500dp"
+            android:layout_below="@id/viewOrder_btn"
             android:background="@drawable/report" />
 
         <Button
             android:id="@+id/payment_btn"
             style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="150dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="550dp"
-            android:background="@drawable/report" />
+            android:layout_below="@id/dailyReports_btn"
+            android:background="@drawable/payment_btn"
+
+            />
 
         <Button
-            android:id="@+id/createOrder_btn"
+            android:id="@+id/viewOrder_btn"
             style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="440dp"
-            android:background="@drawable/creat_order"
-            tools:layout_editor_absoluteX="136dp" />
+            android:layout_marginTop="460dp"
+            android:background="@drawable/create_order"
+             />
 
     </RelativeLayout>
 

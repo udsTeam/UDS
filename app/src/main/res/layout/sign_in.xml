@@ -40,8 +40,9 @@
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60dp"
-            android:ems="10"
             android:hint="@string/Email"
+            android:textColor="#ffff"
+            android:fontFamily="@font/stc_regular"
             android:background="@drawable/user"
             android:inputType="textEmailAddress"
             />
@@ -54,7 +55,8 @@
             android:layout_marginTop="110dp"
             android:background="@drawable/pass"
             style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-            android:ems="10"
+            android:textColor="#ffff"
+            android:fontFamily="@font/stc_regular"
             android:hint="@string/prompt_password"
             android:inputType="textPassword" />
 
@@ -73,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/NoAccount"
-            android:textColor="@color/blue"
+            android:textColor="@color/black"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="240dp"
 

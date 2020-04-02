@@ -48,16 +48,6 @@
             android:layout_below="@id/textView"
              />
 
-        <TextView
-            android:id="@+id/arriveTimeView"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:background="@drawable/bord_age"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/textView"
-            />
-
 
         <ImageView
             android:id="@+id/textView2"
@@ -65,7 +55,7 @@
             android:layout_height="30dp"
             app:srcCompat="@drawable/left_at"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/arriveTimeView"
+            android:layout_below="@id/arriveTimeText"
 
             />
 
@@ -80,21 +70,13 @@
 
              />
 
-        <TextView
-            android:id="@+id/LeaveTimeView"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:background="@drawable/bord_age"
-            android:layout_below="@id/textView2"
-            android:layout_centerHorizontal="true"
-            />
 
         <ImageView
             android:id="@+id/textView3"
             android:layout_width="150dp"
             android:layout_height="50dp"
             app:srcCompat="@drawable/took_nap"
-            android:layout_below="@+id/LeaveTimeView"
+            android:layout_below="@+id/LeaveTimeText"
             android:layout_centerHorizontal="true"
             />
 
@@ -108,22 +90,14 @@
             android:layout_below="@id/textView3"
              />
 
-        <TextView
-            android:id="@+id/napTimeView"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/bord_age"
-            android:layout_below="@id/textView3"
 
-            />
 
         <ImageView
             android:id="@+id/textView5"
             android:layout_width="150dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/meal_report"
-            android:layout_below="@id/napTimeView"
+            android:layout_below="@id/napTimeText"
             android:layout_centerHorizontal="true"
             />
 
@@ -138,21 +112,13 @@
 
             />
 
-        <TextView
-            android:id="@+id/mealView"
-            android:layout_width="220dp"
-            android:layout_height="60dp"
-            android:layout_below="@id/textView5"
-            android:background="@drawable/bord_age"
-            android:layout_centerHorizontal="true"
-            />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="150dp"
             android:layout_height="40dp"
             app:srcCompat="@drawable/unusual"
-            android:layout_below="@id/mealView"
+            android:layout_below="@id/mealText"
             android:layout_centerHorizontal="true"
 
             />
@@ -166,15 +132,6 @@
             android:layout_centerHorizontal="true"
             />
 
-        <TextView
-            android:id="@+id/notesView"
-            android:layout_width="220dp"
-            android:layout_height="60dp"
-            android:layout_below="@id/imageView"
-            android:background="@drawable/bord_age"
-            android:layout_centerHorizontal="true"
-
-            />
     </RelativeLayout>
 
 
@@ -196,5 +153,6 @@
         android:background="@drawable/back"
         android:layout_marginTop="70dp"
         android:layout_gravity="end"
+        android:layout_marginEnd="30dp"
         />
 </LinearLayout>
