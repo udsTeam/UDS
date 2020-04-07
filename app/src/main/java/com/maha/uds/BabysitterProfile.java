@@ -82,7 +82,7 @@ public class BabysitterProfile extends AppCompatActivity {
                 String updatedBio = bio.getText().toString();
                 String updatedAge = age.getText().toString();
                 String status = model.getStatus();
-                int ratting = model.getRatting();
+                float ratting = model.getRatting();
                 AccountModel updateModel = new AccountModel(updatedEmail,accountType,updatedName,updatedBio,updatedPhoneNum,ratting,updatedAge,status);
                 mDatabase.child(userID).setValue(updateModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

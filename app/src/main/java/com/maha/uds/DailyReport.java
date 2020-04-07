@@ -148,11 +148,11 @@ public class DailyReport extends AppCompatActivity {
                     if(dataSnapshot.exists()) {
                         DailyReportModel model = dataSnapshot.getValue(DailyReportModel.class);
                         Log.d("DailyReportModel", model.toString());
-                        arrive.setText(model.getArriveTime());
-                        leave.setText(model.getLeavingTime());
-                        nap.setText(model.getNapTime());
-                        mealReport.setText(model.getMealReport());
-                        notes.setText(model.getUnusualNotes());
+                        arrive.setHint(model.getArriveTime());
+                        leave.setHint(model.getLeavingTime());
+                        nap.setHint(model.getNapTime());
+                        mealReport.setHint(model.getMealReport());
+                        notes.setHint(model.getUnusualNotes());
 
                     }
             }

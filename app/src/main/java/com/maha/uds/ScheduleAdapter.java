@@ -20,10 +20,12 @@ public class ScheduleAdapter extends ArrayAdapter<ScheduleModel> {
      private List<ScheduleModel> mScheduleList;
 
 
+
     public ScheduleAdapter(Activity context,List<ScheduleModel> schedulelList){
         super(context,R.layout.child_schedule,schedulelList);
         this.context = context;
         this.mScheduleList= schedulelList;
+
     }
 
     @NonNull
@@ -38,6 +40,7 @@ public class ScheduleAdapter extends ArrayAdapter<ScheduleModel> {
 
 
         ScheduleModel scheduleModel = mScheduleList.get(position);
+
         dayView.setText(scheduleModel.getDay());
         dateView.setText(scheduleModel.getDate());
         timeView.setText(scheduleModel.getTime());

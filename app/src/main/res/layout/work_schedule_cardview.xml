@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:id="@+id/linearLayout"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/cardView"
+    >
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/gray"
-        android:padding="7dp"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@drawable/bg"
+        android:padding="10dp"
+
         >
 
         <TextView
@@ -18,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-smallcaps"
-            android:textColor="@color/cyan"
             android:text="day"
+            android:textColor="@color/cyan"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -27,24 +31,23 @@
             android:id="@+id/dateView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Date"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/light_blue"
             android:layout_below="@id/dayView"
-            android:textSize="20sp"
-            />
+            android:layout_marginTop="5dp"
+            android:text="@string/Date"
+            android:textColor="@color/light_blue"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/timeView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Date"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/light_blue"
             android:layout_below="@id/dateView"
+            android:layout_marginTop="5dp"
+            android:text="@string/Date"
+            android:textColor="@color/light_blue"
             android:textSize="20sp"
 
             />
     </RelativeLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

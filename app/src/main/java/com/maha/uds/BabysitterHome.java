@@ -244,7 +244,10 @@ public class BabysitterHome extends AppCompatActivity{
 
                         }else{
                             for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
-                                if(mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("pending")){
+                                if(mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("finished")){
+                                    updadeUIForCase1();
+                                }
+                                else if(mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("pending")){
                                     mOrderModel = mSnapshot.getValue(OrderModel.class);
 
                                     //status = mOrderModel.getOrderStatus();

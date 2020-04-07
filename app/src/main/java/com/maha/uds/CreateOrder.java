@@ -16,7 +16,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.maha.uds.Model.BabyModel;
 
 public class CreateOrder extends AppCompatActivity {
 
@@ -24,6 +23,10 @@ public class CreateOrder extends AppCompatActivity {
     EditText age;
     TextInputEditText notes;
     RadioGroup gender;
+    static String childName;
+    static String childAge;
+    static String childNotes;
+    static String childGender ;
     int id;
     RadioButton boy;
     RadioButton girl;
@@ -67,15 +70,16 @@ public class CreateOrder extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String motherId = mAuth.getCurrentUser().getUid();
-                String childName = name.getText().toString();
-                String childAge = age.getText().toString();
-                String childNotes = notes.getText().toString();
-                babyKey = mReference.child("babies").push().getKey();
-                String childGender = boy.isChecked()?"boy": girl.isChecked()?"girl":"";
-                BabyModel baby = new BabyModel(childName,childGender,childAge,childNotes,motherId);
-                mReference.child("babies").child(babyKey).setValue(baby);
-                startActivity(new Intent(CreateOrder.this,ListOfBabysitter.class));
+                 childName = name.getText().toString();
+                 childAge = age.getText().toString();
+                 childNotes = notes.getText().toString();
+                 babyKey = mReference.child("babies").push().getKey();
+                 childGender = boy.isChecked()?"boy": girl.isChecked()?"girl":"";
+                Intent intent = new Intent(CreateOrder.this,ListOfBabysitter.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+
             }
         });
 

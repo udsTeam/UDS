@@ -7,7 +7,7 @@ public class AccountModel {
     private String Name;
     private String bio;
     private String phone;
-    private int ratting;
+    private float ratting;
     private String age;
     private String status;
 
@@ -15,7 +15,7 @@ public class AccountModel {
     public AccountModel() {
     }
 
-    public AccountModel(String email, String accountType, String name, String bio, String phone, int ratting, String age, String status) {
+    public AccountModel(String email, String accountType, String name, String bio, String phone, float ratting, String age, String status) {
         this.email = email;
         this.accountType = accountType;
         Name = name;
@@ -66,11 +66,11 @@ public class AccountModel {
         this.phone = phone;
     }
 
-    public int getRatting() {
+    public float getRatting() {
         return ratting;
     }
 
-    public void setRatting(int ratting) {
+    public void setRatting(float ratting) {
         this.ratting = ratting;
     }
 

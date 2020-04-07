@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.maha.uds.Model.BabyModel;
 import com.maha.uds.Model.DailyReportModel;
 import com.maha.uds.Model.OrderModel;
 import com.maha.uds.Model.ScheduleModel;
@@ -92,6 +93,10 @@ public class ChildSchedule extends AppCompatActivity {
                 String napTime = "";
                 String mealReport = "";
                 String notes = "";
+                String childName = CreateOrder.childName;
+                String childGender = CreateOrder.childGender;
+                String childAge = CreateOrder.childAge;
+                String childNotes = CreateOrder.childNotes;
                 DailyReportModel report = new DailyReportModel(arriveTime,leaveTime,napTime,mealReport,notes);
                 orderModel.setDailyReport(report);
                 orderModel.setOrderStatus("pending");
@@ -100,10 +105,12 @@ public class ChildSchedule extends AppCompatActivity {
                 orderModel.setTotalHours(totalHours);
                 orderKey = mReference.child("orders").push().getKey();
                 mReference.child("orders").child(orderKey).setValue(orderModel);
+                BabyModel baby = new BabyModel(childName,childGender,childAge,childNotes,motherID);
+                mReference.child("babies").child(babyID).setValue(baby);
                 mReference.child("accounts").child(babysitterKey).child("status").setValue("pending");
                 Toast.makeText(ChildSchedule.this, "Order Created", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ChildSchedule.this,MotherHome.class);
-                intent.putExtra("orderKey",orderKey);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
 
             }

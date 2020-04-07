@@ -75,7 +75,7 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/viewOrder_btn"
+            android:layout_marginTop="500dp"
             android:background="@drawable/report" />
 
         <Button
@@ -83,7 +83,7 @@
             style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:layout_below="@id/dailyReports_btn"
+            android:layout_marginTop="550dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/work_schedule" />
 

@@ -3,9 +3,25 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/baby_blue</item>
+        <item name="colorPrimaryDark">@color/cyan</item>
+        <item name="colorAccent">@color/yellow</item>
+    </style>
+
+    <style name="AppThemeRattingBar" parent="Widget.AppCompat.RatingBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorPrimaryDark">@color/cyan</item>
+        <item name="colorAccent">@color/yellow</item>
+    </style>
+
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/yellow</item>
+        <item name="colorAccent">@color/yellow</item>
+
     </style>
 
 

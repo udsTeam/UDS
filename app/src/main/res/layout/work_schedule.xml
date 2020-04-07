@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".WorkSchedule"
 
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
 
 
-    <ListView
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WORK SCHEDULE"
+        android:fontFamily="@font/stc_bold"
+        android:textSize="30sp"
+        android:textColor="@color/pink"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        />
+
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listView"
-        />
-</RelativeLayout>
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/finishBtn"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@drawable/finish"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+</ScrollView>
