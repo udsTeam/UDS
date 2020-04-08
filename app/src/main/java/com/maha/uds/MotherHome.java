@@ -277,14 +277,9 @@ public class MotherHome extends AppCompatActivity  {
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-
-
-
-
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 RatingValue = ratting.getRating();
                 FirebaseDatabase.getInstance().getReference("accounts")

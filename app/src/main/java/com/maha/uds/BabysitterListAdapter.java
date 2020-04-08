@@ -46,9 +46,6 @@ public class BabysitterListAdapter extends RecyclerView.Adapter<BabysitterListAd
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,Gallery.class);
-                intent.putExtra("name",babysitter.getName());
-                intent.putExtra("age",babysitter.getAge());
-                intent.putExtra("bio",babysitter.getBio());
                 intent.putExtra("babysitterKey", keyList.get(position));
                 mContext.startActivity(intent);
             }

@@ -4,35 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/main_page_logo"
+    >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        >
-
-        <Button
-            android:id="@+id/signUp_btn"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:text="@string/signUp_text"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-
-            />
-
-        <Button
-            android:id="@+id/signIn_btn"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:text="@string/signIn_text"
-            android:layout_marginTop="100dp"
-            android:layout_centerHorizontal="true"
-
-
-            />
-    </RelativeLayout>
 
 </RelativeLayout>

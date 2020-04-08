@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ public class BabysitterProfile extends AppCompatActivity {
     EditText bio;
     Button cancelBtn;
     Button updateBtn;
+    RatingBar mRatingBar;
     DatabaseReference mDatabase;
     FirebaseAuth mAuth;
 
@@ -53,12 +55,14 @@ public class BabysitterProfile extends AppCompatActivity {
                         String displayAge = accountModel.getAge();
                         String displayBio = accountModel.getBio();
                         String displayPhoneNumber = accountModel.getPhone();
+                        float displayRating = accountModel.getRatting();
 
                         Name.setHint(displayName);
                         Email.setHint(displayEmail);
                         phoneNumber.setHint(displayPhoneNumber);
                         age.setHint(displayAge);
                         bio.setHint(displayBio);
+                        mRatingBar.setRating(displayRating);
 
                     }
 
@@ -117,6 +121,7 @@ public class BabysitterProfile extends AppCompatActivity {
         bio = findViewById(R.id.bioText);
         cancelBtn = findViewById(R.id.cancel_btn);
         updateBtn= findViewById(R.id.Save_btn);
+        mRatingBar = findViewById(R.id.ratingBar);
     }
 
 

@@ -36,16 +36,16 @@
         <activity android:name=".MotherHome" />
         <activity android:name=".BabysitterHome" />
         <activity android:name=".MotherOrBabysitter" />
-        <activity android:name=".SignIn">
+        <activity android:name=".SignIn"/>
+        <activity android:name=".MotherRegister" />
+        <activity android:name=".BabysitterRegister" />
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MotherRegister" />
-        <activity android:name=".BabysitterRegister" />
-        <activity android:name=".MainActivity" />
 
     </application>
 

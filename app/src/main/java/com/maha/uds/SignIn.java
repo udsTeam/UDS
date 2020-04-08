@@ -23,7 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.maha.uds.Chat.ChatActivity;
 
 
 public class SignIn extends AppCompatActivity {
@@ -47,8 +46,8 @@ public class SignIn extends AppCompatActivity {
         mProgressDialog = new ProgressDialog(this);
 
 
-        if (mFirebaseAuth.getCurrentUser()!=null)
-            Usertype();
+//        if (mFirebaseAuth.getCurrentUser()!=null)
+//            Usertype();
 
         setUIview();
         //setup listener to join us button
@@ -125,7 +124,6 @@ public class SignIn extends AppCompatActivity {
     //direct the user to his homePage
     public void Usertype(){
         String userId = mFirebaseAuth.getCurrentUser().getUid();
-        mFirebaseAuth = FirebaseAuth.getInstance();
         mReference = FirebaseDatabase.getInstance().getReference("accounts").child(userId).child("accountType");
         final String mother = "mother";
         final String babysitter = "babysitter";
