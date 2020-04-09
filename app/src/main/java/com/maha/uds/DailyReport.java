@@ -49,7 +49,7 @@ public class DailyReport extends AppCompatActivity {
         });
         mReference = FirebaseDatabase.getInstance().getReference("orders") ;
         setUI();
-        displayInfo();
+
 
 
 
@@ -106,6 +106,7 @@ public class DailyReport extends AppCompatActivity {
                     mealReport.setEnabled(false);
                     notes.setEnabled(false);
 
+                    displayInfo();
                     update.setVisibility(View.GONE);
 
                     back.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +144,6 @@ public class DailyReport extends AppCompatActivity {
         mReference.child("dailyReport").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
 
                     if(dataSnapshot.exists()) {
                         DailyReportModel model = dataSnapshot.getValue(DailyReportModel.class);
