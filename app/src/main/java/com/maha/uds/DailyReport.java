@@ -74,11 +74,6 @@ public class DailyReport extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue().equals(type)){
-//                    arriveView.setVisibility(View.GONE);
-//                    leaveView.setVisibility(View.GONE);
-//                    napView.setVisibility(View.GONE);
-//                    foodReportView.setVisibility(View.GONE);
-//                    notesView.setVisibility(View.GONE);
 
                     arrive.setEnabled(true);
                     leave.setEnabled(true);
@@ -141,7 +136,7 @@ public class DailyReport extends AppCompatActivity {
 
     public void displayInfo(){
 
-        mReference.child("dailyReport").addValueEventListener(new ValueEventListener() {
+        mReference.child(MotherHome.mOrderKey).child("dailyReport").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

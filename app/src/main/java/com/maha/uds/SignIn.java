@@ -71,7 +71,7 @@ public class SignIn extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    mProgressDialog.dismiss();
+
                                     if (task.isSuccessful()) {
                                         checkEmailVer();
 
@@ -141,6 +141,8 @@ public class SignIn extends AppCompatActivity {
                     startActivity(new Intent(SignIn.this,BabysitterHome.class));
 
                 }
+                mProgressDialog.dismiss();
+
             }
 
             @Override

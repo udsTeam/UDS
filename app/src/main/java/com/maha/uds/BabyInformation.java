@@ -154,7 +154,7 @@ public class BabyInformation extends AppCompatActivity {
                                 String key = mSnapshot.getKey();
                                 if(mOrderModel.getOrderStatus().equals("pending")){
                                     FirebaseDatabase.getInstance().getReference("orders")
-                                            .child(key).child("status").setValue("no order");
+                                            .child(key).child("status").setValue("rejected");
                                 }
                             }
                         }

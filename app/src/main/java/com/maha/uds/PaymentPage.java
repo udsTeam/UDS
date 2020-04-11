@@ -45,39 +45,6 @@ public class PaymentPage extends AppCompatActivity {
         setUI();
         mDatabase = FirebaseDatabase.getInstance().getReference("orders").child(MotherHome.mOrderKey);
 
-
-
-//        if(cash.isChecked()){
-//            msgView.setVisibility(View.VISIBLE);
-//             name.setEnabled(false);
-//             cardNumber.setEnabled(false);
-//             month.setEnabled(false);
-//             year.setEnabled(false);
-//             cvc.setEnabled(false);
-//             submitBtn.setOnClickListener(new View.OnClickListener() {
-//                 @Override
-//                 public void onClick(View v) {
-//                     mDatabase.child("paymentStatus").setValue("pending");
-//                     startActivity(new Intent(PaymentPage.this,MotherHome.class));
-//                 }
-//             });
-//        }else if (visa.isChecked()){
-//            msgView.setVisibility(View.GONE);
-//            name.setEnabled(true);
-//            cardNumber.setEnabled(true);
-//            month.setEnabled(true);
-//            year.setEnabled(true);
-//            cvc.setEnabled(true);
-//
-//            submitBtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mDatabase.child("paymentStatus").setValue("paid");
-//                    startActivity(new Intent(PaymentPage.this,MotherHome.class));
-//                }
-//            });
-//        }
-
         mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

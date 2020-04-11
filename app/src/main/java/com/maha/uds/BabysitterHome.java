@@ -43,6 +43,7 @@ public class BabysitterHome extends AppCompatActivity{
     private Button chatBtn;
     static  OrderModel mOrderModel;
     static String mOrderKey;
+    private TextView orderStatus;
 
 
     @Override
@@ -154,11 +155,17 @@ public class BabysitterHome extends AppCompatActivity{
     public void setUIview(){
         nameView = findViewById(R.id.name_view);
         viewOrdersBtn = findViewById(R.id.viewOrder_btn);
+        viewOrdersBtn.setVisibility(View.GONE);
         scheduleBtn = findViewById(R.id.payment_btn);
+        scheduleBtn.setVisibility(View.GONE);
         reportBtn = findViewById(R.id.dailyReports_btn);
+        reportBtn.setVisibility(View.GONE);
         chatBtn = findViewById(R.id.chat_btn);
+        chatBtn.setVisibility(View.GONE);
         profile = findViewById(R.id.profile_btn);
         logout = findViewById(R.id.logOut_btn);
+        orderStatus = findViewById(R.id.orderStatusView);
+
     }
 
     @Override
@@ -244,6 +251,7 @@ public class BabysitterHome extends AppCompatActivity{
 
                         }else{
                             for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
+                                mOrderKey = mSnapshot.getKey();
                                 if(mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("finished")){
                                     updadeUIForCase1();
                                 }
@@ -257,7 +265,7 @@ public class BabysitterHome extends AppCompatActivity{
                                 }else {
                                     //Case 3 Active
                                     updadeUIForcase3();
-                                    mOrderKey = mSnapshot.getKey();
+
                                 }
 
                             }
@@ -273,23 +281,25 @@ public class BabysitterHome extends AppCompatActivity{
                 });
     }
 
+    //case no request
     private void updadeUIForCase1(){
         reportBtn.setVisibility(View.GONE);
         chatBtn.setVisibility(View.GONE);
         scheduleBtn.setVisibility(View.GONE);
         viewOrdersBtn.setVisibility(View.GONE);
-
-        Toast.makeText(BabysitterHome.this, "You don't have any order", Toast.LENGTH_SHORT).show();
+        orderStatus.setVisibility(View.VISIBLE);
+        orderStatus.setText("You don't have any request");
         //we will fill the dashboard with a text shows that you don't have any order
         //status = "no order";
 
     }
+    //case there is a request
     private void updadeUIForcase2(){
         reportBtn.setVisibility(View.GONE);
         chatBtn.setVisibility(View.GONE);
         scheduleBtn.setVisibility(View.GONE);
         viewOrdersBtn.setVisibility(View.VISIBLE);
-
+        orderStatus.setVisibility(View.GONE);
         viewOrdersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,11 +308,14 @@ public class BabysitterHome extends AppCompatActivity{
         });
 
     }
+    //case request is accepted
     private void updadeUIForcase3(){
         reportBtn.setVisibility(View.VISIBLE);
         chatBtn.setVisibility(View.VISIBLE);
         scheduleBtn.setVisibility(View.VISIBLE);
         viewOrdersBtn.setVisibility(View.GONE);
+        orderStatus.setVisibility(View.VISIBLE);
+        orderStatus.setText("You have an active order");
 
         scheduleBtn.setOnClickListener(new View.OnClickListener() {
             @Override

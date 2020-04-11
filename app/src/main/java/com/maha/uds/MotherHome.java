@@ -51,7 +51,7 @@ public class MotherHome extends AppCompatActivity  {
     private Button chatBtn;
     private FirebaseAuth mAuth;
     float RatingValue = 0;
-    int starNum = 0;
+
 
 
     @Override
@@ -130,11 +130,17 @@ public class MotherHome extends AppCompatActivity  {
     public void setUIview(){
         nameView = findViewById(R.id.name_view);
         orderBtn = findViewById(R.id.viewOrder_btn);
+        orderBtn.setVisibility(View.GONE);
         paymentBtn = findViewById(R.id.payment_btn);
+        paymentBtn.setVisibility(View.GONE);
         reportBtn = findViewById(R.id.dailyReports_btn);
+        orderBtn.setVisibility(View.GONE);
         chatBtn = findViewById(R.id.chat_btn);
+        orderBtn.setVisibility(View.GONE);
         profile = findViewById(R.id.profile_btn);
+        profile.setVisibility(View.VISIBLE);
         logout = findViewById(R.id.logOut_btn);
+        logout.setVisibility(View.VISIBLE);
         statusView = findViewById(R.id.orderStatusView);
 
     }
@@ -218,40 +224,71 @@ public class MotherHome extends AppCompatActivity  {
                                 mOrderModel = mSnapshot.getValue(OrderModel.class);
                                 mOrderKey = mSnapshot.getKey();
                                 babyitterID = mOrderModel.getBabysitterID();
+                                if(mOrderModel.getOrderStatus().equals("active")) {
+                                    orderBtn.setVisibility(View.GONE);
+                                    reportBtn.setVisibility(View.VISIBLE);
+                                    chatBtn.setVisibility(View.VISIBLE);
+                                    paymentBtn.setVisibility(View.GONE);
+                                    profile.setVisibility(View.VISIBLE);
+                                    logout.setVisibility(View.VISIBLE);
 
-                                if(mOrderModel.getOrderStatus().equals("ratting")){
+                                }if(mOrderModel.getOrderStatus().equals("ratting")){
+                                    orderBtn.setVisibility(View.VISIBLE);
+                                    reportBtn.setVisibility(View.GONE);
+                                    chatBtn.setVisibility(View.GONE);
+                                    paymentBtn.setVisibility(View.GONE);
+                                    profile.setVisibility(View.VISIBLE);
+                                    logout.setVisibility(View.VISIBLE);
                                     rattingDialog();
-
                                 }else if(mOrderModel.getOrderStatus().equals("pending")){
                                     statusView.setText("Your order still pending");
-                                }else if(mOrderModel.getOrderStatus().equals("finished")){
-                                    statusView.setText("You don't have an order");
+                                    orderBtn.setVisibility(View.GONE);
                                     reportBtn.setVisibility(View.GONE);
-                                    paymentBtn.setVisibility(View.GONE);
                                     chatBtn.setVisibility(View.GONE);
+                                    paymentBtn.setVisibility(View.GONE);
+                                    profile.setVisibility(View.VISIBLE);
+                                    logout.setVisibility(View.VISIBLE);
+
+                                }else if(mOrderModel.getOrderStatus().equals("finished")||mOrderModel.getOrderStatus().equals("rejected")){
+                                    statusView.setText("You don't have an order");
+                                    orderBtn.setVisibility(View.VISIBLE);
+                                    reportBtn.setVisibility(View.GONE);
+                                    chatBtn.setVisibility(View.GONE);
+                                    paymentBtn.setVisibility(View.GONE);
+                                    profile.setVisibility(View.VISIBLE);
+                                    logout.setVisibility(View.VISIBLE);
                                 }else{
                                     if (mOrderModel.getPaymentStatus().equals("paid")) {
-
                                         status = mOrderModel.getOrderStatus();
-                                        statusView.setText("Your Order"+ status);
+                                        statusView.setText("Your Order is active");
                                         orderBtn.setVisibility(View.GONE);
+                                        reportBtn.setVisibility(View.VISIBLE);
+                                        chatBtn.setVisibility(View.VISIBLE);
+                                        paymentBtn.setVisibility(View.GONE);
+                                        profile.setVisibility(View.VISIBLE);
+                                        logout.setVisibility(View.VISIBLE);
                                         //filling the dashboard with a text shows that there is an active
                                     }else{
                                         statusView.setText("You should Pay First");
-                                        reportBtn.setVisibility(View.GONE);
                                         orderBtn.setVisibility(View.GONE);
+                                        reportBtn.setVisibility(View.GONE);
+                                        chatBtn.setVisibility(View.GONE);
+                                        paymentBtn.setVisibility(View.VISIBLE);
+                                        profile.setVisibility(View.VISIBLE);
+                                        logout.setVisibility(View.VISIBLE);
                                     }
                                 }
 
                             }
                         }else {
-                            Toast.makeText(MotherHome.this, "You don't have an active order", Toast.LENGTH_SHORT).show();
+
                             //we will fill the dashboard with a text shows that you don't have any order
                             status = "no order";
                             statusView.setText("You don't have an order");
                             reportBtn.setVisibility(View.GONE);
                             paymentBtn.setVisibility(View.GONE);
                             chatBtn.setVisibility(View.GONE);
+                            orderBtn.setVisibility(View.VISIBLE);
 
                         }
                     }

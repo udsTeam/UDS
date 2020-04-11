@@ -3,12 +3,14 @@ package com.maha.uds;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,22 +37,6 @@ public class CreateOrder extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference mReference;
 
-    TextWatcher mWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            buttonEnable();
-        }
-    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,47 +45,47 @@ public class CreateOrder extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mReference = FirebaseDatabase.getInstance().getReference();
         setUI();
-        name.addTextChangedListener(mWatcher);
-        age.addTextChangedListener(mWatcher);
-        notes.addTextChangedListener(mWatcher);
-
-        buttonEnable();
 
 
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 childName = name.getText().toString();
-                 childAge = age.getText().toString();
-                 childNotes = notes.getText().toString();
-                 babyKey = mReference.child("babies").push().getKey();
-                 childGender = boy.isChecked()?"boy": girl.isChecked()?"girl":"";
-                Intent intent = new Intent(CreateOrder.this,ListOfBabysitter.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-
-
+                if(isValidate()) {
+                    childName = name.getText().toString();
+                    childAge = age.getText().toString();
+                    childNotes = notes.getText().toString();
+                    babyKey = mReference.child("babies").push().getKey();
+                    childGender = boy.isChecked() ? "boy" : girl.isChecked() ? "girl" : "";
+                    Intent intent = new Intent(CreateOrder.this, ListOfBabysitter.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
             }
         });
 
     }
 
 
-
-
-    private void buttonEnable() {
+    private boolean isValidate() {
+        boolean check = false;
+        // reading data from text field
         String childName = name.getText().toString();
         String childAge = age.getText().toString();
         String childNotes = notes.getText().toString();
         int id = gender.getCheckedRadioButtonId();
 
-        if(childName.isEmpty()||childAge.isEmpty()||childNotes.isEmpty()||id==-1){
-            next.setEnabled(false);
-        }else {
-            next.setEnabled(true);
+        if (TextUtils.isEmpty(childName) || TextUtils.isEmpty(childAge) || TextUtils.isEmpty(childNotes) || id == -1) {
+            Toast.makeText(CreateOrder.this, "all fields are required ", Toast.LENGTH_SHORT).show();
+
+        }else{
+            check = true;
         }
+        return check;
     }
+
+
+
 
 
     private void setUI() {

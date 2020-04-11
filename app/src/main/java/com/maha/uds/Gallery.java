@@ -77,38 +77,6 @@ public class Gallery extends AppCompatActivity {
                 intent.putExtra("babysitterKey", babysitterID);
                 startActivity(intent);
 
-                /*String motherId = mAuth.getCurrentUser().getUid();
-                final String id;
-                Query childId = mReference.child("babies").orderByChild("motherID").equalTo(motherId);
-                childId.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot babySnapshot : dataSnapshot.getChildren()){
-                             key = babySnapshot.getKey();
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-
-                OrderModel model = new OrderModel();
-                model.setBabyID(CreateOrder.babyKey);
-                List<ScheduleModel> scheduleList =new ArrayList<>();
-                scheduleList.add(new ScheduleModel("54","43","43"));
-                scheduleList.add(new ScheduleModel("54","43","43"));
-                scheduleList.add(new ScheduleModel("54","43","43"));
-
-                String i = "5";
-                int j = Integer.parseInt(i);
-
-                String s= String.valueOf(j);
-
-                model.setScheduleList(scheduleList);
-
-            }*/
             }
         });
 

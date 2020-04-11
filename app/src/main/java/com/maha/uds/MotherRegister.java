@@ -76,7 +76,7 @@ public class MotherRegister extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            mProgressDialog.dismiss();
+
                             if (task.isSuccessful()) {
                                 //adding the user information to the realtiem database
                                 UID = mFirebaseAuth.getCurrentUser().getUid();
@@ -116,13 +116,13 @@ public class MotherRegister extends AppCompatActivity {
 
         if (TextUtils.isEmpty(motherName) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(passCong)
                 ||TextUtils.isEmpty(phoneNum)) {
-            Toast.makeText(MotherRegister.this, "plz fill out all fields ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MotherRegister.this, "all fields are required ", Toast.LENGTH_SHORT).show();
         } else if (password.length() < 8) {
-            Toast.makeText(MotherRegister.this, "the password should be at least 8 char !!! ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MotherRegister.this, "the password should be at least 8 digits", Toast.LENGTH_SHORT).show();
         } else if (!password.equals(passCong)) {
             Toast.makeText(MotherRegister.this, "the two password dose not match", Toast.LENGTH_SHORT).show();
         } else if(!email.contains("@aou.edu.sa")){
-            Toast.makeText(MotherRegister.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MotherRegister.this, "enter your university email", Toast.LENGTH_SHORT).show();
 
         }  else{
             cheack = true;
@@ -137,6 +137,7 @@ public class MotherRegister extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
+                        mProgressDialog.dismiss();
                         Toast.makeText(MotherRegister.this, "Successfully registered, please confirm your email", Toast.LENGTH_LONG).show();
                         mFirebaseAuth.signOut();
                         finish();
