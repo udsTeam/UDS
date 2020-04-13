@@ -35,7 +35,7 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Uri filePath;
     private ImageButton sendButton, addAttachment, cameraButton;
-    private String orderId;
+    private String orderKey;
     private EditText chatEditText;
     private ChatAdapter chatAdapter;
 
@@ -49,16 +49,13 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         try {
-            //Todo replace page title with babysitter name
-            //String title = "Chatting with " + getIntent().getStringExtra("Name");
-            getSupportActionBar().setTitle("Chatting with Test");
+            String title = "Chatting with " + getIntent().getStringExtra("Name");
+            getSupportActionBar().setTitle(title);
 
             //Show back arrow in toolbar
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-            //Todo replace order id
-            //orderId = getIntent().getIntExtra("ID", 0);
-            orderId = "Test233";
+            orderKey = getIntent().getStringExtra("OrderKey");
             sendButton = findViewById(R.id.sendBtn);
             chatEditText = findViewById(R.id.messageETxt);
             addAttachment = findViewById(R.id.addAttachmentButton);
@@ -80,7 +77,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     //Calling add message method and clearing edit text after that
-                    FirebaseManager.addMessage(orderId, chatEditText.getText().toString(),ChatKeys.TEXT);
+                    FirebaseManager.addMessage(orderKey, chatEditText.getText().toString(),ChatKeys.TEXT);
                     chatEditText.getText().clear();
 
                 } catch (Exception ex) {
@@ -141,7 +138,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void readChat() {
         //Calling read Chat method and then setting the chat adapter
-        FirebaseManager.readChat(orderId, new FirebaseManager.OnMessagesRetrieved() {
+        FirebaseManager.readChat(orderKey, new FirebaseManager.OnMessagesRetrieved() {
             @Override
             public void DataIsLoaded(List<MessageModel> messageModels, List<String> keys) {
                 chatAdapter = new ChatAdapter(ChatActivity.this, messageModels,keys);
@@ -160,7 +157,8 @@ public class ChatActivity extends AppCompatActivity {
                     recyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            recyclerView.smoothScrollToPosition(chatAdapter.getItemCount());
+                            if (chatAdapter!=null)
+                                recyclerView.smoothScrollToPosition(chatAdapter.getItemCount());
                         }
                     }, 100);
                 }
@@ -288,7 +286,7 @@ public class ChatActivity extends AppCompatActivity {
                 filePath = data.getData();
                 try {
                     if (filePath != null) {
-                        FirebaseManager.uploadImage(filePath, orderId, this, ChatKeys.USER_ID);
+                        FirebaseManager.uploadImage(filePath, orderKey, this, ChatKeys.USER_ID);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -299,7 +297,7 @@ public class ChatActivity extends AppCompatActivity {
                 try {
                     try {
                         if (imageUri != null) {
-                            FirebaseManager.uploadImage(imageUri, orderId, this, ChatKeys.USER_ID);
+                            FirebaseManager.uploadImage(imageUri, orderKey, this, ChatKeys.USER_ID);
                             Log.d("OsamahTst", imageUri.toString());
                         }
                     } catch (Exception e) {

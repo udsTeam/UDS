@@ -44,7 +44,8 @@ public class BabysitterHome extends AppCompatActivity{
     static  OrderModel mOrderModel;
     static String mOrderKey;
     private TextView orderStatus;
-
+    private String motherName;
+    private String motherID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,6 @@ public class BabysitterHome extends AppCompatActivity{
         setUIview();
         setupFirebaseListener();
         //setupDisplayName();
-        readChatNotification();
 
 
         mIntent = new Intent(BabysitterHome.this,BabysitterProfile.class);
@@ -91,66 +91,6 @@ public class BabysitterHome extends AppCompatActivity{
             }
         });
 
-
-
-
-/*
-
-        FirebaseDatabase.getInstance().getReference("accounts").child(mAuth.getCurrentUser().getUid())
-                .child("status")
-        .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    String status = dataSnapshot.getValue(String.class);
-
-                    if (status.equals("busy")){
-                        reportBtn.setVisibility(View.VISIBLE);
-                        chatBtn.setVisibility(View.VISIBLE);
-                        scheduleBtn.setVisibility(View.VISIBLE);
-                        viewOrdersBtn.setVisibility(View.GONE);
-
-                        scheduleBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startActivity(new Intent(BabysitterHome.this,WorkSchedule.class));
-                            }
-                        });
-                        reportBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startActivity(new Intent(BabysitterHome.this,DailyReport.class));
-                            }
-                        });
-                        chatBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startActivity(new Intent(BabysitterHome.this, ChatActivity.class));
-                            }
-                        });
-                    }else {
-                        reportBtn.setVisibility(View.GONE);
-                        chatBtn.setVisibility(View.GONE);
-                        scheduleBtn.setVisibility(View.GONE);
-                        viewOrdersBtn.setVisibility(View.VISIBLE);
-
-                        viewOrdersBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startActivity(new Intent(BabysitterHome.this,OrdersList.class));
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-*/
-
     }
     public void setUIview(){
         nameView = findViewById(R.id.name_view);
@@ -182,6 +122,23 @@ public class BabysitterHome extends AppCompatActivity{
         }
     }
 
+    private void getMotherName(){
+        FirebaseDatabase.getInstance().getReference("accounts").child(motherID).child("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists())
+                    motherName = dataSnapshot.getValue(String.class);
+                chatBtn.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
     private void setupFirebaseListener() {
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -207,8 +164,7 @@ public class BabysitterHome extends AppCompatActivity{
 //    }
 
     private void readChatNotification() {
-        String orderId="Test233";
-        FirebaseManager.readChat(orderId, new FirebaseManager.OnMessagesRetrieved() {
+        FirebaseManager.readChat(mOrderKey, new FirebaseManager.OnMessagesRetrieved() {
             @Override
             public void DataIsLoaded(List<MessageModel> messageModels, List<String> keys) {
                 String FirebaeChatID = keys.get(keys.size()-1);
@@ -257,13 +213,18 @@ public class BabysitterHome extends AppCompatActivity{
                                 }
                                 else if(mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("pending")){
                                     mOrderModel = mSnapshot.getValue(OrderModel.class);
-
                                     //status = mOrderModel.getOrderStatus();
 
                                     //Case 2 Pending
                                     updadeUIForcase2();
                                 }else {
                                     //Case 3 Active
+                                    mOrderModel = mSnapshot.getValue(OrderModel.class);
+                                    motherID = mOrderModel.getMotherID();
+                                    readChatNotification();
+
+                                    getMotherName();
+
                                     updadeUIForcase3();
 
                                 }
@@ -311,7 +272,6 @@ public class BabysitterHome extends AppCompatActivity{
     //case request is accepted
     private void updadeUIForcase3(){
         reportBtn.setVisibility(View.VISIBLE);
-        chatBtn.setVisibility(View.VISIBLE);
         scheduleBtn.setVisibility(View.VISIBLE);
         viewOrdersBtn.setVisibility(View.GONE);
         orderStatus.setVisibility(View.VISIBLE);
@@ -332,7 +292,10 @@ public class BabysitterHome extends AppCompatActivity{
         chatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(BabysitterHome.this, ChatActivity.class));
+                Intent mIntent= new Intent(BabysitterHome.this, ChatActivity.class);
+                mIntent.putExtra("OrderKey",mOrderKey);
+                mIntent.putExtra("Name",motherName);
+                startActivity(mIntent);
             }
         });
 

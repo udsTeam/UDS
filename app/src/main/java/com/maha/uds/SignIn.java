@@ -79,6 +79,7 @@ public class SignIn extends AppCompatActivity {
                                     } else {
                                         Toast.makeText(SignIn.this, "Wrong email or password",
                                                 Toast.LENGTH_SHORT).show();
+                                        mProgressDialog.dismiss();
                                     }
                                 }
                             });
@@ -117,6 +118,7 @@ public class SignIn extends AppCompatActivity {
                 Usertype();
 
             }else{
+                mProgressDialog.dismiss();
                 Toast.makeText(SignIn.this,"make sure your email is verified",Toast.LENGTH_SHORT).show();
         }
         }
@@ -131,6 +133,7 @@ public class SignIn extends AppCompatActivity {
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mProgressDialog.dismiss();
                 if (!dataSnapshot.exists())
                     return;
 
@@ -141,7 +144,6 @@ public class SignIn extends AppCompatActivity {
                     startActivity(new Intent(SignIn.this,BabysitterHome.class));
 
                 }
-                mProgressDialog.dismiss();
 
             }
 

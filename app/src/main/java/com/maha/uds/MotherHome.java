@@ -51,6 +51,7 @@ public class MotherHome extends AppCompatActivity  {
     private Button chatBtn;
     private FirebaseAuth mAuth;
     float RatingValue = 0;
+    private String babysitterName;
 
 
 
@@ -62,7 +63,6 @@ public class MotherHome extends AppCompatActivity  {
         setUIview();
         setupFirebaseListener();
 
-        readChatNotification();
         getMyOrder();
         mAuth = FirebaseAuth.getInstance();
 
@@ -100,7 +100,10 @@ public class MotherHome extends AppCompatActivity  {
             chatBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(MotherHome.this, ChatActivity.class));
+                    Intent mIntent= new Intent(MotherHome.this, ChatActivity.class);
+                    mIntent.putExtra("OrderKey",mOrderKey);
+                    mIntent.putExtra("Name",babysitterName);
+                    startActivity(mIntent);
                 }
             });
 
@@ -148,8 +151,7 @@ public class MotherHome extends AppCompatActivity  {
 
 
     private void readChatNotification() {
-        String orderId="Test233";
-        FirebaseManager.readChat(orderId, new FirebaseManager.OnMessagesRetrieved() {
+        FirebaseManager.readChat(mOrderKey, new FirebaseManager.OnMessagesRetrieved() {
             @Override
             public void DataIsLoaded(List<MessageModel> messageModels, List<String> keys) {
                 String FirebaeChatID = keys.get(keys.size()-1);
@@ -204,6 +206,21 @@ public class MotherHome extends AppCompatActivity  {
 
 
 
+    private void getBabySitterName(){
+        FirebaseDatabase.getInstance().getReference("accounts").child(babyitterID).child("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists())
+                    babysitterName = dataSnapshot.getValue(String.class);
+                chatBtn.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
 
@@ -225,9 +242,10 @@ public class MotherHome extends AppCompatActivity  {
                                 mOrderKey = mSnapshot.getKey();
                                 babyitterID = mOrderModel.getBabysitterID();
                                 if(mOrderModel.getOrderStatus().equals("active")) {
+                                    getBabySitterName();
+                                    readChatNotification();
                                     orderBtn.setVisibility(View.GONE);
                                     reportBtn.setVisibility(View.VISIBLE);
-                                    chatBtn.setVisibility(View.VISIBLE);
                                     paymentBtn.setVisibility(View.GONE);
                                     profile.setVisibility(View.VISIBLE);
                                     logout.setVisibility(View.VISIBLE);
