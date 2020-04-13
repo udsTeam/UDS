@@ -32,7 +32,7 @@ import com.maha.uds.Model.OrderModel;
 import java.util.List;
 
 
-public class MotherHome extends AppCompatActivity  {
+public class MotherHome extends AppCompatActivity {
 
     TextView nameView;
     String displayName;
@@ -40,7 +40,7 @@ public class MotherHome extends AppCompatActivity  {
     String babyitterID;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private Button orderBtn;
-    private Button profile ;
+    private Button profile;
     private Button logout;
     private TextView statusView;
     String status = "no orders";
@@ -54,7 +54,6 @@ public class MotherHome extends AppCompatActivity  {
     private String babysitterName;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +65,7 @@ public class MotherHome extends AppCompatActivity  {
         getMyOrder();
         mAuth = FirebaseAuth.getInstance();
 
-        mIntent = new Intent(MotherHome.this,MotherProfile.class);
+        mIntent = new Intent(MotherHome.this, MotherProfile.class);
 
         FirebaseDatabase.getInstance().getReference("accounts").child(mAuth.getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
@@ -84,53 +83,53 @@ public class MotherHome extends AppCompatActivity  {
                 });
 
 
-            reportBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(MotherHome.this, DailyReport.class));
-                }
-            });
-            paymentBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(MotherHome.this,PaymentPage.class));
-                }
-            });
+        reportBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MotherHome.this, DailyReport.class));
+            }
+        });
+        paymentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MotherHome.this, PaymentPage.class));
+            }
+        });
 
-            chatBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent mIntent= new Intent(MotherHome.this, ChatActivity.class);
-                    mIntent.putExtra("OrderKey",mOrderKey);
-                    mIntent.putExtra("Name",babysitterName);
-                    startActivity(mIntent);
-                }
-            });
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(MotherHome.this, ChatActivity.class);
+                mIntent.putExtra("OrderKey", mOrderKey);
+                mIntent.putExtra("Name", babysitterName);
+                startActivity(mIntent);
+            }
+        });
 
-            orderBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(MotherHome.this, CreateOrder.class));
-                }
-            });
+        orderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MotherHome.this, CreateOrder.class));
+            }
+        });
 
-            profile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(mIntent);
-                }
-            });
-            logout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FirebaseAuth.getInstance().signOut();
-                }
-            });
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(mIntent);
+            }
+        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+            }
+        });
 
-        }
+    }
 
 
-    public void setUIview(){
+    public void setUIview() {
         nameView = findViewById(R.id.name_view);
         orderBtn = findViewById(R.id.viewOrder_btn);
         orderBtn.setVisibility(View.GONE);
@@ -149,22 +148,21 @@ public class MotherHome extends AppCompatActivity  {
     }
 
 
-
     private void readChatNotification() {
         FirebaseManager.readChat(mOrderKey, new FirebaseManager.OnMessagesRetrieved() {
             @Override
             public void DataIsLoaded(List<MessageModel> messageModels, List<String> keys) {
-                String FirebaeChatID = keys.get(keys.size()-1);
-                MessageModel mMessageModel = messageModels.get(messageModels.size()-1);
-                String LocalChatID = SharedPrefsManager.getInstance().getString(SharedPrefsKeys.CHAT_ID,"Empty");
-                if (!mMessageModel.getSenderID().equals(ChatKeys.USER_ID)){
-                    if (!LocalChatID.equals(FirebaeChatID)){
-                        if (mMessageModel.getMessageType().equals(ChatKeys.TEXT)){
-                            MyNotificationManager.sendNotification("Person send you a message",mMessageModel.getMessage(),MotherHome.this);
-                        }else {
-                            MyNotificationManager.sendNotification("Person send you a Image","Image",MotherHome.this);
+                String FirebaeChatID = keys.get(keys.size() - 1);
+                MessageModel mMessageModel = messageModels.get(messageModels.size() - 1);
+                String LocalChatID = SharedPrefsManager.getInstance().getString(SharedPrefsKeys.CHAT_ID, "Empty");
+                if (!mMessageModel.getSenderID().equals(ChatKeys.USER_ID)) {
+                    if (!LocalChatID.equals(FirebaeChatID)) {
+                        if (mMessageModel.getMessageType().equals(ChatKeys.TEXT)) {
+                            MyNotificationManager.sendNotification(babysitterName + " send you a message", mMessageModel.getMessage(), MotherHome.this);
+                        } else {
+                            MyNotificationManager.sendNotification(babysitterName + " send you a Image", "Image", MotherHome.this);
                         }
-                        SharedPrefsManager.getInstance().setString(SharedPrefsKeys.CHAT_ID,FirebaeChatID);
+                        SharedPrefsManager.getInstance().setString(SharedPrefsKeys.CHAT_ID, FirebaeChatID);
                     }
                 }
 
@@ -205,14 +203,15 @@ public class MotherHome extends AppCompatActivity  {
     }
 
 
-
-    private void getBabySitterName(){
+    private void getBabySitterName() {
         FirebaseDatabase.getInstance().getReference("accounts").child(babyitterID).child("name").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists())
                     babysitterName = dataSnapshot.getValue(String.class);
                 chatBtn.setVisibility(View.VISIBLE);
+                readChatNotification();
+
             }
 
             @Override
@@ -223,10 +222,7 @@ public class MotherHome extends AppCompatActivity  {
     }
 
 
-
-
-
-    private void getMyOrder(){
+    private void getMyOrder() {
         //show progress dialog
         mOrderModel = new OrderModel();
         mOrderKey = "";
@@ -236,21 +232,21 @@ public class MotherHome extends AppCompatActivity  {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         //progress dialog dissmis
-                        if(dataSnapshot.exists()){
-                            for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot mSnapshot : dataSnapshot.getChildren()) {
                                 mOrderModel = mSnapshot.getValue(OrderModel.class);
                                 mOrderKey = mSnapshot.getKey();
                                 babyitterID = mOrderModel.getBabysitterID();
-                                if(mOrderModel.getOrderStatus().equals("active")) {
+                                if (mOrderModel.getOrderStatus().equals("active")) {
                                     getBabySitterName();
-                                    readChatNotification();
                                     orderBtn.setVisibility(View.GONE);
                                     reportBtn.setVisibility(View.VISIBLE);
                                     paymentBtn.setVisibility(View.GONE);
                                     profile.setVisibility(View.VISIBLE);
                                     logout.setVisibility(View.VISIBLE);
 
-                                }if(mOrderModel.getOrderStatus().equals("ratting")){
+                                }
+                                if (mOrderModel.getOrderStatus().equals("ratting")) {
                                     orderBtn.setVisibility(View.VISIBLE);
                                     reportBtn.setVisibility(View.GONE);
                                     chatBtn.setVisibility(View.GONE);
@@ -258,7 +254,7 @@ public class MotherHome extends AppCompatActivity  {
                                     profile.setVisibility(View.VISIBLE);
                                     logout.setVisibility(View.VISIBLE);
                                     rattingDialog();
-                                }else if(mOrderModel.getOrderStatus().equals("pending")){
+                                } else if (mOrderModel.getOrderStatus().equals("pending")) {
                                     statusView.setText("Your order still pending");
                                     orderBtn.setVisibility(View.GONE);
                                     reportBtn.setVisibility(View.GONE);
@@ -267,7 +263,7 @@ public class MotherHome extends AppCompatActivity  {
                                     profile.setVisibility(View.VISIBLE);
                                     logout.setVisibility(View.VISIBLE);
 
-                                }else if(mOrderModel.getOrderStatus().equals("finished")||mOrderModel.getOrderStatus().equals("rejected")){
+                                } else if (mOrderModel.getOrderStatus().equals("finished") || mOrderModel.getOrderStatus().equals("rejected")) {
                                     statusView.setText("You don't have an order");
                                     orderBtn.setVisibility(View.VISIBLE);
                                     reportBtn.setVisibility(View.GONE);
@@ -275,7 +271,7 @@ public class MotherHome extends AppCompatActivity  {
                                     paymentBtn.setVisibility(View.GONE);
                                     profile.setVisibility(View.VISIBLE);
                                     logout.setVisibility(View.VISIBLE);
-                                }else{
+                                } else {
                                     if (mOrderModel.getPaymentStatus().equals("paid")) {
                                         status = mOrderModel.getOrderStatus();
                                         statusView.setText("Your Order is active");
@@ -286,7 +282,7 @@ public class MotherHome extends AppCompatActivity  {
                                         profile.setVisibility(View.VISIBLE);
                                         logout.setVisibility(View.VISIBLE);
                                         //filling the dashboard with a text shows that there is an active
-                                    }else{
+                                    } else {
                                         statusView.setText("You should Pay First");
                                         orderBtn.setVisibility(View.GONE);
                                         reportBtn.setVisibility(View.GONE);
@@ -298,7 +294,7 @@ public class MotherHome extends AppCompatActivity  {
                                 }
 
                             }
-                        }else {
+                        } else {
 
                             //we will fill the dashboard with a text shows that you don't have any order
                             status = "no order";
@@ -343,13 +339,11 @@ public class MotherHome extends AppCompatActivity  {
                         .child(babyitterID).child("status").setValue("available");
                 FirebaseDatabase.getInstance().getReference("orders")
                         .child(mOrderKey).child("orderStatus").setValue("finished");
-                           alertDialog.dismiss();
-                    }
+                alertDialog.dismiss();
+            }
 
         });
     }
-
-
 
 
 }
