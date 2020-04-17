@@ -28,6 +28,7 @@ public class MotherProfile extends AppCompatActivity {
     EditText phoneNumber;
     Button cancelBtn;
     Button updateBtn;
+    Button history;
     DatabaseReference mDatabase;
     FirebaseAuth mAuth;
 
@@ -98,6 +99,13 @@ public class MotherProfile extends AppCompatActivity {
             }
         });
 
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MotherProfile.this,Previous_orders.class));
+            }
+        });
+
     }
 
 
@@ -108,6 +116,7 @@ public class MotherProfile extends AppCompatActivity {
         phoneNumber = findViewById(R.id.phoneNumberText);
         cancelBtn = findViewById(R.id.cancel_btn);
         updateBtn= findViewById(R.id.Save_btn);
+        history = findViewById(R.id.previous_btn);
     }
 
 

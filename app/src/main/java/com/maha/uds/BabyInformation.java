@@ -117,13 +117,13 @@ public class BabyInformation extends AppCompatActivity {
                 DatabaseReference babysitterStatusRef = FirebaseDatabase.getInstance()
                         .getReference("accounts").child(mAuth.getCurrentUser().getUid());
 
-                orderStatusRef.child("orderStatus").setValue("active").addOnSuccessListener(new OnSuccessListener<Void>() {
+                orderStatusRef.child("orderStatus").setValue("accepted").addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         rejectOtherOrders();
                     }
                 });
-                babysitterStatusRef.child("status").setValue("busy");
+                babysitterStatusRef.child("status").setValue("pending");
                 startActivity(new Intent(BabyInformation.this,BabysitterHome.class));
 
             }
@@ -152,9 +152,9 @@ public class BabyInformation extends AppCompatActivity {
                             for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
                                 OrderModel mOrderModel = mSnapshot.getValue(OrderModel.class);
                                 String key = mSnapshot.getKey();
-                                if(mOrderModel.getOrderStatus().equals("pending")){
+                                if(!mOrderModel.getOrderStatus().equals("accepted")){
                                     FirebaseDatabase.getInstance().getReference("orders")
-                                            .child(key).child("status").setValue("rejected");
+                                            .child(key).child("orderStatus").setValue("rejected");
                                 }
                             }
                         }

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -238,6 +237,7 @@ public class MotherHome extends AppCompatActivity {
                                 mOrderKey = mSnapshot.getKey();
                                 babyitterID = mOrderModel.getBabysitterID();
                                 if (mOrderModel.getOrderStatus().equals("active")) {
+                                    statusView.setText("Your order is active");
                                     getBabySitterName();
                                     orderBtn.setVisibility(View.GONE);
                                     reportBtn.setVisibility(View.VISIBLE);
@@ -263,7 +263,8 @@ public class MotherHome extends AppCompatActivity {
                                     profile.setVisibility(View.VISIBLE);
                                     logout.setVisibility(View.VISIBLE);
 
-                                } else if (mOrderModel.getOrderStatus().equals("finished") || mOrderModel.getOrderStatus().equals("rejected")) {
+                                } else if (mOrderModel.getOrderStatus().equals("finished")
+                                        || mOrderModel.getOrderStatus().equals("rejected")) {
                                     statusView.setText("You don't have an order");
                                     orderBtn.setVisibility(View.VISIBLE);
                                     reportBtn.setVisibility(View.GONE);
@@ -271,30 +272,40 @@ public class MotherHome extends AppCompatActivity {
                                     paymentBtn.setVisibility(View.GONE);
                                     profile.setVisibility(View.VISIBLE);
                                     logout.setVisibility(View.VISIBLE);
-                                } else {
-                                    if (mOrderModel.getPaymentStatus().equals("paid")) {
-                                        status = mOrderModel.getOrderStatus();
-                                        statusView.setText("Your Order is active");
-                                        orderBtn.setVisibility(View.GONE);
-                                        reportBtn.setVisibility(View.VISIBLE);
-                                        chatBtn.setVisibility(View.VISIBLE);
-                                        paymentBtn.setVisibility(View.GONE);
-                                        profile.setVisibility(View.VISIBLE);
-                                        logout.setVisibility(View.VISIBLE);
-                                        //filling the dashboard with a text shows that there is an active
-                                    } else {
-                                        statusView.setText("You should Pay First");
+
+                                } else if(mOrderModel.getOrderStatus().equals("accepted")) {
+
+                                    statusView.setText("You should Pay First");
                                         orderBtn.setVisibility(View.GONE);
                                         reportBtn.setVisibility(View.GONE);
                                         chatBtn.setVisibility(View.GONE);
                                         paymentBtn.setVisibility(View.VISIBLE);
                                         profile.setVisibility(View.VISIBLE);
                                         logout.setVisibility(View.VISIBLE);
+
+//                                    if (mOrderModel.getPaymentStatus().equals("paid")) {
+//                                        status = mOrderModel.getOrderStatus();
+//                                        statusView.setText("Your Order is active");
+//                                        orderBtn.setVisibility(View.GONE);
+//                                        reportBtn.setVisibility(View.VISIBLE);
+//                                        chatBtn.setVisibility(View.VISIBLE);
+//                                        paymentBtn.setVisibility(View.GONE);
+//                                        profile.setVisibility(View.VISIBLE);
+//                                        logout.setVisibility(View.VISIBLE);
+//                                        //filling the dashboard with a text shows that there is an active
+//                                    } else {
+//                                        statusView.setText("You should Pay First");
+//                                        orderBtn.setVisibility(View.GONE);
+//                                        reportBtn.setVisibility(View.GONE);
+//                                        chatBtn.setVisibility(View.GONE);
+//                                        paymentBtn.setVisibility(View.VISIBLE);
+//                                        profile.setVisibility(View.VISIBLE);
+//                                        logout.setVisibility(View.VISIBLE);
                                     }
                                 }
 
                             }
-                        } else {
+                         else {
 
                             //we will fill the dashboard with a text shows that you don't have any order
                             status = "no order";

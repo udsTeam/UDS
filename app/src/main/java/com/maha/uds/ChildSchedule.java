@@ -20,7 +20,9 @@ import com.maha.uds.Model.DailyReportModel;
 import com.maha.uds.Model.OrderModel;
 import com.maha.uds.Model.ScheduleModel;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ChildSchedule extends AppCompatActivity {
@@ -40,6 +42,7 @@ public class ChildSchedule extends AppCompatActivity {
     FirebaseAuth mAuth;
     int totalHours;
     int totalPrice;
+    Calendar mCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class ChildSchedule extends AppCompatActivity {
 
 
 
+        mCalendar = Calendar.getInstance();
         setIntent();
         setUI();
         addSchedule.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +91,6 @@ public class ChildSchedule extends AppCompatActivity {
                 orderModel.setBabyID(babyID);
                 orderModel.setBabysitterID(babysitterKey);
                 orderModel.setScheduleList(ScheduleList);
-                orderModel.setChatID("");
                 String arriveTime = "";
                 String leaveTime = "";
                 String napTime = "";
@@ -97,8 +100,10 @@ public class ChildSchedule extends AppCompatActivity {
                 String childGender = CreateOrder.childGender;
                 String childAge = CreateOrder.childAge;
                 String childNotes = CreateOrder.childNotes;
+                String orderDate = DateFormat.getDateInstance(DateFormat.SHORT).format(mCalendar.getTime());
                 DailyReportModel report = new DailyReportModel(arriveTime,leaveTime,napTime,mealReport,notes);
                 orderModel.setDailyReport(report);
+                orderModel.setOrderDate(orderDate);
                 orderModel.setOrderStatus("pending");
                 orderModel.setPaymentStatus("not Paid");
                 orderModel.setPrice(totalPrice);
@@ -107,7 +112,6 @@ public class ChildSchedule extends AppCompatActivity {
                 mReference.child("orders").child(orderKey).setValue(orderModel);
                 BabyModel baby = new BabyModel(childName,childGender,childAge,childNotes,motherID);
                 mReference.child("babies").child(babyID).setValue(baby);
-                mReference.child("accounts").child(babysitterKey).child("status").setValue("pending");
                 Toast.makeText(ChildSchedule.this, "Order Created", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ChildSchedule.this,MotherHome.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

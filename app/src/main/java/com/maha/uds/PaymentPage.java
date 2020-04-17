@@ -27,7 +27,6 @@ public class PaymentPage extends AppCompatActivity {
     EditText year;
     EditText cvc;
     RadioGroup method;
-    RadioButton paymentMethod;
     RadioButton cash;
     RadioButton visa;
     String paymentStatus = "";
@@ -35,21 +34,25 @@ public class PaymentPage extends AppCompatActivity {
     TextView msgView;
     String totalPrice;
     int id;
+    String babysitterId;
     Button submitBtn;
     DatabaseReference mDatabase;
+    DatabaseReference babysitterRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_page);
 
         setUI();
+        babysitterRef = FirebaseDatabase.getInstance().getReference("accounts");
         mDatabase = FirebaseDatabase.getInstance().getReference("orders").child(MotherHome.mOrderKey);
 
         mDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         OrderModel orderModel = dataSnapshot.getValue(OrderModel.class);
-                        if(orderModel.getOrderStatus().equals("active")) {
+                        babysitterId = orderModel.getBabysitterID();
+                        if(orderModel.getOrderStatus().equals("accepted")) {
                             totalPrice = String.valueOf(orderModel.getPrice());
                             paymentStatus = orderModel.getPaymentStatus();
 
@@ -57,7 +60,9 @@ public class PaymentPage extends AppCompatActivity {
                                 submitBtn.setVisibility(View.GONE);
                                 method.setEnabled(false);
                             } else if (orderModel.getPaymentStatus().equals("paid")) {
-                                totalPriceView.setText("0");
+                                mDatabase.child("orderStatus").setValue("active");
+                                babysitterRef.child(babysitterId).child("status").setValue("busy");
+                                orderModel.setPrice(0);
                                 method.setEnabled(false);
                                 submitBtn.setVisibility(View.GONE);
                             } else {
