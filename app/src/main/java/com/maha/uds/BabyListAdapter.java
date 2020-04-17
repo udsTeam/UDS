@@ -18,12 +18,14 @@ import java.util.List;
 public class BabyListAdapter extends RecyclerView.Adapter<BabyListAdapter.ViewHolder> {
 
     private List<BabyModel> babyList;
+    private List<String> orderKeyList;
     private Context mContext;
 
 
 
-    public BabyListAdapter( List<BabyModel> babyList, Context context){
+    public BabyListAdapter( List<BabyModel> babyList,List<String> orderKeyList, Context context){
         this.babyList = babyList;
+        this.orderKeyList = orderKeyList;
         mContext = context;
 
     }
@@ -49,6 +51,7 @@ public class BabyListAdapter extends RecyclerView.Adapter<BabyListAdapter.ViewHo
                 intent.putExtra("age",babyModel.getAge());
                 intent.putExtra("notes",babyModel.getBabyNotes());
                 intent.putExtra("gender",babyModel.getGender());
+                intent.putExtra("OrderID",orderKeyList.get(position));
                 mContext.startActivity(intent);
             }
         });

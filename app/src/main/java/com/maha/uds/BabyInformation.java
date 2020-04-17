@@ -36,7 +36,7 @@ public class BabyInformation extends AppCompatActivity {
     String orderID;
     Button acceptBtn;
     FirebaseAuth mAuth;
-    List<ScheduleModel> mList;
+    List<ScheduleModel> mScheduleList;
     ListView mListView;
 
     @Override
@@ -47,22 +47,6 @@ public class BabyInformation extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         getIncomingIntents();
 
-
-        FirebaseDatabase.getInstance().getReference("orders")
-                .orderByChild("babysitterID").equalTo(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                     orderID = snapshot.getKey();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
     }
 
     public void getIncomingIntents() {
@@ -72,12 +56,13 @@ public class BabyInformation extends AppCompatActivity {
             age = getIntent().getStringExtra("age");
             notes = getIntent().getStringExtra("notes");
             gender = getIntent().getStringExtra("gender");
-            mList = new ArrayList<>();
-            setUI(name,age,notes,gender,mList);
+            orderID = getIntent().getStringExtra("OrderID");
+            mScheduleList = new ArrayList<>();
+            setUI(name,age,notes,gender);
         }
     }
 
-    private void setUI(String name, String age, String notes,String gender, final List<ScheduleModel> schedule) {
+    private void setUI(String name, String age, String notes,String gender) {
         nameView= findViewById(R.id.nameView);
         ageView = findViewById(R.id.ageView);
         notesView = findViewById(R.id.notesView);
@@ -89,18 +74,14 @@ public class BabyInformation extends AppCompatActivity {
         notesView.setText(notes);
         bio.setText(gender);
 
-        FirebaseDatabase.getInstance().getReference("orders").orderByChild("babysitterID")
-                .equalTo(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("orders").child(orderID)
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                OrderModel order = dataSnapshot.getValue(OrderModel.class);
+                mScheduleList = order.getScheduleList();
 
-                for(DataSnapshot scheduleSnapshot : dataSnapshot.getChildren()){
-                    OrderModel order = scheduleSnapshot.getValue(OrderModel.class);
-                        mList = order.getScheduleList();
-
-
-                }
-                ScheduleAdapter adapter = new ScheduleAdapter(BabyInformation.this,mList);
+                ScheduleAdapter adapter = new ScheduleAdapter(BabyInformation.this, mScheduleList);
                 mListView.setAdapter(adapter);
             }
 
@@ -109,13 +90,16 @@ public class BabyInformation extends AppCompatActivity {
 
             }
         });
+
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                DatabaseReference orderStatusRef = FirebaseDatabase.getInstance().getReference("orders").child(orderID);
                 DatabaseReference babysitterStatusRef = FirebaseDatabase.getInstance()
                         .getReference("accounts").child(mAuth.getCurrentUser().getUid());
+                babysitterStatusRef.child("status").setValue("pending");
+
+
+                DatabaseReference orderStatusRef = FirebaseDatabase.getInstance().getReference("orders").child(orderID);
 
                 orderStatusRef.child("orderStatus").setValue("accepted").addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -123,9 +107,6 @@ public class BabyInformation extends AppCompatActivity {
                         rejectOtherOrders();
                     }
                 });
-                babysitterStatusRef.child("status").setValue("pending");
-                startActivity(new Intent(BabyInformation.this,BabysitterHome.class));
-
             }
         });
 
@@ -153,11 +134,16 @@ public class BabyInformation extends AppCompatActivity {
                                 OrderModel mOrderModel = mSnapshot.getValue(OrderModel.class);
                                 String key = mSnapshot.getKey();
                                 if(!mOrderModel.getOrderStatus().equals("accepted")){
+                                    mOrderModel.setOrderStatus("rejected");
+                                    mOrderModel.setBabysitterID("");
                                     FirebaseDatabase.getInstance().getReference("orders")
-                                            .child(key).child("orderStatus").setValue("rejected");
+                                            .child(key).setValue(mOrderModel);
                                 }
                             }
                         }
+
+                        startActivity(new Intent(BabyInformation.this,BabysitterHome.class));
+
                     }
 
                     @Override

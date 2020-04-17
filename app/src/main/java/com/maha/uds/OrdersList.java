@@ -25,7 +25,7 @@ public class OrdersList extends AppCompatActivity {
     private BabyListAdapter adapter;
     private DatabaseReference mReference;
     private List<BabyModel> babyList;
-    static  List<String> orderKey;
+    static  List<String> orderKeyList;
     String key ;
     FirebaseAuth mAuth;
 
@@ -37,6 +37,7 @@ public class OrdersList extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mReference= FirebaseDatabase.getInstance().getReference();
         babyList = new ArrayList<>();
+        orderKeyList = new ArrayList<>();
         bulidRecyclerView();
 
 
@@ -62,6 +63,7 @@ public class OrdersList extends AppCompatActivity {
                             OrderModel order = orderSnapshot.getValue(OrderModel.class);
                                 key = order.getBabyID();
                                 babyInfo(key);
+                                orderKeyList.add(orderSnapshot.getKey());
                         }
 
                     }
@@ -73,17 +75,14 @@ public class OrdersList extends AppCompatActivity {
                 });
     }
 
-    public void babyInfo(String keys){
-        mReference.child("babies").orderByChild(keys).addValueEventListener(new ValueEventListener() {
+    public void babyInfo(String key){
+        mReference.child("babies").child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                babyList.clear();
-                for (DataSnapshot babySnap : dataSnapshot.getChildren()){
-                    BabyModel baby = babySnap.getValue(BabyModel.class);
-                    babyList.add(baby);
+                BabyModel baby = dataSnapshot.getValue(BabyModel.class);
+                babyList.add(baby);
 
-                }
-                adapter = new BabyListAdapter(babyList,OrdersList.this);
+                adapter = new BabyListAdapter(babyList,orderKeyList,OrdersList.this);
                 orderListView.setAdapter(adapter);
             }
 
