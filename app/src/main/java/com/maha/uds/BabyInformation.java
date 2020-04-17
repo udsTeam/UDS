@@ -1,5 +1,6 @@
 package com.maha.uds;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.maha.uds.Chat.FirebaseManager;
 import com.maha.uds.Model.OrderModel;
 import com.maha.uds.Model.ScheduleModel;
 
@@ -37,6 +39,7 @@ public class BabyInformation extends AppCompatActivity {
     Button acceptBtn;
     FirebaseAuth mAuth;
     List<ScheduleModel> mScheduleList;
+    private ProgressDialog mProgressDialog;
     ListView mListView;
 
     @Override
@@ -44,6 +47,7 @@ public class BabyInformation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baby_information);
 
+        mProgressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
         getIncomingIntents();
 
@@ -94,6 +98,9 @@ public class BabyInformation extends AppCompatActivity {
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                mProgressDialog.setMessage("in progress..");
+                mProgressDialog.show();
                 DatabaseReference babysitterStatusRef = FirebaseDatabase.getInstance()
                         .getReference("accounts").child(mAuth.getCurrentUser().getUid());
                 babysitterStatusRef.child("status").setValue("pending");
@@ -128,7 +135,7 @@ public class BabyInformation extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         //progress dialog dissmis
-
+                        mProgressDialog.dismiss();
                         if(dataSnapshot.exists()){
                             for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
                                 OrderModel mOrderModel = mSnapshot.getValue(OrderModel.class);

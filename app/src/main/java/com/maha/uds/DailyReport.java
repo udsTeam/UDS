@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -84,6 +85,7 @@ public class DailyReport extends AppCompatActivity {
                     update.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Toast.makeText(DailyReport.this, "Report Updated", Toast.LENGTH_SHORT).show();
                             updateReportInfo();
                         }
                     });
@@ -93,6 +95,7 @@ public class DailyReport extends AppCompatActivity {
                             startActivity(new Intent(DailyReport.this,BabysitterHome.class));
                         }
                     });
+
                }else {
 
                     arrive.setEnabled(false);
