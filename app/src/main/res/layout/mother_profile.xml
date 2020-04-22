@@ -16,18 +16,7 @@
 
 
         >
-        <Button
-            android:id="@+id/previous_btn"
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:layout_gravity="start"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/stc_bold"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-            android:textSize="25sp"
-            android:textColor="#fff"
-            android:background="@drawable/my_order3" />
+
 
         <ImageView
             android:id="@+id/profile_image"
@@ -116,21 +105,42 @@
 
         <Button
             android:id="@+id/Save_btn"
-            android:layout_marginTop="30dp"
             android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:background="@drawable/save_changes"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/save"
+            android:textColor = "#fff"
+            android:textSize="18sp"
+            android:fontFamily="@font/stc_regular"
+            android:background="@drawable/yellow_btn"
             android:layout_gravity="center"
             />
 
         <Button
             android:id="@+id/cancel_btn"
             android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:background="@drawable/cancel"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/cancel"
+            android:textColor = "#fff"
+            android:textSize="22sp"
+            android:fontFamily="@font/stc_regular"
+            android:background="@drawable/yellow_btn"
             android:layout_gravity="center"
+            />
+
+        <Button
+            android:id="@+id/previous_btn"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start|bottom"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="80dp"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:background="@drawable/gray_btn"
+            android:text="my orders"
+            android:fontFamily="@font/stc_regular"
             />
 
 

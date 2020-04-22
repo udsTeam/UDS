@@ -62,12 +62,15 @@
 
         <Button
             android:id="@+id/signIn_btn"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="170dp"
-            android:background="@drawable/sing_in" />
+            android:background="@drawable/yellow_btn"
+            android:text="@string/signIn_text"
+            android:textColor="#fff"
+            android:textSize="25sp"
+            android:fontFamily="@font/stc_regular"/>
 
 
         <TextView

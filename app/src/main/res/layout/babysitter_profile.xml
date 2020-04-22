@@ -159,16 +159,24 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:background="@drawable/save_changes"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:background="@drawable/yellow_btn"
+            android:text="@string/save"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:fontFamily="@font/stc_regular"
+
             />
 
         <Button
             android:id="@+id/cancel_btn"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:background="@drawable/cancel"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/yellow_btn"
+            android:text="@string/cancel"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:fontFamily="@font/stc_regular"
             android:layout_gravity="center"
             />
     </LinearLayout>

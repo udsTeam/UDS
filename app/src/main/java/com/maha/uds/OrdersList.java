@@ -34,17 +34,19 @@ public class OrdersList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.orders_list);
 
-        mAuth = FirebaseAuth.getInstance();
-        mReference= FirebaseDatabase.getInstance().getReference();
-        babyList = new ArrayList<>();
-        orderKeyList = new ArrayList<>();
-        bulidRecyclerView();
+
+        mAuth = FirebaseAuth.getInstance();//declare firebase Auth
+        mReference= FirebaseDatabase.getInstance().getReference(); //declare database reference
+        babyList = new ArrayList<>(); //declare arrayList
+        orderKeyList = new ArrayList<>(); //declare arrayList
+        bulidRecyclerView(); //call method
 
 
     }
 
+    // method to set recyclerView
     public void bulidRecyclerView(){
-        orderListView = findViewById(R.id.order_list);
+        orderListView = findViewById(R.id.order_list); // declare
         orderListView.setHasFixedSize(true);
         orderListView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -52,18 +54,18 @@ public class OrdersList extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-       /*final String id = mAuth.getCurrentUser().getUid();
-        DatabaseReference newRef=FirebaseDatabase.getInstance().getReference("accounts")
-                .child(id).child("accountType");*/
+
+        // firebase listener to get babyID for all orders for the current babysitter
        mReference.child("orders").orderByChild("babysitterID").equalTo(mAuth.getCurrentUser().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        // loop to retrieve all orders
                         for(DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
-                            OrderModel order = orderSnapshot.getValue(OrderModel.class);
-                                key = order.getBabyID();
-                                babyInfo(key);
-                                orderKeyList.add(orderSnapshot.getKey());
+                            OrderModel order = orderSnapshot.getValue(OrderModel.class); // create object
+                                key = order.getBabyID(); // key variable to hold babyID
+                                babyInfo(key); //call method
+                                orderKeyList.add(orderSnapshot.getKey()); // get all orderIDs and add them to ArrayList
                         }
 
                     }
@@ -75,15 +77,18 @@ public class OrdersList extends AppCompatActivity {
                 });
     }
 
+    //Method to display baby Information
     public void babyInfo(String key){
+        // firebase listener to retrieve data from database
         mReference.child("babies").child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                BabyModel baby = dataSnapshot.getValue(BabyModel.class);
-                babyList.add(baby);
 
-                adapter = new BabyListAdapter(babyList,orderKeyList,OrdersList.this);
-                orderListView.setAdapter(adapter);
+                BabyModel baby = dataSnapshot.getValue(BabyModel.class); //create object
+                babyList.add(baby); // add object to ArrayList
+
+                adapter = new BabyListAdapter(babyList,orderKeyList,OrdersList.this);// declare adapter
+                orderListView.setAdapter(adapter); // set adapter to recyclerView
             }
 
             @Override

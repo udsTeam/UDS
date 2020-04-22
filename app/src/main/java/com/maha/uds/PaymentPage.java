@@ -54,15 +54,16 @@ public class PaymentPage extends AppCompatActivity {
                         babysitterId = orderModel.getBabysitterID();
                         if(orderModel.getOrderStatus().equals("accepted")) {
                             totalPrice = String.valueOf(orderModel.getPrice());
-                            paymentStatus = orderModel.getPaymentStatus();
 
                             if (orderModel.getPaymentStatus().equals("pending")) {
                                 submitBtn.setVisibility(View.GONE);
                                 method.setEnabled(false);
                             } else if (orderModel.getPaymentStatus().equals("paid")) {
-                                mDatabase.child("orderStatus").setValue("active");
+                                orderModel.setOrderStatus("active");
                                 babysitterRef.child(babysitterId).child("status").setValue("busy");
                                 orderModel.setPrice(0);
+                                FirebaseDatabase.getInstance().getReference("orders")
+                                        .child(MotherHome.mOrderKey).setValue(orderModel);
                                 method.setEnabled(false);
                                 submitBtn.setVisibility(View.GONE);
                             } else {

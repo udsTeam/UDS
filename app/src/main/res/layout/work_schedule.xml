@@ -40,9 +40,12 @@
         <Button
             android:id="@+id/finishBtn"
             android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:background="@drawable/finish"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_height="40dp"
+            android:background="@drawable/custom_button"
+            android:text="@string/finish"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:fontFamily="@font/stc_bold"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             />

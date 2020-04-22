@@ -50,7 +50,6 @@ public class Previous_orders extends AppCompatActivity {
         mReference.orderByChild("motherID").equalTo(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                orderList.clear();
                 for (DataSnapshot orderSnapshot : dataSnapshot.getChildren()) {
                     OrderModel orderModel = orderSnapshot.getValue(OrderModel.class);
                         orderList.add(orderModel);

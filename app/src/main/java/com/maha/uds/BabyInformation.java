@@ -37,6 +37,7 @@ public class BabyInformation extends AppCompatActivity {
     TextView bio;
     String orderID;
     Button acceptBtn;
+    Button rejectBtn;
     FirebaseAuth mAuth;
     List<ScheduleModel> mScheduleList;
     private ProgressDialog mProgressDialog;
@@ -47,12 +48,13 @@ public class BabyInformation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baby_information);
 
-        mProgressDialog = new ProgressDialog(this);
-        mAuth = FirebaseAuth.getInstance();
-        getIncomingIntents();
-
+        mProgressDialog = new ProgressDialog(this); // declare progress dialog
+        mAuth = FirebaseAuth.getInstance(); // declare firebase Auth
+        getIncomingIntents(); // calling method
+        mScheduleList = new ArrayList<>(); // declare array list
     }
 
+    // getting data from intent
     public void getIncomingIntents() {
         if (getIntent().hasExtra("name") && getIntent().hasExtra("age")
                 && getIntent().hasExtra("notes")&& getIntent().hasExtra("gender") ) {
@@ -61,31 +63,40 @@ public class BabyInformation extends AppCompatActivity {
             notes = getIntent().getStringExtra("notes");
             gender = getIntent().getStringExtra("gender");
             orderID = getIntent().getStringExtra("OrderID");
-            mScheduleList = new ArrayList<>();
             setUI(name,age,notes,gender);
         }
     }
 
+    // setting user interface
     private void setUI(String name, String age, String notes,String gender) {
+        //declare TextViews
         nameView= findViewById(R.id.nameView);
         ageView = findViewById(R.id.ageView);
         notesView = findViewById(R.id.notesView);
         bio = findViewById(R.id.bioView);
+        //declare ListView
         mListView = findViewById(R.id.listView);
+        //declare Buttons
         acceptBtn = findViewById(R.id.accept_btn);
-        nameView.setText(name);
-        ageView.setText(age);
-        notesView.setText(notes);
-        bio.setText(gender);
+        rejectBtn = findViewById(R.id.reject_btn);
 
+
+        nameView.setText(name);// setting name in the name view
+        ageView.setText(age);// setting age in the age view
+        notesView.setText(notes);// setting notes in the notes view
+        bio.setText(gender);// setting gender in the gender view
+
+        //firebase listener to retrieve data from database and display them in a listView
         FirebaseDatabase.getInstance().getReference("orders").child(orderID)
                 .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                OrderModel order = dataSnapshot.getValue(OrderModel.class);
-                mScheduleList = order.getScheduleList();
+                OrderModel order = dataSnapshot.getValue(OrderModel.class); // create an object from OrderModel class
+                mScheduleList = order.getScheduleList(); // initialize schedule list "ArrayList"
 
+                //create adapter and declare it "scheduleAdapter"
                 ScheduleAdapter adapter = new ScheduleAdapter(BabyInformation.this, mScheduleList);
+                // use the adapter to display data in a listView
                 mListView.setAdapter(adapter);
             }
 
@@ -95,61 +106,79 @@ public class BabyInformation extends AppCompatActivity {
             }
         });
 
+        //set onClick listener to accept button
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                mProgressDialog.setMessage("in progress..");
+                mProgressDialog.setMessage("Accepting.."); //set message to the progress dialog
                 mProgressDialog.show();
+                //Declaring database reference to the account tree then current user Id
                 DatabaseReference babysitterStatusRef = FirebaseDatabase.getInstance()
                         .getReference("accounts").child(mAuth.getCurrentUser().getUid());
+                // update value for status for the current user
                 babysitterStatusRef.child("status").setValue("pending");
 
-
+                //Declaring database reference to the order tree then selected orderId
                 DatabaseReference orderStatusRef = FirebaseDatabase.getInstance().getReference("orders").child(orderID);
 
+                // update value for orderStatus for the selected order
                 orderStatusRef.child("orderStatus").setValue("accepted").addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        //if the operation succeed call method "rejectOtherOrders"
                         rejectOtherOrders();
                     }
                 });
             }
         });
 
+        //set onClick listener to reject button
+        rejectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProgressDialog.setMessage("Rejecting..");
+                mProgressDialog.show();
+                DatabaseReference orderStatusRef = FirebaseDatabase.getInstance().getReference("orders").child(orderID);
+                orderStatusRef.child("orderStatus").setValue("rejected"); // update value for orderStatus for the selected order
+                orderStatusRef.child("babysitterID").setValue("");// update value for babysitterID for the selected order
+
+                startActivity(new Intent(BabyInformation.this,OrdersList.class)); // using intent to go back to orders page
+
+            }
+        });mProgressDialog.dismiss(); // close progress dialog
+
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-    }
-
-
+    // method to reject other orders
     private void rejectOtherOrders(){
-        //show progress dialog
+       //firebase listener to update data
         FirebaseDatabase.getInstance().getReference("orders")
-                .orderByChild("babysitterID").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .orderByChild("babysitterID").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()) // to get current user
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         //progress dialog dissmis
                         mProgressDialog.dismiss();
                         if(dataSnapshot.exists()){
+                            //for loop to retrieve all orders for te current babysitter
                             for(DataSnapshot mSnapshot : dataSnapshot.getChildren()){
                                 OrderModel mOrderModel = mSnapshot.getValue(OrderModel.class);
-                                String key = mSnapshot.getKey();
-                                if(!mOrderModel.getOrderStatus().equals("accepted")){
-                                    mOrderModel.setOrderStatus("rejected");
-                                    mOrderModel.setBabysitterID("");
+                                String key = mSnapshot.getKey(); // get order key
+                                // if the order status equals pending
+                                if(mOrderModel.getOrderStatus().equals("pending")){
+                                    mOrderModel.setOrderStatus("rejected");//set orderStatus to rejected
+                                    mOrderModel.setBabysitterID("");// set babysitterID to Empty string
+
                                     FirebaseDatabase.getInstance().getReference("orders")
-                                            .child(key).setValue(mOrderModel);
+                                            .child(key).setValue(mOrderModel); // write the new values to the database at this path
                                 }
                             }
                         }
 
-                        startActivity(new Intent(BabyInformation.this,BabysitterHome.class));
+                        startActivity(new Intent(BabyInformation.this,BabysitterHome.class)); // go to home page
 
                     }
 

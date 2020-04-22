@@ -106,8 +106,12 @@
         android:id="@+id/finish_btn"
         android:layout_width="95dp"
         android:layout_height="30dp"
-        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-        android:background="@drawable/finish"
+        android:background="@drawable/custom_button"
+        android:text="@string/finish"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:fontFamily="@font/stc_regular"
         android:layout_gravity="bottom|end"
         />
     </LinearLayout>

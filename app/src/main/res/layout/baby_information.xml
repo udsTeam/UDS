@@ -134,15 +134,44 @@
 
     </ListView>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            >
+
     <Button
         android:id="@+id/accept_btn"
         android:layout_width="150dp"
-        android:layout_height="50dp"
-        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="end"
-        android:background="@drawable/accept"
+        android:background="@drawable/yellow_btn"
+        android:text="ACCEPT"
+        android:layout_marginEnd="5dp"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:fontFamily="@font/stc_regular"
         />
+
+         <Button
+                android:id="@+id/reject_btn"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="end"
+                android:background="@drawable/yellow_btn"
+                android:text="reject"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:fontFamily="@font/stc_regular"
+         />
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

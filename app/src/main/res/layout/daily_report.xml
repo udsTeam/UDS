@@ -162,9 +162,12 @@
     <Button
         android:id="@+id/updateBtn"
         android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:background="@drawable/update_report"
-        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+        android:layout_height="40dp"
+        android:background="@drawable/yellow_btn"
+        android:text="update report"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:fontFamily="@font/stc_regular"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         />

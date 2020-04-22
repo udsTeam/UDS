@@ -73,30 +73,40 @@
 
         <Button
             android:id="@+id/viewOrder_btn"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="460dp"
-            android:background="@drawable/view_order" />
+            android:background="@drawable/yellow_btn"
+            android:text="view orders"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:fontFamily="@font/stc_regular"
+            />
 
         <Button
             android:id="@+id/dailyReports_btn"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="150dp"
-            android:layout_height="45dp"
+            android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="460dp"
-            android:background="@drawable/report" />
+            android:background="@drawable/yellow_btn"
+            android:text="report"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:fontFamily="@font/stc_regular" />
 
         <Button
             android:id="@+id/payment_btn"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:layout_marginTop="500dp"
+            android:layout_marginTop="510dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/work_schedule" />
+            android:background="@drawable/yellow_btn"
+            android:text="work schedule"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:fontFamily="@font/stc_regular"/>
 
 
     </RelativeLayout>
@@ -108,17 +118,24 @@
         android:layout_height="30dp"
         android:layout_marginTop="680dp"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/logout"
+        android:background="@drawable/pink_btn"
+        android:text="@string/title_logOut"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:fontFamily="@font/stc_regular"
         />
 
     <Button
         android:id="@+id/profile_btn"
-        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
         android:layout_width="90dp"
         android:layout_height="30dp"
         android:layout_marginTop="680dp"
         android:layout_alignParentStart="true"
-        android:background="@drawable/profile"
+        android:background="@drawable/gray_btn"
+        android:text="@string/title_profile"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:fontFamily="@font/stc_regular"
         />
 
 

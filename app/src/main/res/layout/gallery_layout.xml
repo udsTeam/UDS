@@ -97,11 +97,14 @@
     <Button
         android:id="@+id/request_btn"
         android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
-        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-        android:background="@drawable/choose"
+        android:background="@drawable/yellow_btn"
+        android:text="choose"
+        android:textColor="#fff"
+        android:textSize="22sp"
+        android:fontFamily="@font/stc_regular"
         />
 
 
