@@ -61,7 +61,6 @@ public class PaymentPage extends AppCompatActivity {
                             } else if (orderModel.getPaymentStatus().equals("paid")) {
                                 orderModel.setOrderStatus("active");
                                 babysitterRef.child(babysitterId).child("status").setValue("busy");
-                                orderModel.setPrice(0);
                                 FirebaseDatabase.getInstance().getReference("orders")
                                         .child(MotherHome.mOrderKey).setValue(orderModel);
                                 method.setEnabled(false);

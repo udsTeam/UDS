@@ -142,11 +142,11 @@ public class BabyInformation extends AppCompatActivity {
                 DatabaseReference orderStatusRef = FirebaseDatabase.getInstance().getReference("orders").child(orderID);
                 orderStatusRef.child("orderStatus").setValue("rejected"); // update value for orderStatus for the selected order
                 orderStatusRef.child("babysitterID").setValue("");// update value for babysitterID for the selected order
-
+                mProgressDialog.dismiss();
                 startActivity(new Intent(BabyInformation.this,OrdersList.class)); // using intent to go back to orders page
 
             }
-        });mProgressDialog.dismiss(); // close progress dialog
+        });// close progress dialog
 
     }
 

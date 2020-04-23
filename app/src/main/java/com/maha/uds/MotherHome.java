@@ -350,6 +350,8 @@ public class MotherHome extends AppCompatActivity {
                         .child(babyitterID).child("status").setValue("available");
                 FirebaseDatabase.getInstance().getReference("orders")
                         .child(mOrderKey).child("orderStatus").setValue("finished");
+                FirebaseDatabase.getInstance().getReference("orders")
+                        .child(mOrderKey).child("babysitterID").setValue("");
                 alertDialog.dismiss();
             }
 

@@ -43,7 +43,7 @@
             android:id="@+id/text1"
             android:layout_width="95dp"
             android:layout_height="20dp"
-            app:srcCompat="@drawable/age_with_colons"
+            app:srcCompat="@drawable/age"
             />
 
         <TextView
@@ -71,7 +71,7 @@
             android:id="@+id/text2"
             android:layout_width="95dp"
             android:layout_height="30dp"
-            app:srcCompat="@drawable/bio" />
+            app:srcCompat="@drawable/gender" />
 
         <TextView
             android:id="@+id/bioView"
