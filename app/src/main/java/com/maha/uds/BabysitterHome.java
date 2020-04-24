@@ -216,7 +216,7 @@ public class BabysitterHome extends AppCompatActivity {
 
                                     //Case 2 Pending
                                     updadeUIForcase2();
-                                } else {
+                                } else if (mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("active")){
                                     //Case 3 Active
                                     mOrderModel = mSnapshot.getValue(OrderModel.class);
                                     motherID = mOrderModel.getMotherID();
@@ -224,6 +224,8 @@ public class BabysitterHome extends AppCompatActivity {
 
                                     updadeUIForcase3();
 
+                                }else if(mSnapshot.getValue(OrderModel.class).getOrderStatus().equals("accepted")){
+                                    updadeUIForcase4();
                                 }
 
                             }
@@ -246,7 +248,7 @@ public class BabysitterHome extends AppCompatActivity {
         scheduleBtn.setVisibility(View.GONE);
         viewOrdersBtn.setVisibility(View.GONE);
         orderStatus.setVisibility(View.VISIBLE);
-        orderStatus.setText("You don't have any request");
+        orderStatus.setText("You don't have any requests");
         //we will fill the dashboard with a text shows that you don't have any order
         //status = "no order";
 
@@ -258,7 +260,8 @@ public class BabysitterHome extends AppCompatActivity {
         chatBtn.setVisibility(View.GONE);
         scheduleBtn.setVisibility(View.GONE);
         viewOrdersBtn.setVisibility(View.VISIBLE);
-        orderStatus.setVisibility(View.GONE);
+        orderStatus.setVisibility(View.VISIBLE);
+        orderStatus.setText("You have New Request");
         viewOrdersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,6 +301,14 @@ public class BabysitterHome extends AppCompatActivity {
             }
         });
 
+    }
+    private void updadeUIForcase4(){
+        reportBtn.setVisibility(View.GONE);
+        scheduleBtn.setVisibility(View.GONE);
+        viewOrdersBtn.setVisibility(View.GONE);
+        orderStatus.setVisibility(View.VISIBLE);
+        chatBtn.setVisibility(View.GONE);
+        orderStatus.setText("The Request is Pending");
     }
 
 }

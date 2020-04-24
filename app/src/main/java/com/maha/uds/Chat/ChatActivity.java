@@ -298,7 +298,7 @@ public class ChatActivity extends AppCompatActivity {
                     try {
                         if (imageUri != null) {
                             FirebaseManager.uploadImage(imageUri, orderKey, this, ChatKeys.USER_ID);
-                            Log.d("OsamahTst", imageUri.toString());
+                            Log.d("Tst", imageUri.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

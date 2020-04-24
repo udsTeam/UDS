@@ -26,6 +26,7 @@
         android:text="@string/welcome_View"
         android:layout_marginTop="150dp"
         android:layout_marginStart="100dp"
+        android:fontFamily="@font/stc_bold"
         android:textSize="30sp"
         android:textColor="@color/light_blue"
 
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="155dp"
         android:layout_marginStart="180dp"
+        android:fontFamily="@font/stc_regular"
         android:textSize="25sp"
         android:textColor="@color/light_blue"
 
